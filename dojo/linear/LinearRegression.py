@@ -1,6 +1,5 @@
 import numpy as np
 from scipy import linalg
-# from numba import jit
 
 from ..base import BaseModel
 
@@ -11,10 +10,7 @@ __all__ = [
 class LinearRegression(BaseModel):
     def __init__(self, **params):
         super().__init__(**params)
-        self.intercept = 0
-        self.coefs = []
-
-        self.set_params(intercept=self.intercept, coefs=self.coefs)
+        self.set_params(intercept=0, coefs=[])
 
     def fit(self, X, y):
         if type(X) is not np.ndarray:
@@ -29,13 +25,14 @@ class LinearRegression(BaseModel):
             X
         ))
 
-        self.intercept, *self.coefs = linalg.inv(X.T @ X) @ X.T @ y
-        self.set_params(intercept=self.intercept, coefs=self.coefs)
+        res = linalg.inv(X.T @ X) @ X.T @ y
+        self.set_params(intercept=res[0], coefs=res[1:])
         return self
 
     def predict(self, X):
-        return [self.intercept + self.coefs @ X[i, :] for i in range(X.shape[0])]
-
+        intercept, coefs = self.get_params("intercept", "coefs")
+        return [intercept + coefs.T @ X[i, :] for i in range(X.shape[0])]
+    
     def predict_proba(self, X):
         raise Exception
     

@@ -2,7 +2,6 @@
 scipy
 numpy
 matplotlib
-numba
 
 # Development requirements
 pylint

@@ -16,7 +16,7 @@ class BaseModel(ABC):
         res = res.split(".")[-1][:-2]
         res += "("
 
-        for k, v in self._params.items():
+        for k, v in self.get_params().items():
             if type(v) is str:
                 res += f"\n    {k}='{v}',"
             else:
@@ -27,8 +27,11 @@ class BaseModel(ABC):
     def __str__(self):
         return self.__repr__()
 
-    def get_params(self):
-        return self._params
+    def get_params(self, *keys):
+        if len(keys) == 0:
+            return self._params
+        else:
+            return [self._params[keys[i]] for i in range(len(keys))]
 
     def set_params(self, **params):
         for k, v in params.items():
