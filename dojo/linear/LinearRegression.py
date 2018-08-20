@@ -13,11 +13,7 @@ class LinearRegression(BaseModel):
         self.set_params(intercept=0, coefs=[])
 
     def fit(self, X, y):
-        if type(X) is not np.ndarray:
-            X = np.array(X)
-        
-        if type(y) is not np.ndarray:
-            y = np.array(y)
+        super().fit(X, y)
 
         m, _ = X.shape
         X = np.hstack((
@@ -30,14 +26,22 @@ class LinearRegression(BaseModel):
         return self
 
     def predict(self, X):
+        super().predict(X)
+
         intercept, coefs = self.get_params("intercept", "coefs")
         return [intercept + coefs.T @ X[i, :] for i in range(X.shape[0])]
     
     def predict_proba(self, X):
+        super().predict_proba(X)
+
         raise Exception
     
     def decision_function(self, X):
+        super().decision_function(X)
+
         raise Exception
 
     def evaluate(self, X, y):
-        pass
+        super().evaluate(X, y)
+
+        raise Exception

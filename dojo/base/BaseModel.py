@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
+import numpy as np
 
 __all__ = [
     "BaseModel",
 ]
 
-class BaseModel(ABC):
+class BaseModel:
     """Every ML Model inherits this class
     """
 
@@ -37,26 +37,36 @@ class BaseModel(ABC):
         for k, v in params.items():
             self._params[k] = v
 
-    @abstractmethod
     def fit(self, X, y):
-        pass
+        if type(X) is not np.ndarray:
+            X = np.array(X)
+        
+        if type(y) is not np.ndarray:
+            y = np.array(y)
 
-    @abstractmethod
+        assert X.shape[0] == y.shape[0]
+
     def predict(self, X):
-        pass
+        if type(X) is not np.ndarray:
+            X = np.array(X)
 
-    @abstractmethod
     def predict_proba(self, X):
-        pass
+        if type(X) is not np.ndarray:
+            X = np.array(X)
     
-    @abstractmethod
     def decision_function(self, X):
-        pass
+        if type(X) is not np.ndarray:
+            X = np.array(X)
 
     def fit_predict(self, X, y, X_test):
         self.fit(X, y)
         return self.predict(X_test)
 
-    @abstractmethod
     def evaluate(self, X, y):
-        pass
+        if type(X) is not np.ndarray:
+            X = np.array(X)
+        
+        if type(y) is not np.ndarray:
+            y = np.array(y)
+
+        assert X.shape[0] == y.shape[0]
