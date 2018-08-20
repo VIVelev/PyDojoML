@@ -8,9 +8,11 @@ __all__ = [
 ]
 
 class LinearRegression(BaseModel):
-    def __init__(self, **params):
-        super().__init__(**params)
-        self.set_params(intercept=0, coefs=[])
+    def __init__(self, intercept=0, coefs=[], verbose=False):
+        super().__init__()
+        self.intercept = intercept
+        self.coefs = coefs
+        self.verbose = verbose
 
     def fit(self, X, y):
         super().fit(X, y)
@@ -21,15 +23,12 @@ class LinearRegression(BaseModel):
             X
         ))
 
-        res = linalg.inv(X.T @ X) @ X.T @ y
-        self.set_params(intercept=res[0], coefs=res[1:])
+        self.intercept, *self.coefs = linalg.inv(X.T @ X) @ X.T @ y
         return self
 
     def predict(self, X):
         super().predict(X)
-
-        intercept, coefs = self.get_params("intercept", "coefs")
-        return [intercept + coefs.T @ X[i, :] for i in range(X.shape[0])]
+        return [self.intercept + np.array(self.coefs).T @ x for x in X]
     
     def predict_proba(self, X):
         super().predict_proba(X)

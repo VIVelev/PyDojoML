@@ -8,15 +8,15 @@ class BaseModel:
     """Every ML Model inherits this class
     """
 
-    def __init__(self, **params):
-        self._params = params
+    def __init__(self):
+        pass
 
     def __repr__(self):
         res = str(self.__class__)
         res = res.split(".")[-1][:-2]
         res += "("
 
-        for k, v in self.get_params().items():
+        for k, v in vars(self).items():
             if type(v) is str:
                 res += f"\n    {k}='{v}',"
             else:
@@ -29,13 +29,13 @@ class BaseModel:
 
     def get_params(self, *keys):
         if len(keys) == 0:
-            return self._params
+            return vars(self)
         else:
-            return [self._params[keys[i]] for i in range(len(keys))]
+            return [vars(self)[k] for k in keys]
 
     def set_params(self, **params):
         for k, v in params.items():
-            self._params[k] = v
+            vars(self)[k] = v
 
     def fit(self, X, y):
         if type(X) is not np.ndarray:
