@@ -4,26 +4,25 @@ __all__ = [
     "BaseModel"
 ]
 
-class BaseModel(ABC):
+class BaseModel:
     """Every ML Model inherits this class
     """
 
-    @abstractmethod
     def __init__(self, **params):
         self._params = params
-        pass
 
     def __repr__(self):
-        res = f"Type: {type(self)}\n \
-                Params:\n"
+        res = str(self.__class__)
+        res = res.split(".")[-1][:-2]
+        res += "("
 
         for k, v in self._params.items():
             if type(v) is str:
-                res += f"{k:10}='{v:10}'\n"
+                res += f"\n    {k}='{v}',"
             else:
-                res += f"{k:10}={v:10}\n"
+                res += f"\n    {k}={v},"
 
-        return res
+        return res+"\n)"
     
     def __str__(self):
         return self.__repr__()
