@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 
 __all__ = [
-    "BaseModel"
+    "BaseModel",
 ]
 
-class BaseModel:
+class BaseModel(ABC):
     """Every ML Model inherits this class
     """
 

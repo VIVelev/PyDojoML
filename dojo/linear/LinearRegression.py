@@ -1,8 +1,8 @@
-from ..base import BaseModel
-
 import numpy as np
 from scipy import linalg
 # from numba import jit
+
+from ..base import BaseModel
 
 __all__ = [
     "LinearRegression",

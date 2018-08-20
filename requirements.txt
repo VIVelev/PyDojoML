@@ -1,5 +1,8 @@
+# Runtime enviroment requirements
 scipy
 numpy
 matplotlib
 numba
+
+# Development requirements
 pylint
