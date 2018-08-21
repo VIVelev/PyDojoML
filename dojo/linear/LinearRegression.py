@@ -3,6 +3,7 @@ from scipy import linalg
 
 from ..base import BaseModel
 from ..exceptions import MethodNotSupportedError
+from ..metrics.regression import mean_squared_error
 
 __all__ = [
     "LinearRegression",
@@ -41,4 +42,6 @@ class LinearRegression(BaseModel):
 
     def evaluate(self, X, y):
         super().evaluate(X, y)
-        raise NotImplementedError("This method is not yet implemented.")
+        print(
+            "Mean Squared Error: {}".format(mean_squared_error(y, self.predict(X)))
+        )
