@@ -2,6 +2,7 @@ import numpy as np
 from scipy import linalg
 
 from ..base import BaseModel
+from ..exceptions import MethodNotSupportedError
 
 __all__ = [
     "LinearRegression",
@@ -32,15 +33,12 @@ class LinearRegression(BaseModel):
     
     def predict_proba(self, X):
         super().predict_proba(X)
-
-        raise Exception
+        raise MethodNotSupportedError("Probability predictions are not supported for Linear Regression.")
     
     def decision_function(self, X):
         super().decision_function(X)
-
-        raise Exception
+        raise MethodNotSupportedError("Use `predict` method instead.")
 
     def evaluate(self, X, y):
         super().evaluate(X, y)
-
-        raise Exception
+        raise NotImplementedError("This method is not yet implemented.")
