@@ -11,7 +11,6 @@ __all__ = [
 
 class LinearRegression(BaseModel):
     def __init__(self, intercept=0, coefs=[], verbose=False):
-        super().__init__()
         self.intercept = intercept
         self.coefs = coefs
         self.verbose = verbose
@@ -25,7 +24,14 @@ class LinearRegression(BaseModel):
             X
         ))
 
+        if self.verbose:
+            print("-----------------------------------------")
+            print("Fitting...")
         self.intercept, *self.coefs = linalg.inv(X.T @ X) @ X.T @ y
+        if self.verbose:
+            print("The model has been fitted successfully!")
+            print("-----------------------------------------")
+
         return self
 
     def predict(self, X):
@@ -33,11 +39,9 @@ class LinearRegression(BaseModel):
         return [self.intercept + np.array(self.coefs).T @ x for x in X]
     
     def predict_proba(self, X):
-        X = super().predict_proba(X)
         raise MethodNotSupportedError("Probability predictions are not supported for Linear Regression.")
     
     def decision_function(self, X):
-        X = super().decision_function(X)
         raise MethodNotSupportedError("Use `predict` method instead.")
 
     def evaluate(self, X, y):
