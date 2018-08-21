@@ -20,7 +20,7 @@ class LinearRegression(BaseModel):
 
         m, _ = X.shape
         X = np.hstack((
-            np.array([[1] for _ in range(m)]),
+            np.array([[1.0] for _ in range(m)]),
             X
         ))
 

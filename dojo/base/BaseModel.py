@@ -17,10 +17,11 @@ class BaseModel:
         res += "("
 
         for k, v in vars(self).items():
-            if type(v) is str:
-                res += f"\n    {k}='{v}',"
-            else:
-                res += f"\n    {k}={v},"
+            if k[0] != '_':
+                if type(v) is str:
+                    res += f"\n    {k}='{v}',"
+                else:
+                    res += f"\n    {k}={v},"
 
         return res+"\n)"
     
@@ -38,28 +39,28 @@ class BaseModel:
             vars(self)[k] = v
 
     def fit(self, X, y):
-        X = np.array(X)
-        y = np.array(y)
+        X = np.array(X, dtype=np.float64)
+        y = np.array(y, dtype=np.float64)
         assert X.shape[0] == y.shape[0]
 
         return X, y
 
     def predict(self, X):
-        return np.array(X)
+        return np.array(X, dtype=np.float64)
 
     def predict_proba(self, X):
-        return np.array(X)
+        return np.array(X, dtype=np.float64)
     
     def decision_function(self, X):
-        return np.array(X)
+        return np.array(X, dtype=np.float64)
 
     def fit_predict(self, X, y, X_test):
         self.fit(X, y)
         return self.predict(X_test)
 
     def evaluate(self, X, y):
-        X = np.array(X)
-        y = np.array(y)
+        X = np.array(X, dtype=np.float64)
+        y = np.array(y, dtype=np.float64)
         assert X.shape[0] == y.shape[0]
 
         return X, y
