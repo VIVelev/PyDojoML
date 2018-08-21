@@ -5,7 +5,7 @@ __all__ = [
 ]
 
 class BaseModel:
-    """Every ML Model inherits this class
+    """Every ML Model inherits this class.
     """
 
     def __init__(self):
@@ -38,35 +38,28 @@ class BaseModel:
             vars(self)[k] = v
 
     def fit(self, X, y):
-        if type(X) is not np.ndarray:
-            X = np.array(X)
-        
-        if type(y) is not np.ndarray:
-            y = np.array(y)
-
+        X = np.array(X)
+        y = np.array(y)
         assert X.shape[0] == y.shape[0]
 
+        return X, y
+
     def predict(self, X):
-        if type(X) is not np.ndarray:
-            X = np.array(X)
+        return np.array(X)
 
     def predict_proba(self, X):
-        if type(X) is not np.ndarray:
-            X = np.array(X)
+        return np.array(X)
     
     def decision_function(self, X):
-        if type(X) is not np.ndarray:
-            X = np.array(X)
+        return np.array(X)
 
     def fit_predict(self, X, y, X_test):
         self.fit(X, y)
         return self.predict(X_test)
 
     def evaluate(self, X, y):
-        if type(X) is not np.ndarray:
-            X = np.array(X)
-        
-        if type(y) is not np.ndarray:
-            y = np.array(y)
-
+        X = np.array(X)
+        y = np.array(y)
         assert X.shape[0] == y.shape[0]
+
+        return X, y

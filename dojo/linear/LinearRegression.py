@@ -17,7 +17,7 @@ class LinearRegression(BaseModel):
         self.verbose = verbose
 
     def fit(self, X, y):
-        super().fit(X, y)
+        X, y = super().fit(X, y)
 
         m, _ = X.shape
         X = np.hstack((
@@ -29,19 +29,19 @@ class LinearRegression(BaseModel):
         return self
 
     def predict(self, X):
-        super().predict(X)
+        X = super().predict(X)
         return [self.intercept + np.array(self.coefs).T @ x for x in X]
     
     def predict_proba(self, X):
-        super().predict_proba(X)
+        X = super().predict_proba(X)
         raise MethodNotSupportedError("Probability predictions are not supported for Linear Regression.")
     
     def decision_function(self, X):
-        super().decision_function(X)
+        X = super().decision_function(X)
         raise MethodNotSupportedError("Use `predict` method instead.")
 
     def evaluate(self, X, y):
-        super().evaluate(X, y)
+        X, y = super().evaluate(X, y)
         print(
             "Mean Squared Error: {}".format(mean_squared_error(y, self.predict(X)))
         )
