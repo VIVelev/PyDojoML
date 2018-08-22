@@ -19,7 +19,7 @@ def sigmoid(x):
         return z(x)
 
 class LogisticRegression(BaseModel):
-    def __init__(self, intercept=0, coefs=[], C=1.0, lr=0.01, verbose=False):
+    def __init__(self, intercept=0, coefs=[], C=1.0, lr=0.001, verbose=False):
         self.intercept = intercept
         self.coefs = coefs
         self.C = C
@@ -32,7 +32,7 @@ class LogisticRegression(BaseModel):
         y_pred = np.array([0.99 if self.predict([x])[0] == 1 else 0.01 for x in self._X])
         m, _ = self._X.shape
 
-        return -1.0/m * np.sum(
+        return -1/m * np.sum(
             self._y * np.log(y_pred) + (np.ones(m)-self._y) * np.log(np.ones(m)-y_pred)
         ) + 1/self.C * 1/2*m * np.sum(self.coefs**2)
 
@@ -40,30 +40,28 @@ class LogisticRegression(BaseModel):
         y_pred = np.array([self.predict([x])[0] for x in self._X])
         m, n = self._X.shape
 
-        grad = np.zeros(n+1, dtype=np.float64)
-        grad[0] = 1.0/m * np.sum(y_pred - self._y)
-        for j in range(1, grad.size):
-            for i in range(self._X.shape[0]):
-                grad[j] += (y_pred[i] - self._y[i]) * self._X[i, j-1]
-            grad[j] /= m
-            grad[j] += 1/self.C * 1/m * self.coefs[j-1]
+        grad = np.zeros(n+1, dtype=np.float32)
+        grad[0] = 1/m * np.sum(y_pred - self._y)
+        grad[1:] = (self._X.T @ (y_pred - self._y)).T * 1/m + 1/self.C * 1/m * self.coefs
         
         return grad
 
     def fit(self, X, y):
         self._X, self._y = super().fit(X, y)
-        self.intercept = np.random.rand(1)
-        self.coefs = np.random.rand(self._X.shape[1])
+        self.intercept = 0
+        self.coefs = np.zeros(self._X.shape[1], dtype=np.float32)
         
         best_loss = 1e9
         grad = None
 
-        while best_loss > self._loss():
+        n = 0
+        while n < self._X.shape[0] or best_loss > self._loss():
             best_loss = self._loss()
             grad = self._gradient()
 
             self.intercept -= self.lr * grad[0]
             self.coefs -= self.lr * grad[1:]
+            n+=1
 
         self.intercept += self.lr * grad[0]
         self.coefs += self.lr * grad[1:]

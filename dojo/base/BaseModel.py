@@ -39,28 +39,28 @@ class BaseModel:
             vars(self)[k] = v
 
     def fit(self, X, y):
-        X = np.array(X, dtype=np.float64)
-        y = np.array(y, dtype=np.float64)
+        X = np.array(X, dtype=np.float32)
+        y = np.array(y, dtype=np.float32)
         assert X.shape[0] == y.shape[0]
 
         return X, y
 
     def predict(self, X):
-        return np.array(X, dtype=np.float64)
+        return np.array(X, dtype=np.float32)
 
     def predict_proba(self, X):
-        return np.array(X, dtype=np.float64)
+        return np.array(X, dtype=np.float32)
     
     def decision_function(self, X):
-        return np.array(X, dtype=np.float64)
+        return np.array(X, dtype=np.float32)
 
     def fit_predict(self, X, y, X_test):
         self.fit(X, y)
         return self.predict(X_test)
 
     def evaluate(self, X, y):
-        X = np.array(X, dtype=np.float64)
-        y = np.array(y, dtype=np.float64)
+        X = np.array(X, dtype=np.float32)
+        y = np.array(y, dtype=np.float32)
         assert X.shape[0] == y.shape[0]
 
         return X, y
