@@ -19,7 +19,7 @@ def sigmoid(x):
         return z(x)
 
 class LogisticRegression(BaseModel):
-    def __init__(self, intercept=0, coefs=[], C=1.0, lr=0.001, verbose=False):
+    def __init__(self, intercept=0, coefs=[], C=1.0, lr=0.01, verbose=False):
         self.intercept = intercept
         self.coefs = coefs
         self.C = C
@@ -48,20 +48,25 @@ class LogisticRegression(BaseModel):
 
     def fit(self, X, y):
         self._X, self._y = super().fit(X, y)
-        self.intercept = 0
-        self.coefs = np.zeros(self._X.shape[1], dtype=np.float32)
-        
-        best_loss = 1e9
-        grad = None
+        m, n = self._X.shape
 
-        n = 0
-        while n < self._X.shape[0] or best_loss > self._loss():
-            best_loss = self._loss()
+        self.intercept = 0
+        self.coefs = np.zeros(n, dtype=np.float32)
+        
+        best_loss = 1e6
+        grad = None
+        n_iters = 0
+        l = self._loss()
+
+        while n_iters < m or best_loss > l:
+            best_loss = l
             grad = self._gradient()
 
             self.intercept -= self.lr * grad[0]
             self.coefs -= self.lr * grad[1:]
-            n+=1
+
+            n_iters += 1
+            l = self._loss()
 
         self.intercept += self.lr * grad[0]
         self.coefs += self.lr * grad[1:]
