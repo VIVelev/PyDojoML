@@ -29,7 +29,7 @@ class LogisticRegression(BaseModel):
         self._X, self._y = [], []
 
     def _loss(self):
-        y_pred = np.array([0.99 if self.predict([x])[0] == 1 else 0.01 for x in self._X])
+        y_pred = np.array([1-(1e-12) if self.predict([x])[0] == 1 else 1e-12 for x in self._X])
         m, _ = self._X.shape
 
         return -1/m * np.sum(
@@ -55,12 +55,17 @@ class LogisticRegression(BaseModel):
         
         best_loss = 1e6
         grad = None
-        n_iters = 0
+        n_iters = 1
         l = self._loss()
 
         while n_iters < m or best_loss > l:
             best_loss = l
             grad = self._gradient()
+            
+            if self.verbose and n_iters % 10 == 0:
+                print("--------------------------")
+                print(f"{n_iters}th iteration")
+                print(f"Loss: {best_loss}")
 
             self.intercept -= self.lr * grad[0]
             self.coefs -= self.lr * grad[1:]
