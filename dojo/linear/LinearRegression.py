@@ -10,6 +10,18 @@ __all__ = [
 ]
 
 class LinearRegression(BaseModel):
+    """Linear Regressin ML model.
+    
+    ...
+    
+    Parameters:
+    -----------
+    intercept : float number, optional
+    coefs : list of float numbers, shape (n_features,), optional
+    verbose : boolean, optional
+
+    """
+
     def __init__(self, intercept=0, coefs=[], verbose=False):
         self.intercept = intercept
         self.coefs = coefs

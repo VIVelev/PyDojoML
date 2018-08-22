@@ -9,6 +9,20 @@ __all__ = [
 ]
 
 class LogisticRegression(BaseModel):
+    """Logistic Regression ML model.
+    
+    ...
+    
+    Parameters:
+    -----------
+    intercept : float number, optional
+    coefs : list of float numbers, shape (n_features,), optional
+    C : float number, weight given to the loss compared to the regularization, optional
+    lr : float number, learning rate also known as alpha factor, optional
+    verbose : boolean, optional
+    
+    """
+
     def __init__(self, intercept=0, coefs=[], C=1.0, lr=0.01, verbose=False):
         self.intercept = intercept
         self.coefs = coefs
