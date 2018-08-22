@@ -2,6 +2,7 @@ import numpy as np
 
 from ..base import BaseModel
 from ..activations import sigmoid
+from ..metrics.classification import accuracy_score
 
 __all__ = [
     "LogisticRegression",
@@ -83,5 +84,6 @@ class LogisticRegression(BaseModel):
 
     def evaluate(self, X, y):
         X, y = super().evaluate(X, y)
-        # TODO: implement
-        raise NotImplementedError("This method is not yet implemented.")
+        print(
+            f"Accuracy score: {accuracy_score(y, self.predict(X))}"
+        )

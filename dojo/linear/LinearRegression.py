@@ -47,5 +47,5 @@ class LinearRegression(BaseModel):
     def evaluate(self, X, y):
         X, y = super().evaluate(X, y)
         print(
-            "Mean Squared Error: {}".format(mean_squared_error(y, self.predict(X)))
+            f"Mean Squared Error: {mean_squared_error(y, self.predict(X))}"
         )
