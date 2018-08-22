@@ -1,9 +1,10 @@
-import numpy as np
-from scipy import linalg
-
-from ..base import BaseModel
-from ..exceptions import MethodNotSupportedError
-from ..metrics.regression import mean_squared_error
+from .utils import (
+    np,
+    linalg,
+    BaseModel,
+    MethodNotSupportedError,
+    mean_squared_error,
+)
 
 __all__ = [
     "LinearRegression",

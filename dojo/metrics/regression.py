@@ -1,5 +1,4 @@
-import numpy as np
-from .utils import convert_assert
+from .utils import np, convert_assert
 
 __all__ = [
     "squared_error",

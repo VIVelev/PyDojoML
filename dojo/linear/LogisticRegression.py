@@ -1,8 +1,9 @@
-import numpy as np
-
-from ..base import BaseModel
-from ..activations import sigmoid
-from ..metrics.classification import accuracy_score
+from .utils import (
+    np,
+    BaseModel,
+    sigmoid,
+    accuracy_score,
+)
 
 __all__ = [
     "LogisticRegression",
