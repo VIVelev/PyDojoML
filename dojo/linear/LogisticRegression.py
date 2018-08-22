@@ -17,7 +17,8 @@ class LogisticRegression(BaseModel):
     -----------
     intercept : float number, optional
     coefs : list of float numbers, shape (n_features,), optional
-    C : float number, weight given to the loss compared to the regularization, optional
+    C : float number, weight given to the loss
+    compared to the regularization, optional
     lr : float number, learning rate also known as alpha factor, optional
     verbose : boolean, optional
     
