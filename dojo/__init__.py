@@ -2,7 +2,8 @@ from . import (
     base,
     exceptions,
     linear,
-    metrics
+    metrics,
+    activations,
 )
 
 __all__ = [
@@ -10,4 +11,5 @@ __all__ = [
     "exceptions",
     "linear",
     "metrics",
+    "activations",
 ]

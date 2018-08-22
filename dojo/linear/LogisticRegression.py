@@ -1,22 +1,11 @@
 import numpy as np
 
 from ..base import BaseModel
+from ..activations import sigmoid
 
 __all__ = [
-    "sigmoid",
     "LogisticRegression",
 ]
-
-def sigmoid(x):
-    z = lambda k: 1.0/(1 + np.exp(-k))
-
-    if type(x) in [list, np.ndarray]:
-        for i in range(len(x)):
-            x[i] = z(x[i])
-        return x
-
-    else:
-        return z(x)
 
 class LogisticRegression(BaseModel):
     def __init__(self, intercept=0, coefs=[], C=1.0, lr=0.01, verbose=False):
