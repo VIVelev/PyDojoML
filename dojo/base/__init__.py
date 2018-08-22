@@ -1,7 +1,7 @@
-from .BaseModel import BaseModel
 from .BaseError import BaseError
+from .BaseModel import BaseModel
 
 __all__ = [
-    "BaseModel",
     "BaseError",
+    "BaseModel",
 ]
