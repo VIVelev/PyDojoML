@@ -3,6 +3,9 @@ __all__ = [
 ]
 
 class BaseError(Exception):
+    """Every Dojo-Exception inherits this class.
+    """
+
     def __init__(self, message):
         self.message = message
 
