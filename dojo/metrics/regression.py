@@ -8,7 +8,8 @@ __all__ = [
 ]
 
 def squared_error(y, y_pred):
-    """Sum of the squared differences between target and prediction.
+    """Calculates the sum of the squared
+    differences between target and prediction.
     
     Parameters:
     -----------
@@ -20,7 +21,8 @@ def squared_error(y, y_pred):
     
     Returns:
     --------
-    error : float number
+    error : float number, the sum of the squared
+    differences between target and prediction
     
     """
 
@@ -28,7 +30,8 @@ def squared_error(y, y_pred):
     return np.sum((y - y_pred) ** 2)
 
 def mean_squared_error(y, y_pred):
-    """Mean squared difference between target and prediction.
+    """Calculates the mean squared difference
+    between target and prediction.
     
     Parameters:
     -----------
@@ -40,14 +43,16 @@ def mean_squared_error(y, y_pred):
     
     Returns:
     --------
-    error : float number
+    error : float number, the mean squared difference
+    between target and prediction
 
     """
 
     return squared_error(y, y_pred) / len(y)
 
 def absolute_error(y, y_pred):
-    """Sum of the differences between target and prediction.
+    """Calculates the sum of the differences
+    between target and prediction.
     
     Parameters:
     -----------
@@ -59,7 +64,8 @@ def absolute_error(y, y_pred):
     
     Returns:
     --------
-    error : float number
+    error : float number, sum of the differences
+    between target and prediction
     
     """
 
@@ -67,7 +73,8 @@ def absolute_error(y, y_pred):
     return np.sum(y - y_pred)
 
 def mean_absolute_error(y, y_pred):
-    """Mean difference between target and prediction.
+    """Calculates the mean difference
+    between target and prediction.
     
     Parameters:
     -----------
@@ -79,7 +86,8 @@ def mean_absolute_error(y, y_pred):
     
     Returns:
     --------
-    error : float number
+    error : float number, the mean difference
+    between target and prediction
     
     """
 

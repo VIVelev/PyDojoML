@@ -39,7 +39,7 @@ class BaseModel:
         --------
         values : array or dictionary, if any `keys` are specified
         those named parameters' values are returned, otherwise
-        all parameters are returned as a dictionary.
+        all parameters are returned as a dictionary
         """
 
         if len(keys) == 0:
@@ -80,7 +80,7 @@ class BaseModel:
         
         Returns:
         --------
-        self : instance of the model itself (`self`).
+        self : instance of the model itself (`self`)
         
         """
 
@@ -179,7 +179,7 @@ class BaseModel:
         
         Returns:
         --------
-        void : nothing, prints a summary of the examination.
+        void : nothing, prints a summary of the examination
         
         """
 

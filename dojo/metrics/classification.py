@@ -20,7 +20,7 @@ def accuracy_score(y, y_pred):
     Returns:
     --------
     accuracy : float number, the fraction
-    of the correctly classified samples over all.
+    of the correctly classified samples over all
     
     """
 
