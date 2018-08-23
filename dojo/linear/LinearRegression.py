@@ -13,7 +13,7 @@ __all__ = [
 class LinearRegression(BaseModel):
     """Linear Regressin ML model.
     
-    ...
+    ... (more documentation)
     
     Parameters:
     -----------
