@@ -10,7 +10,7 @@ __all__ = [
 ]
 
 class LogisticRegression(BaseModel):
-    """Logistic Regression ML model.
+    """Logistic Regression classification model.
     
     ... (more documentation)
     

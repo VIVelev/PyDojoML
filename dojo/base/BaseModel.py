@@ -5,7 +5,7 @@ __all__ = [
 ]
 
 class BaseModel:
-    """Every ML Model inherits this class.
+    """Every Dojo-Model inherits this class.
     """
 
     def __init__(self):
@@ -29,7 +29,7 @@ class BaseModel:
         return self.__repr__()
 
     def get_params(self, *keys):
-        """Returns the specified parameters for the current ML model.
+        """Returns the specified parameters for the current model.
 
         Parameters:
         -----------
