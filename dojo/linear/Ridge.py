@@ -7,11 +7,11 @@ from .utils import (
 )
 
 __all__ = [
-    "Lasso",
+    "Ridge",
 ]
 
-class Lasso(BaseModel):
-    """L1 regularized Linear Regression model.
+class Ridge(BaseModel):
+    """L2 regularized Linear Regression model.
     
     ... (more documentation)
     
@@ -45,7 +45,7 @@ class Lasso(BaseModel):
         if self.verbose:
             print("-----------------------------------------")
             print("Fitting...")
-        self.intercept, *self.coefs = linalg.inv(X.T @ X + self.alpha * L) @ X.T @ y
+        self.intercept, *self.coefs = linalg.inv(X.T @ X + self.alpha * 2*L) @ X.T @ y
         if self.verbose:
             print("The model has been fitted successfully!")
             print("-----------------------------------------")
@@ -57,7 +57,7 @@ class Lasso(BaseModel):
         return [self.intercept + np.array(self.coefs).T @ x for x in X]
     
     def predict_proba(self, X):
-        raise MethodNotSupportedError("Probability predictions are not supported for LASSO Regression.")
+        raise MethodNotSupportedError("Probability predictions are not supported for Ridge Regression.")
     
     def decision_function(self, X):
         raise MethodNotSupportedError("Use `predict` method instead.")

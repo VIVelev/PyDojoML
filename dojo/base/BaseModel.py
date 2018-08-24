@@ -37,7 +37,7 @@ class BaseModel:
 
         Returns:
         --------
-        values : array or dictionary, if any `keys` are specified
+        values : list or dictionary, if any `keys` are specified
         those named parameters' values are returned, otherwise
         all parameters are returned as a dictionary
         """
