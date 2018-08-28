@@ -1,4 +1,4 @@
-# Required modules for the Linear Models
+# REQUIRED MODULES FOR LINEAR MODELS
 
 import numpy as np
 from scipy import linalg

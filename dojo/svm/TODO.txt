@@ -1,0 +1,2 @@
+1. Check out this github repository: https://github.com/cjlin1/libsvm/tree/master/python
+2. Implement SVC, SVR, NuSVC, NuSVR, LinearSVC and LinearSVR in the given files.

@@ -45,7 +45,7 @@ def mean_squared_error(y, y_pred):
     --------
     error : float number, the mean squared difference
     between target and prediction
-
+    
     """
 
     return squared_error(y, y_pred) / len(y)
