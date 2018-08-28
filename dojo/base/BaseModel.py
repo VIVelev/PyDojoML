@@ -40,6 +40,7 @@ class BaseModel:
         values : list or dictionary, if any `keys` are specified
         those named parameters' values are returned, otherwise
         all parameters are returned as a dictionary
+
         """
 
         if len(keys) == 0:
@@ -138,6 +139,7 @@ class BaseModel:
         y : vector, shape (n_samples,)
         The non shrank, raw values acquired from the outputs of
         the hypothesis. No shrinking, probability functions is applied.
+
         """
 
         return np.array(X, dtype=np.float32)

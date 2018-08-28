@@ -1,7 +1,6 @@
 # Runtime enviroment requirements
 scipy
 numpy
-matplotlib
 
 # Development requirements
 pylint
