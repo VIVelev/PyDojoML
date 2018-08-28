@@ -1,5 +1,5 @@
-from classification import LinearSVC, NuSVC, SVC
-from regression import LinearSVR, NuSVR, SVR
+from .classification import LinearSVC, NuSVC, SVC
+from .regression import LinearSVR, NuSVR, SVR
 
 __all__ = [
     "LinearSVC",
