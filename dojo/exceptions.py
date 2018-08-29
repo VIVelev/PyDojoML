@@ -1,4 +1,4 @@
-from ..base import BaseError
+from .base import BaseError
 
 __all__ = [
     "MethodNotSupportedError",

@@ -1,17 +1,17 @@
 from . import (
     base,
-    exceptions,
     linear,
     metrics,
     svm,
     activations,
+    exceptions,
 )
 
 __all__ = [
     "base",
-    "exceptions",
     "linear",
     "metrics",
     "svm",
     "activations",
+    "exceptions",
 ]
