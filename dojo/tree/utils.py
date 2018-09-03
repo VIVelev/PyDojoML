@@ -1,4 +1,5 @@
 import numpy as np
+from ..base import BaseModel
 
 def prop(x, s):
     return np.count_nonzero(s == x)/s.size

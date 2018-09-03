@@ -1,5 +1,3 @@
-# REQUIRED MODULES FOR LINEAR MODELS
-
 import numpy as np
 from scipy import linalg
 
