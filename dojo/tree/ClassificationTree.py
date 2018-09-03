@@ -40,13 +40,50 @@ class ClassificationTree(BaseModel):
     @staticmethod
     def find_best_question(X, y):
         current_impurity = gini_impurity(y)
+        best_info_gain = 0
+        best_question = None
 
         for feature_n in range(X.shape[1]):
             for value in X[:, feature_n]:
                 q = Question(feature_n, value)
+                _, _, true_y, false_y = ClassificationTree.split(X, y, q)
+                
+                true_branch_impurity = gini_impurity(true_y)
+                false_branch_impurity = gini_impurity(false_y)
+
+                current_info_gain = info_gain(current_impurity, true_branch_impurity, false_branch_impurity)
+                if current_info_gain > best_info_gain:
+                    best_info_gain = current_info_gain
+                    best_question = q
+
+        return best_question
+
+    @staticmethod
+    def build_tree(X, y):
+        current_impurity = gini_impurity(y)
+        
+        root = Node()
+        root.question = ClassificationTree.find_best_question(X, y)
+
+        true_X, false_X, true_y, false_y = ClassificationTree.split(X, y, root.question)
+
+        true_branch_impurity = gini_impurity(true_y)
+        false_branch_impurity = gini_impurity(false_y)
+
+        info_gain_value = info_gain(current_impurity, true_branch_impurity, false_branch_impurity)
+
+        if info_gain <= 0:
+            root.true_branch = Leaf(true_y)
+            root.false_branch = Leaf(false_y)
+
+        else:
+            root.true_branch = ClassificationTree.build_tree(true_X, true_y)
+            root.false_branch = ClassificationTree.build_tree(false_X, false_y)
+
+        return root
 
     def fit(self, X, y):
-        pass
+        self.root = ClassificationTree.build_tree(X, y)
 
     @staticmethod
     def predict_one(x, root):

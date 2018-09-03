@@ -12,8 +12,8 @@ def entropy(s):
         p*np.log(p) for i in range(s.size) for p in [prop(s[i], s)]
     )
 
-def info_gain(current_impurity, impurity_after_action):
-    return current_impurity - impurity_after_action
+def info_gain(current_impurity, true_branch_impurity, false_branch_impurity):
+    return current_impurity - (true_branch_impurity + false_branch_impurity)/2
 
 class Question:
     def __init__(self, feature_n, value):
