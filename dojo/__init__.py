@@ -3,6 +3,7 @@ from . import (
     linear,
     metrics,
     svm,
+    tree,
     activations,
     exceptions,
 )
@@ -12,6 +13,7 @@ __all__ = [
     "linear",
     "metrics",
     "svm",
+    "tree",
     "activations",
     "exceptions",
 ]
