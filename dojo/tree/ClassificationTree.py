@@ -72,7 +72,7 @@ class ClassificationTree(BaseModel):
 
         info_gain_value = info_gain(current_impurity, true_branch_impurity, false_branch_impurity)
 
-        if info_gain <= 0:
+        if info_gain_value <= 0:
             root.true_branch = Leaf(true_y)
             root.false_branch = Leaf(false_y)
 
