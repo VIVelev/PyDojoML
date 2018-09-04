@@ -27,11 +27,14 @@ def entropy(s):
         p*np.log(p) for i in range(len(s)) for p in [prop(s[i], s)]
     )
 
-def info_gain(current_impurity, true_branch, false_branch, impurity_func):
+def info_gain(current_impurity, true_branch, false_branch, criterion):
     """Information Gain.
     
     The uncertainty of the starting node, minus the weighted impurity of
     two child nodes.
     """
+
+    measure_impurity = gini_impurity if criterion == "gini" else entropy
     p = float(len(true_branch)) / (len(true_branch) + len(false_branch))
-    return current_impurity - p * impurity_func(true_branch) - (1 - p) * impurity_func(false_branch)
+    
+    return current_impurity - p * measure_impurity(true_branch) - (1 - p) * measure_impurity(false_branch)

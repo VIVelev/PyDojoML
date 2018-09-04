@@ -2,7 +2,6 @@ from ..base import BaseModel
 from ..exceptions import MethodNotSupportedError
 
 from .utils.functions import build_tree, tree_predict, print_tree
-from .utils.impurity_measurements import entropy, gini_impurity
 
 __all__ = [
     "ClassificationTree",
@@ -21,13 +20,14 @@ class ClassificationTree(BaseModel):
 
     def __init__(self, criterion="gini"):
         self.criterion = criterion
-        self.impurity_func = gini_impurity if self.criterion == "gini" else entropy
-
         self.root = None
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
-        self.root = build_tree(X, y, self.impurity_func)
+        self.root = build_tree(
+            X, y,
+            self.criterion
+        )
 
     def predict(self, X):
         X = super().predict(X)

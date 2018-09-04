@@ -1,11 +1,15 @@
 import numpy as np
 
-from .impurity_measurements import info_gain
+from .impurity_measurements import (
+    gini_impurity,
+    entropy,
+    info_gain,
+) 
 
 from .structure import (
     Question,
     Node,
-    Leaf
+    Leaf,
 )
 
 __all__ = [
@@ -38,12 +42,14 @@ def split(X, Y, question):
     return (np.array(true_X), np.array(false_X),
             np.array(true_Y), np.array(false_Y))
 
-def find_best_question(X, y, impurity_func):
+def find_best_question(X, y, criterion):
     """Find the best question to ask by iterating over every feature / value
     and calculating the information gain.
     """
+    
+    measure_impurity = gini_impurity if criterion == "gini" else entropy
 
-    current_impurity = impurity_func(y)
+    current_impurity = measure_impurity(y)
     best_info_gain = 0
     best_question = None
 
@@ -52,25 +58,25 @@ def find_best_question(X, y, impurity_func):
             q = Question(feature_n, value)
             _, _, true_y, false_y = split(X, y, q)
 
-            current_info_gain = info_gain(current_impurity, true_y, false_y, impurity_func)
+            current_info_gain = info_gain(current_impurity, true_y, false_y, criterion)
             if current_info_gain >= best_info_gain:
                 best_info_gain = current_info_gain
                 best_question = q
 
     return best_info_gain, best_question
 
-def build_tree(X, y, impurity_func):
+def build_tree(X, y, criterion):
     """Builds the tree.
     """
 
-    gain, question = find_best_question(X, y, impurity_func)
+    gain, question = find_best_question(X, y, criterion)
     if gain == 0:
         return Leaf(y)
 
     true_X, false_X, true_y, false_y = split(X, y, question)
 
-    true_branch = build_tree(true_X, true_y, impurity_func)
-    false_branch = build_tree(false_X, false_y, impurity_func)
+    true_branch = build_tree(true_X, true_y, criterion)
+    false_branch = build_tree(false_X, false_y, criterion)
 
     return Node(
         question=question,
