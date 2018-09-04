@@ -16,11 +16,17 @@ __all__ = [
 ]
 
 def split(X, Y, question):
+    """Partitions a dataset.
+
+    For each row in the dataset, check if it matches the question. If
+    so, add it to 'true rows', otherwise, add it to 'false rows'.
+    """
+
     true_X, false_X = [], []
     true_Y, false_Y = [], []
 
     for x, y in zip(X, Y):
-        if question.mark(x):
+        if question.match(x):
             true_X.append(x)
             true_Y.append(y)
 
@@ -32,6 +38,10 @@ def split(X, Y, question):
             np.array(true_Y), np.array(false_Y))
 
 def find_best_question(X, y, impurity_func):
+    """Find the best question to ask by iterating over every feature / value
+    and calculating the information gain.
+    """
+
     current_impurity = impurity_func(y)
     best_info_gain = 0
     best_question = None
@@ -49,6 +59,9 @@ def find_best_question(X, y, impurity_func):
     return best_info_gain, best_question
 
 def build_tree(X, y, impurity_func):
+    """Builds the tree.
+    """
+
     gain, question = find_best_question(X, y, impurity_func)
     if gain == 0:
         return Leaf(y)
@@ -65,10 +78,13 @@ def build_tree(X, y, impurity_func):
     )
 
 def tree_predict(x, root):
+    """Predicts a label for the sample x.
+    """
+
     if isinstance(root, Leaf):
         return root.class_
 
-    if root.question.mark(x):
+    if root.question.match(x):
         return tree_predict(x, root.true_branch)
     else:
         return tree_predict(x, root.false_branch)

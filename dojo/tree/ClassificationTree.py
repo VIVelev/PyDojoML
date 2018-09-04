@@ -8,6 +8,16 @@ __all__ = [
 ]
 
 class ClassificationTree(BaseModel):
+    """Classification Decision Tree Model
+    
+    ... (more documentation)
+    
+    Parameters:
+    -----------
+    criterion : string, optional
+    
+    """
+
     def __init__(self, criterion="gini"):
         self.criterion = criterion
         self.impurity_func = gini_impurity if self.criterion == "gini" else entropy
@@ -16,7 +26,6 @@ class ClassificationTree(BaseModel):
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
-
         self.root = build_tree(X, y, self.impurity_func)
 
     def predict(self, X):
