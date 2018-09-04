@@ -1,3 +1,5 @@
+import numpy as np
+
 __all__ = [
     "Question",
     "Node",
@@ -17,7 +19,20 @@ class Question:
     def is_numeric(value):
         """Test if a value is numeric.
         """
-        return isinstance(value, int) or isinstance(value, float)
+        return (
+            isinstance(value, int) or
+            isinstance(value, float) or
+
+            isinstance(value, np.int8) or
+            isinstance(value, np.int16) or
+            isinstance(value, np.int32) or
+            isinstance(value, np.int64) or
+
+            isinstance(value, np.float16) or
+            isinstance(value, np.float32) or
+            isinstance(value, np.float64) or
+            isinstance(value, np.float128)
+        )
 
     def __init__(self, feature_n, value):
         self.feature_n = feature_n
@@ -51,11 +66,12 @@ class Node:
 
 class Leaf:
     """A Leaf node classifies data.
-
-    This holds a dictionary of class (e.g., "Apple") -> number of times
-    it appears in the rows from the training data that reach this leaf.
     """
 
     def __init__(self, data):
         self.data = data
-        self.class_ = max(set(data), key=list(data).count)
+        self.probabilities = dict(
+            (data[i], list(data).count(data[i])/len(data)) for i in range(len(data))
+        )
+        self.most_frequent = max(set(data), key=list(data).count)
+        self.mean = np.mean(data)

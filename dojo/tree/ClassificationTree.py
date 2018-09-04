@@ -1,14 +1,15 @@
 from ..base import BaseModel
+from ..exceptions import MethodNotSupportedError
 
-from .utils.impurity_measurements import gini_impurity, entropy
-from .utils.functions import build_tree, tree_predict
+from .utils.functions import build_tree, tree_predict, print_tree
+from .utils.impurity_measurements import entropy, gini_impurity
 
 __all__ = [
     "ClassificationTree",
 ]
 
 class ClassificationTree(BaseModel):
-    """Classification Decision Tree Model
+    """Classification Decision Tree model
     
     ... (more documentation)
     
@@ -36,7 +37,10 @@ class ClassificationTree(BaseModel):
         pass
 
     def decision_function(self, X):
-        pass
+        raise MethodNotSupportedError("Decision function is not supported for Classification Tree model.")
 
     def evaluate(self, X, y):
         pass
+
+    def visualize(self):
+        print_tree(self.root)

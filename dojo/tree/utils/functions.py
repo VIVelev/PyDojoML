@@ -13,6 +13,7 @@ __all__ = [
     "find_best_question",
     "build_tree",
     "tree_predict",
+    "print_tree",
 ]
 
 def split(X, Y, question):
@@ -82,9 +83,25 @@ def tree_predict(x, root):
     """
 
     if isinstance(root, Leaf):
-        return root.class_
+        return root.most_frequent
 
     if root.question.match(x):
         return tree_predict(x, root.true_branch)
     else:
         return tree_predict(x, root.false_branch)
+
+def print_tree(root, space=' '):
+    """Prints the Decision Tree in a pretty way.
+    """
+
+    if isinstance(root, Leaf):
+        print(space + "Prediction: " + str(root.most_frequent))
+        return
+
+    print(space + str(root.question))
+
+    print(space + "--> True:")
+    print_tree(root.true_branch, space+'  ')
+
+    print(space + "--> False:")
+    print_tree(root.false_branch, space+'  ')
