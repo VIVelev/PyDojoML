@@ -34,7 +34,8 @@ class ClassificationTree(BaseModel):
         return [tree_predict(x, root) for x in X for root in [self.root]]
 
     def predict_proba(self, X):
-        pass
+        X = super().predict(X)
+        return [tree_predict(x, root, proba=True) for x in X for root in [self.root]]
 
     def decision_function(self, X):
         raise MethodNotSupportedError("Decision function is not supported for Classification Tree model.")
