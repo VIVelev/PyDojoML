@@ -2,18 +2,19 @@ import numpy as np
 from ..base import BaseModel
 
 def prop(x, s):
-    return np.count_nonzero(s == x)/s.size
+    return list(s).count(x)/len(s)
 
 def gini_impurity(s):
-    return 1 - sum(prop(s[i], s)**2 for i in range(s.size))
+    return 1 - sum(prop(s[i], s)**2 for i in range(len(s)))
 
 def entropy(s):
     return -sum(
-        p*np.log(p) for i in range(s.size) for p in [prop(s[i], s)]
+        p*np.log(p) for i in range(len(s)) for p in [prop(s[i], s)]
     )
 
-def info_gain(current_impurity, true_branch_impurity, false_branch_impurity):
-    return current_impurity - (true_branch_impurity + false_branch_impurity)/2
+def info_gain(current_impurity, true_branch, false_branch, impurity_func):
+    p = float(len(true_branch)) / (len(true_branch) + len(false_branch))
+    return current_impurity - p * impurity_func(true_branch) - (1 - p) * impurity_func(false_branch)
 
 class Question:
     def __init__(self, feature_n, value):
@@ -35,4 +36,4 @@ class Node:
 class Leaf:
     def __init__(self, data):
         self.data = data
-        self.class_ = max(set(data), key=data.count)
+        self.class_ = max(set(data), key=list(data).count)
