@@ -1,7 +1,7 @@
 from ..base import BaseModel
 
-from .impurity_measurements import gini_impurity, entropy
-from .functions import build_tree, tree_predict
+from .utils.impurity_measurements import gini_impurity, entropy
+from .utils.functions import build_tree, tree_predict
 
 __all__ = [
     "ClassificationTree",
