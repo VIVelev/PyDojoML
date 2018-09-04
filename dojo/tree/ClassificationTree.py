@@ -2,6 +2,7 @@ from ..base import BaseModel
 from ..exceptions import MethodNotSupportedError
 
 from .utils.functions import build_tree, tree_predict, print_tree
+from ..metrics.classification import accuracy_score
 
 __all__ = [
     "ClassificationTree",
@@ -41,7 +42,10 @@ class ClassificationTree(BaseModel):
         raise MethodNotSupportedError("Decision function is not supported for Classification Tree model.")
 
     def evaluate(self, X, y):
-        pass
+        X, y = super().evaluate(X, y)
+        print(
+            f"Accuracy score: {accuracy_score(y, self.predict(X))}"
+        )
 
     def visualize(self):
         print_tree(self.root)
