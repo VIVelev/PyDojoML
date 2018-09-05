@@ -48,4 +48,6 @@ class ClassificationTree(BaseModel):
         )
 
     def visualize(self):
+        """Decision Tree visualization.
+        """
         print_tree(self.root)

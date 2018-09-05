@@ -84,20 +84,22 @@ def build_tree(X, y, criterion):
         false_branch=false_branch
     )
 
-def tree_predict(x, root, proba=False):
-    """Predicts a label for the sample x.
+def tree_predict(x, root, proba=False, regression=False):
+    """Predicts a probabilities/value/label for the sample x.
     """
 
     if isinstance(root, Leaf):
         if proba:
             return root.probabilities
+        elif regression:
+            return root.mean
         else:
             return root.most_frequent
 
     if root.question.match(x):
-        return tree_predict(x, root.true_branch, proba=proba)
+        return tree_predict(x, root.true_branch, proba=proba, regression=regression)
     else:
-        return tree_predict(x, root.false_branch, proba=proba)
+        return tree_predict(x, root.false_branch, proba=proba, regression=regression)
 
 def print_tree(root, space=' '):
     """Prints the Decision Tree in a pretty way.

@@ -8,7 +8,7 @@ __all__ = [
 ]
 
 def prop(x, s):
-    """Returns the proportion of `x` in `s`
+    """Returns the proportion of `x` in `s`.
     """
     return list(s).count(x)/len(s)
 
