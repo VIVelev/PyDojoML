@@ -9,8 +9,7 @@ Copy - paste this in your terminal and run it.
 ```
 pip3 install pydojoml
 ```
-
-Good job, now you have it.
+Good job, now it's time we rock-and-roll!<br><br>
 
 ### Simple Linear Regression example:
 ```
