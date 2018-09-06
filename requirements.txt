@@ -1,6 +1,7 @@
 # Runtime enviroment requirements
-scipy
 numpy
+scipy
 
 # Development requirements
 pylint
+jupyter
