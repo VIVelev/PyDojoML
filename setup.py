@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="PyDojoML",
-    version="0.0.1",
+    version="0.0.2",
     author="Victor Velev",
     author_email="velev.victor@yahoo.com",
     description="A General Purpose Machine Learning Library for Python",
@@ -17,5 +17,9 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+    ],
+    install_requires=[
+        "numpy",
+        "scipy",
     ],
 )
