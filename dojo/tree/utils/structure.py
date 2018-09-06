@@ -19,20 +19,20 @@ class Question:
     def is_numeric(value):
         """Test if a value is numeric.
         """
-        return (
-            isinstance(value, int) or
-            isinstance(value, float) or
+        return type(value) in [
+            int,
+            float,
+            
+            np.int8,
+            np.int16,
+            np.int32,
+            np.int64,
 
-            isinstance(value, np.int8) or
-            isinstance(value, np.int16) or
-            isinstance(value, np.int32) or
-            isinstance(value, np.int64) or
-
-            isinstance(value, np.float16) or
-            isinstance(value, np.float32) or
-            isinstance(value, np.float64) or
-            isinstance(value, np.float128)
-        )
+            np.float16,
+            np.float32,
+            np.float64,
+            np.float128
+        ]
 
     def __init__(self, feature_n, value):
         self.feature_n = feature_n
