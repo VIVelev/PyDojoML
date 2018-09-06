@@ -4,12 +4,12 @@ A General Purpose Machine Learning Library for Python
 ## A quick taste of PyDojoML
 
 ### How to install
-You can easily install it throug `pip`.<br>
-Copy - paste this in your terminal and run it.
+You can easily install it with `pip`.<br>
+Copy-paste this in your terminal and run it.
 ```
 pip3 install pydojoml
 ```
-Good job, now it's time we rock-and-roll!<br><br>
+Good job, now it's time we rock-and-roll!<br>
 
 ### Simple Linear Regression example:
 ```
