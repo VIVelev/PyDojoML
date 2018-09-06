@@ -1,11 +1,14 @@
 import setuptools
 
+with open("VERSION", "r") as fv:
+    VERSION = fv.read()
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="PyDojoML",
-    version="0.0.2",
+    version=VERSION,
     author="Victor Velev",
     author_email="velev.victor@yahoo.com",
     description="A General Purpose Machine Learning Library for Python",
