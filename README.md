@@ -1,2 +1,2 @@
 # PyDojo
-Machine Intelligence library for Python programming language.
+A General Purpose Machine Learning Library for Python
