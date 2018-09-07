@@ -5,3 +5,4 @@ scipy
 # Development requirements
 pylint
 jupyter
+scikit-learn

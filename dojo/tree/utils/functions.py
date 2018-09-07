@@ -65,19 +65,39 @@ def find_best_question(X, y, criterion):
 
     return best_info_gain, best_question
 
-def build_tree(X, y, criterion):
+def build_tree(X, y, criterion, max_depth, current_depth=1):
     """Builds the tree.
     """
 
+    # check for max_depth accomplished
+    if max_depth >= 0 and current_depth >= max_depth:
+        return Leaf(y)
+
+    # check for 0 gain
     gain, question = find_best_question(X, y, criterion)
     if gain == 0:
         return Leaf(y)
 
+    # split
     true_X, false_X, true_y, false_y = split(X, y, question)
 
-    true_branch = build_tree(true_X, true_y, criterion)
-    false_branch = build_tree(false_X, false_y, criterion)
+    # Build the `true` branch of the tree recursively
+    true_branch = build_tree(
+        true_X, true_y,
+        criterion,
+        max_depth,
+        current_depth=current_depth+1
+    )
+    
+    # Build the `false` branch of the tree recursively
+    false_branch = build_tree(
+        false_X, false_y,
+        criterion,
+        max_depth,
+        current_depth=current_depth+1
+    )
 
+    # returning the root of the tree/subtree
     return Node(
         question=question,
         true_branch=true_branch,

@@ -16,18 +16,21 @@ class RegressionTree(BaseModel):
     Parameters:
     -----------
     criterion : string, optional
+    max_depth : positive integer, optional
     
     """
 
-    def __init__(self, criterion="gini"):
+    def __init__(self, criterion="gini", max_depth=-1):
         self.criterion = criterion
+        self.max_depth = max_depth
         self.root = None
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
         self.root = build_tree(
             X, y,
-            self.criterion
+            self.criterion,
+            self.max_depth
         )
 
     def predict(self, X):
