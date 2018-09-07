@@ -1,8 +1,10 @@
 from .utils import (
     np,
     linalg,
+
     BaseModel,
     MethodNotSupportedError,
+
     mean_squared_error,
 )
 
@@ -13,7 +15,10 @@ __all__ = [
 class Lasso(BaseModel):
     """L1 regularized Linear Regression model.
     
-    ... (more documentation)
+    In statistics and machine learning, lasso (least absolute shrinkage and selection operator)
+    (also Lasso or LASSO) is a regression analysis method that performs both variable selection
+    and regularization in order to enhance the prediction accuracy and
+    interpretability of the statistical model it produces.
     
     Parameters:
     -----------

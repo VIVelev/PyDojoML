@@ -1,8 +1,10 @@
 from .utils import (
     np,
     linalg,
+
     BaseModel,
     MethodNotSupportedError,
+
     mean_squared_error,
 )
 
@@ -13,7 +15,9 @@ __all__ = [
 class Ridge(BaseModel):
     """L2 regularized Linear Regression model.
     
-    ... (more documentation)
+    Ridge regression is a way to create a parsimonious model when the number
+    of predictor variables in a set exceeds the number of observations, or
+    when a data set has multicollinearity (correlations between predictor variables).
     
     Parameters:
     -----------

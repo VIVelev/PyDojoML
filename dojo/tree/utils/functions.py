@@ -66,7 +66,7 @@ def find_best_question(X, y, criterion):
     return best_info_gain, best_question
 
 def build_tree(X, y, criterion, max_depth, current_depth=1):
-    """Builds the tree.
+    """Builds the decision tree.
     """
 
     # check for max_depth accomplished
