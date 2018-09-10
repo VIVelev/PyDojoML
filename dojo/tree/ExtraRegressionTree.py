@@ -17,13 +17,14 @@ class ExtraRegressionTree(BaseModel):
     -----------
     criterion : string, optional
     max_depth : positive integer, optional
+    root : binary decision tree's root, optional
     
     """
 
-    def __init__(self, criterion="gini", max_depth=-1):
+    def __init__(self, criterion="gini", max_depth=-1, root=None):
         self.criterion = criterion
         self.max_depth = max_depth
-        self.root = None
+        self.root = root
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
@@ -36,7 +37,7 @@ class ExtraRegressionTree(BaseModel):
 
     def predict(self, X):
         X = super().predict(X)
-        return [tree_predict(x, root, regression=True) for x in X for root in [self.root]]
+        return [tree_predict(x, self.root, regression=True) for x in X]
 
     def predict_proba(self, X):
         raise MethodNotSupportedError("Probability predictions are not supported for Extra Regression Tree model.")

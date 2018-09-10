@@ -17,13 +17,14 @@ class ExtraClassificationTree(BaseModel):
     -----------
     criterion : string, optional
     max_depth : positive integer, optional
+    root : binary decision tree's root, optional
     
     """
 
-    def __init__(self, criterion="gini", max_depth=-1):
+    def __init__(self, criterion="gini", max_depth=-1, root=None):
         self.criterion = criterion
         self.max_depth = max_depth
-        self.root = None
+        self.root = root
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
@@ -36,11 +37,11 @@ class ExtraClassificationTree(BaseModel):
 
     def predict(self, X):
         X = super().predict(X)
-        return [tree_predict(x, root) for x in X for root in [self.root]]
+        return [tree_predict(x, self.root) for x in X]
 
     def predict_proba(self, X):
         X = super().predict(X)
-        return [tree_predict(x, root, proba=True) for x in X for root in [self.root]]
+        return [tree_predict(x, self.root, proba=True) for x in X]
 
     def decision_function(self, X):
         raise MethodNotSupportedError("Decision function is not supported for Extra Classification Tree model.")
