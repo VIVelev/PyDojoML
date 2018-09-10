@@ -15,7 +15,9 @@ from .structure import (
 __all__ = [
     "split",
     "find_best_question",
+    "pick_rand_question",
     "build_tree",
+    "build_extra_tree",
     "tree_predict",
     "print_tree",
 ]
@@ -65,6 +67,30 @@ def find_best_question(X, y, criterion):
 
     return best_info_gain, best_question
 
+def pick_rand_question(X, y, criterion):
+    rand_features = [
+        np.random.randint(0, X.shape[1]) for _ in range(int(np.sqrt(X.shape[1])))
+    ]
+    rand_questions = [
+        Question(i, np.random.choice(X[:, i])) for i in rand_features
+    ]
+
+    measure_impurity = gini_impurity if criterion == "gini" else entropy
+
+    current_impurity = measure_impurity(y)
+    best_info_gain = 0
+    best_question = None
+
+    for q in rand_questions:
+        _, _, true_y, false_y = split(X, y, q)
+
+        current_info_gain = info_gain(current_impurity, true_y, false_y, criterion)
+        if current_info_gain >= best_info_gain:
+            best_info_gain = current_info_gain
+            best_question = q
+    
+    return best_info_gain, best_question
+
 def build_tree(X, y, criterion, max_depth, current_depth=1):
     """Builds the decision tree.
     """
@@ -75,6 +101,45 @@ def build_tree(X, y, criterion, max_depth, current_depth=1):
 
     # check for 0 gain
     gain, question = find_best_question(X, y, criterion)
+    if gain == 0:
+        return Leaf(y)
+
+    # split
+    true_X, false_X, true_y, false_y = split(X, y, question)
+
+    # Build the `true` branch of the tree recursively
+    true_branch = build_tree(
+        true_X, true_y,
+        criterion,
+        max_depth,
+        current_depth=current_depth+1
+    )
+    
+    # Build the `false` branch of the tree recursively
+    false_branch = build_tree(
+        false_X, false_y,
+        criterion,
+        max_depth,
+        current_depth=current_depth+1
+    )
+
+    # returning the root of the tree/subtree
+    return Node(
+        question=question,
+        true_branch=true_branch,
+        false_branch=false_branch
+    )
+
+def build_extra_tree(X, y, criterion, max_depth, current_depth=1):
+    """Builds the extremely randomized decision tree.
+    """
+
+    # check for max_depth accomplished
+    if max_depth >= 0 and current_depth >= max_depth:
+        return Leaf(y)
+
+    # pick the random question
+    gain, question = pick_rand_question(X, y, criterion)
     if gain == 0:
         return Leaf(y)
 
