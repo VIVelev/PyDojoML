@@ -1,6 +1,5 @@
 from .utils import (
     BaseModel,
-    MethodNotSupportedError,
 
     svm_problem,
     svm_parameter,
@@ -15,7 +14,7 @@ __all__ = [
 ]
 
 class SVC(BaseModel):
-    """Support Vectors Machine Classifier
+    """C-Support Vector Machine Classifier
     
     ... (more documentation)
     
@@ -24,7 +23,7 @@ class SVC(BaseModel):
     C : float, optional
     kernel : string, optional
     degree : integer, optional
-    gammma : "auto" or float, optional
+    gamma : "auto" or float, optional
     
     """
 
@@ -50,14 +49,14 @@ class SVC(BaseModel):
         if self.gamma.upper() == "AUTO":
             self.gamma = 1.0/X.shape[0]
 
-        prob = svm_problem(y, X)
-        param = svm_parameter(
+        problem = svm_problem(y, X)
+        parameter = svm_parameter(
             "-s 0 -c " + str(self.C) +
             " -t " + str(self.kernel) +
             " -d " + str(self.degree) +
             " -g " + str(self.gamma)
         )
-        self._estimator = svm_train(prob, param)
+        self._estimator = svm_train(problem, parameter)
         return self
 
     def predict(self, X):

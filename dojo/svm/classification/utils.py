@@ -1,5 +1,4 @@
 from dojo.base import BaseModel
-from ...exceptions import MethodNotSupportedError
 
 from ..libsvm.svmutil import (
     svm_problem,
