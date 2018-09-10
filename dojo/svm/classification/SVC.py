@@ -1,6 +1,7 @@
 from .utils import (
     BaseModel,
 
+    set_kernel,
     svm_problem,
     svm_parameter,
     svm_train,
@@ -32,14 +33,7 @@ class SVC(BaseModel):
 
         self._estimator = None
         self.C = C
-        if kernel.upper() == "LINEAR":
-            self.kernel = 0
-        elif kernel.upper() == "POLY":
-            self.kernel = 1
-        elif kernel.upper() == "SIGMOID":
-            self.kernel = 3
-        else:
-            self.kernel = 2 # RBF kernel
+        self.kernel = set_kernel(kernel)
         self.degree = degree
         self.gamma = gamma
 

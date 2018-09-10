@@ -8,3 +8,13 @@ from ..libsvm.svmutil import (
 )
 
 from ...metrics.classification import accuracy_score
+
+def set_kernel(kernel_string):
+    if kernel_string.upper() == "LINEAR":
+        return 0
+    elif kernel_string.upper() == "POLY":
+        return 1
+    elif kernel_string.upper() == "SIGMOID":
+        return 3
+    else:
+        return 2 # RBF kernel
