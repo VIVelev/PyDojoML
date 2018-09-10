@@ -32,7 +32,6 @@ class ClassificationTree(BaseModel):
             self.criterion,
             self.max_depth
         )
-
         return self
 
     def predict(self, X):
