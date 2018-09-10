@@ -33,6 +33,8 @@ class ExtraClassificationTree(BaseModel):
             self.max_depth
         )
 
+        return self
+
     def predict(self, X):
         X = super().predict(X)
         return [tree_predict(x, root) for x in X for root in [self.root]]
