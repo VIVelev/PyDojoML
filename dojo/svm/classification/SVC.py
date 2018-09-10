@@ -25,10 +25,11 @@ class SVC(BaseModel):
     kernel : string, optional
     degree : integer, optional
     gamma : "auto" or float, optional
+    verbose : boolean, optional
     
     """
 
-    def __init__(self, C=1.0, kernel="rbf", degree=3, gamma="auto"):
+    def __init__(self, C=1.0, kernel="rbf", degree=3, gamma="auto", verbose=False):
         super().__init__()
 
         self._estimator = None
@@ -36,20 +37,27 @@ class SVC(BaseModel):
         self.kernel = set_kernel(kernel)
         self.degree = degree
         self.gamma = gamma
+        self.verbose = verbose
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
 
         if self.gamma.upper() == "AUTO":
-            self.gamma = 1.0/X.shape[0]
+            self.gamma = 1.0/len(X[0])
 
         problem = svm_problem(y, X)
-        parameter = svm_parameter(
-            "-s 0 -c " + str(self.C) +
-            " -t " + str(self.kernel) +
-            " -d " + str(self.degree) +
-            " -g " + str(self.gamma)
-        )
+        param_str = f"""
+            -b 1
+            -s 0
+            -c {self.C}
+            -t {self.kernel}
+            -d {self.degree}
+            -g {self.gamma}
+        """
+        if not self.verbose:
+            param_str += " -q"
+        parameter = svm_parameter(param_str)
+
         self._estimator = svm_train(problem, parameter)
         return self
 

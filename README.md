@@ -7,7 +7,7 @@ A General Purpose Machine Learning Library for Python
 You can easily install it with `pip`.<br>
 Copy-paste this in your terminal and run it.
 ```
-pip3 install pydojoml
+pip install pydojoml
 ```
 Good job, now it's time we rock-and-roll!<br>
 

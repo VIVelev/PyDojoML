@@ -25,10 +25,11 @@ class NuSVC(BaseModel):
     kernel : string, optional
     degree : integer, optional
     gamma : "auto" or float, optional
+    verbose : boolean, optional
     
     """
 
-    def __init__(self, nu=0.5, kernel="rbf", degree=3, gamma="auto"):
+    def __init__(self, nu=0.5, kernel="rbf", degree=3, gamma="auto", verbose=False):
         super().__init__()
 
         self._estimator = None
@@ -36,6 +37,7 @@ class NuSVC(BaseModel):
         self.kernel = set_kernel(kernel)
         self.degree = degree
         self.gamma = gamma
+        self.verbose = verbose
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
@@ -44,12 +46,18 @@ class NuSVC(BaseModel):
             self.gamma = 1.0/len(X[0])
 
         problem = svm_problem(y, X)
-        parameter = svm_parameter(
-            "-s 0 -n " + str(self.nu) +
-            " -t " + str(self.kernel) +
-            " -d " + str(self.degree) +
-            " -g " + str(self.gamma)
-        )
+        param_str = f"""
+            -b 1
+            -s 0
+            -n {self.nu}
+            -t {self.kernel}
+            -d {self.degree}
+            -g {self.gamma}
+        """
+        if not self.verbose:
+            param_str += " -q"
+        parameter = svm_parameter(param_str)
+
         self._estimator = svm_train(problem, parameter)
         return self
 
