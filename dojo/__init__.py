@@ -1,5 +1,6 @@
 from . import (
     base,
+    ensemble,
     linear,
     metrics,
     svm,
@@ -10,6 +11,7 @@ from . import (
 
 __all__ = [
     "base",
+    "ensemble",
     "linear",
     "metrics",
     "svm",
