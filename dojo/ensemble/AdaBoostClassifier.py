@@ -19,6 +19,7 @@ class AdaBoostClassifier(BaseModel):
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
+
         data = np.column_stack((X, y))
         size = data.shape[0]
         idxs = list(range(size))
