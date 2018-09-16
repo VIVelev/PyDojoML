@@ -30,8 +30,6 @@ class SVC(BaseModel):
     """
 
     def __init__(self, C=1.0, kernel="rbf", degree=3, gamma="auto", verbose=False):
-        super().__init__()
-
         self._estimator = None
         self.C = C
         self.kernel = set_kernel(kernel)

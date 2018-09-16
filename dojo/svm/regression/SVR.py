@@ -31,8 +31,6 @@ class SVR(BaseModel):
     """
 
     def __init__(self, epsilon=0.01, kernel="rbf", degree=3, gamma="auto", verbose=False):
-        super().__init__()
-
         self._estimator = None
         self.epsilon = epsilon
         self.kernel = set_kernel(kernel)

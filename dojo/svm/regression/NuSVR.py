@@ -31,8 +31,6 @@ class NuSVR(BaseModel):
     """
 
     def __init__(self, nu=0.5, kernel="rbf", degree=3, gamma="auto", verbose=False):
-        super().__init__()
-
         self._estimator = None
         self.nu = nu
         self.kernel = set_kernel(kernel)

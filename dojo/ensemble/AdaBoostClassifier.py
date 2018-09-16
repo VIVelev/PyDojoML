@@ -38,7 +38,11 @@ class AdaBoostClassifier(BaseModel):
             np.random.shuffle(data)
             idxs = np.random.choice(list(range(data.shape[0])), size)
 
+        return self
+
     def predict(self, X):
+        X = super().predict(X)
+
         predictions = []
         for x in X:
             current_predictions = []
