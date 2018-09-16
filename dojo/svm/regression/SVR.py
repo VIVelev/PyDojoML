@@ -44,7 +44,7 @@ class SVR(BaseModel):
         X, y = super().fit(X, y)
 
         if self.gamma.upper() == "AUTO":
-            self.gamma = 1.0/len(X[0])
+            self.gamma = 1.0/X.shape[0]
 
         problem = svm_problem(y, X)
         param_str = f"""
