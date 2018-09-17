@@ -57,10 +57,12 @@ class AdaBoostClassifier(BaseModel):
         return predictions
 
     def predict_proba(self, X):
-        pass
+        X = super().predict_proba(X)
+        return self._estimators[-1].predict_proba(X)
 
     def decision_function(self, X):
-        pass
+        X = super().decision_function(X)
+        return self._estimators[-1].decision_function(X)
 
     def evaluate(self, X, y):
         X, y = super().evaluate(X, y)
