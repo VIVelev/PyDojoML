@@ -65,12 +65,12 @@ class NuSVC(BaseModel):
         return predictions
 
     def predict_proba(self, X):
-        X = super().predict(X)
+        X = super().predict_proba(X)
         *_, probabilities = svm_predict([0 for _ in X], X, self._estimator, options="-q -b 1")
         return probabilities
 
     def decision_function(self, X):
-        X = super().predict(X)
+        X = super().decision_function(X)
         *_, decision_values = svm_predict([0 for _ in X], X, self._estimator, options="-q")
         return decision_values
 

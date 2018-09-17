@@ -40,7 +40,7 @@ class ClassificationTree(BaseModel):
         return [tree_predict(x, self.root) for x in X]
 
     def predict_proba(self, X):
-        X = super().predict(X)
+        X = super().predict_proba(X)
         return [tree_predict(x, self.root, proba=True) for x in X]
 
     def decision_function(self, X):

@@ -68,7 +68,7 @@ class NuSVR(BaseModel):
         raise MethodNotSupportedError("Probability prediction are not supported for NuSVR model.")
 
     def decision_function(self, X):
-        X = super().predict(X)
+        X = super().decision_function(X)
         *_, decision_values = svm_predict([0 for _ in X], X, self._estimator, options="-q")
         return decision_values
 
