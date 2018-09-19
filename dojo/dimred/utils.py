@@ -1,6 +1,8 @@
 import numpy as np
 from scipy import linalg
 
+from ..base import BasePreprocessor
+
 __all__ = [
     "get_mean_vectors",
     "get_within_class_scatter_matrix",

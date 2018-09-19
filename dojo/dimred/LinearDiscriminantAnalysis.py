@@ -1,5 +1,6 @@
 from .utils import (
     np, linalg,
+    BasePreprocessor,
 
     get_mean_vectors,
     get_within_class_scatter_matrix,
@@ -10,7 +11,7 @@ __all__ = [
     "LinearDiscriminantAnalysis",
 ]
 
-class LinearDiscriminantAnalysis:
+class LinearDiscriminantAnalysis(BasePreprocessor):
     """Linear Discriminant Analysis (LDA)
 
     A generalization of Fisher's linear discriminant, a method usedin statistics,
@@ -30,6 +31,7 @@ class LinearDiscriminantAnalysis:
         self._W = None
 
     def fit(self, X, y):
+        X, y = super().fit(X, y)
 
         # Step 1: Computing the d-dimensional mean vector per class
         mean_vectors = get_mean_vectors(X, y)
@@ -53,9 +55,7 @@ class LinearDiscriminantAnalysis:
         return self
 
     def transform(self, X):
+        X = super().transform(X)
+
         # Step 5: Transforming the samples onto the new subspace
         return X @ self._W
-
-    def fit_transform(self, X, y):
-        self.fit(X, y)
-        return self.transform(X)
