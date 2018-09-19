@@ -11,6 +11,19 @@ __all__ = [
 ]
 
 class LinearDiscriminantAnalysis:
+    """Linear discriminant analysis (LDA)
+
+    A generalization of Fisher's linear discriminant, a method usedin statistics,
+    pattern recognition and machine learning to find a linear combination of
+    features that characterizes or separates two or more classes of objects or events.
+    The resulting combination may be used as a linear classifier, or, more commonly,
+    for dimensionality reduction before later classification.
+    
+    Parameters:
+    -----------
+    n_components: integer
+    
+    """
 
     def __init__(self, n_components=None):
         self.n_components = n_components
