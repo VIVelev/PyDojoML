@@ -70,15 +70,15 @@ class BasePreprocessor:
 
     def fit(self, X, y=None):
         if y is None:
-            return np.array(X, type=np.float32)
+            return np.array(X, dtype=np.float32)
         else:
-            X, y = (np.array(X, type=np.float32), 
-                np.array(y, type=np.float32))
+            X, y = (np.array(X, dtype=np.float32), 
+                np.array(y, dtype=np.float32))
             assert X.shape[0] == y.shape[0]
             return X, y
 
     def transform(self, X):
-        return np.array(X, type=np.float32)
+        return np.array(X, dtype=np.float32)
 
     def fit_transform(self, X, y=None):
         if y is None:
