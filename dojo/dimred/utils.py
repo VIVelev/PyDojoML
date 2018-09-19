@@ -13,25 +13,27 @@ def get_mean_vectors(X, y):
 def get_within_class_scatter_matrix(mean_vectors, X, y):
     d = X.shape[1]
     c = np.unique(y).size
-    Sw = np.zeros(d, d)
+    Sw = np.zeros((d, d))
 
     for cl, m in zip(range(c), mean_vectors):
-        Si = np.zeros(d, d)
+        Si = np.zeros((d, d))
         for x in X[y == cl, :]:
+            x, m = x.reshape(4, 1), m.reshape(4, 1)
             Si += (x - m) @ (x - m).T
+
         Sw += Si
-    
     return Sw
 
 def get_between_class_scatter_matrix(mean_vectors, X, y):
     d = X.shape[1]
     c = np.unique(y).size
 
-    m = np.mean(X, axis=0)
-    Sb = np.zeros(d, d)
+    m = np.mean(X, axis=0).reshape(4, 1)
+    Sb = np.zeros((d, d))
 
     for cl, m_i in zip(range(c), mean_vectors):
         n = X[y == cl, :].shape[0]
+        m_i = m_i.reshape(4, 1)
         Sb += n * (m_i - m) @ (m_i - m).T
 
     return Sb

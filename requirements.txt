@@ -6,3 +6,4 @@ scipy
 pylint
 jupyter
 scikit-learn
+matplotlib
