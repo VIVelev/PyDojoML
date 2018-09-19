@@ -33,18 +33,15 @@ class LinearDiscriminantAnalysis(BasePreprocessor):
     def fit(self, X, y):
         X, y = super().fit(X, y)
 
-        # Step 1: Computing the d-dimensional mean vector per class
-        mean_vectors = get_mean_vectors(X, y)
-
-        # Step 2: Computing the Scatter Matrices (within-class and between-class)
-        Sw = get_within_class_scatter_matrix(mean_vectors, X, y)
-        Sb = get_between_class_scatter_matrix(mean_vectors, X, y)
+        # Computing the Scatter Matrices (within-class and between-class)
+        Sw = get_within_class_scatter_matrix(X, y)
+        Sb = get_between_class_scatter_matrix(X, y)
         
-        # Step 3: Compute the eigenvalues and eigenvectors
+        # Compute the eigenvalues and eigenvectors
         A = linalg.inv(Sw) @ Sb
         eigvals, eigvecs = linalg.eig(A)
 
-        # Step 4: Selecting linear discriminants for the new feature subspace
+        # Selecting linear discriminants for the new feature subspace
         eig_pairs = [(eigvals[i], eigvecs[:, i]) for i in range(A.shape[0])]
         eig_pairs.sort(key=lambda x: x[0], reverse=True)
 
@@ -57,5 +54,5 @@ class LinearDiscriminantAnalysis(BasePreprocessor):
     def transform(self, X):
         X = super().transform(X)
 
-        # Step 5: Transforming the samples onto the new subspace
+        # Transforming the samples onto the new subspace
         return X @ self._W

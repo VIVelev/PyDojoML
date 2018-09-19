@@ -12,7 +12,8 @@ __all__ = [
 def get_mean_vectors(X, y):
     return [np.mean(X[y == cl, :], axis=0) for cl in y]
 
-def get_within_class_scatter_matrix(mean_vectors, X, y):
+def get_within_class_scatter_matrix(X, y):
+    mean_vectors = get_mean_vectors(X, y)
     n_features = X.shape[1]
     n_classes = np.unique(y).size
     Sw = np.zeros((n_features, n_features))
@@ -28,10 +29,10 @@ def get_within_class_scatter_matrix(mean_vectors, X, y):
 
     return Sw
 
-def get_between_class_scatter_matrix(mean_vectors, X, y):
+def get_between_class_scatter_matrix(X, y):
+    mean_vectors = get_mean_vectors(X, y)
     n_features = X.shape[1]
     n_classes = np.unique(y).size
-
     Sb = np.zeros((n_features, n_features))
     m = np.mean(X, axis=0).reshape(4, 1)
 

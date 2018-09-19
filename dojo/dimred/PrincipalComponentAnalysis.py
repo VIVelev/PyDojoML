@@ -14,16 +14,15 @@ class PrincipalComponentAnalysis(BasePreprocessor):
         self._W = None
 
     def fit(self, X):
-        # Step 1: Computing the d-dimensional mean vector
-        m = np.mean(X, axis=0)
+        X = super().fit(X)
 
-        # Step 2: Computing the Covariance Matrix
+        # Computing the Covariance Matrix
         S = np.cov(X)
 
-        # Step 3: Compute the eigenvalues and eigenvectors
+        # Compute the eigenvalues and eigenvectors
         eigvals, eigvecs = linalg.eig(S)
 
-        # Step 4: Selecting principal components for the new feature subspace
+        # Selecting principal components for the new feature subspace
         eig_pairs = [(eigvals[i], eigvecs[:, i]) for i in range(S.shape[0])]
         eig_pairs.sort(key=lambda x: x[0], reverse=True)
 
@@ -36,5 +35,5 @@ class PrincipalComponentAnalysis(BasePreprocessor):
     def transform(self, X):
         X = super().transform(X)
 
-        # Step 5: Transforming the samples onto the new subspace
+        # Transforming the samples onto the new subspace
         return X @ self._W
