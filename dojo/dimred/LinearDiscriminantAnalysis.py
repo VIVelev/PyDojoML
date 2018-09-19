@@ -11,7 +11,7 @@ __all__ = [
 ]
 
 class LinearDiscriminantAnalysis:
-    """Linear discriminant analysis (LDA)
+    """Linear Discriminant Analysis (LDA)
 
     A generalization of Fisher's linear discriminant, a method usedin statistics,
     pattern recognition and machine learning to find a linear combination of
@@ -55,3 +55,7 @@ class LinearDiscriminantAnalysis:
     def transform(self, X):
         # Step 5: Transforming the samples onto the new subspace
         return X @ self._W
+
+    def fit_transform(self, X, y):
+        self.fit(X, y)
+        return self.transform(X)
