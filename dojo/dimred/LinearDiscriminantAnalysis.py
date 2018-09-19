@@ -11,12 +11,13 @@ __all__ = [
 ]
 
 class LinearDiscriminantAnalysis:
+
     def __init__(self, n_components):
         self.n_components = n_components
         self._W = None
 
     def fit(self, X, y):
-
+        
         # Step 1: Computing the d-dimensional mean vector per class
         mean_vectors = get_mean_vectors(X, y)
 
