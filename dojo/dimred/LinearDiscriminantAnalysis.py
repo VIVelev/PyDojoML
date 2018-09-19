@@ -40,7 +40,7 @@ class LinearDiscriminantAnalysis(BasePreprocessor):
         Sw = get_within_class_scatter_matrix(mean_vectors, X, y)
         Sb = get_between_class_scatter_matrix(mean_vectors, X, y)
         
-        # Step 3: Compute the eigenvalues and eigenvectors of `inv(Sw)@Sb`
+        # Step 3: Compute the eigenvalues and eigenvectors
         A = linalg.inv(Sw) @ Sb
         eigvals, eigvecs = linalg.eig(A)
 
