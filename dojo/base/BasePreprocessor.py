@@ -69,6 +69,15 @@ class BasePreprocessor:
             vars(self)[k] = v
 
     def fit(self, X, y=None):
+        """Passing the data to transform to the data-preprocessor.
+        
+        Parameters:
+        -----------
+        X : array-like data
+        y : the labels, optional
+        
+        """
+
         if y is None:
             return np.array(X, dtype=np.float32)
         else:
@@ -78,9 +87,26 @@ class BasePreprocessor:
             return X, y
 
     def transform(self, X):
+        """Transforms the data given.
+        
+        Parameters:
+        -----------
+        X : array-like data        
+        
+        """
+
         return np.array(X, dtype=np.float32)
 
     def fit_transform(self, X, y=None):
+        """Fit-Transform shortcut function.
+        
+        Parameters:
+        -----------
+        X : array-like data
+        y : the labels, optional
+        
+        """
+
         if y is None:
             self.fit(X)
         else:
