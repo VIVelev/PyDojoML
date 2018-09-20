@@ -7,6 +7,7 @@ __all__ = [
     "get_mean_vectors",
     "get_within_class_scatter_matrix",
     "get_between_class_scatter_matrix",
+    "get_covariance_matrix",
 ]
 
 def get_mean_vectors(X, y):
@@ -23,7 +24,7 @@ def get_within_class_scatter_matrix(X, y):
         m = m.reshape(4, 1)
 
         for x in X[y == cl, :]:
-            v = (x.reshape(4, 1) - m)
+            v = x.reshape(4, 1) - m
             Si +=  v @ v.T
         Sw += Si
 
@@ -38,7 +39,18 @@ def get_between_class_scatter_matrix(X, y):
 
     for cl, m_i in zip(range(n_classes), mean_vectors):
         n = X[y == cl, :].shape[0]
-        v = (m_i.reshape(4, 1) - m)
+        v = m_i.reshape(4, 1) - m
         Sb += n * v @ v.T
 
     return Sb
+
+def get_covariance_matrix(X):
+    n_features = X.shape[1]    
+    S = np.zeros((n_features, n_features))
+    m = np.mean(X, axis=0).reshape(4, 1)
+
+    for x in X:
+        v = x.reshape(4, 1) - m
+        S += v @ v.T
+
+    return 1/(X.shape[0]-1) * S

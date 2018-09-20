@@ -1,6 +1,8 @@
 from .utils import (
     np, linalg,
     BasePreprocessor,
+
+    get_covariance_matrix,
 )
 
 __all__ = [
@@ -17,7 +19,7 @@ class PrincipalComponentAnalysis(BasePreprocessor):
         X = super().fit(X)
 
         # Computing the Covariance Matrix
-        S = np.cov(X)
+        S = get_covariance_matrix(X)
 
         # Compute the eigenvalues and eigenvectors
         eigvals, eigvecs = linalg.eig(S)
