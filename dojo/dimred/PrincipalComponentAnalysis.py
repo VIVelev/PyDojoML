@@ -10,6 +10,18 @@ __all__ = [
 ]
 
 class PrincipalComponentAnalysis(BasePreprocessor):
+    """Principal Component Analysis (PCA)
+
+    A statistical procedure that uses an orthogonal transformation to convert
+    a set of observations of possibly correlated variables (entities each of
+    which takes on various numerical values) into a set of values of linearly
+    uncorrelated variables called principal components.
+    
+    Parameters:
+    -----------
+    n_components : integer
+    
+    """
 
     def __init__(self, n_components=None):
         self.n_components = n_components

@@ -2,7 +2,6 @@ from .utils import (
     np, linalg,
     BasePreprocessor,
 
-    get_mean_vectors,
     get_within_class_scatter_matrix,
     get_between_class_scatter_matrix,
 )
