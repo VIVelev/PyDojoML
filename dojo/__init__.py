@@ -1,5 +1,6 @@
 from . import (
     base,
+    cluster,
     dimred,
     ensemble,
     linear,
@@ -13,6 +14,7 @@ from . import (
 
 __all__ = [
     "base",
+    "cluster",
     "dimred",
     "ensemble",
     "linear",
