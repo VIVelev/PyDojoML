@@ -11,8 +11,6 @@ __all__ = [
 class ClassificationTree(BaseModel):
     """Classification Decision Tree model
     
-    ... (more documentation)
-    
     Parameters:
     -----------
     criterion : string, optional

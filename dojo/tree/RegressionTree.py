@@ -11,8 +11,6 @@ __all__ = [
 class RegressionTree(BaseModel):
     """Regression Decision Tree model
     
-    ... (more documentation)
-    
     Parameters:
     -----------
     criterion : string, optional

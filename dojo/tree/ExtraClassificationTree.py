@@ -11,8 +11,6 @@ __all__ = [
 class ExtraClassificationTree(BaseModel):
     """Extremely Randomized Classification Decision Tree model
     
-    ... (more documentation)
-    
     Parameters:
     -----------
     criterion : string, optional
