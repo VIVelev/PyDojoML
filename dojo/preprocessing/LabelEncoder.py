@@ -6,16 +6,7 @@ __all__ = [
 ]
 
 class LabelEncoder(BasePreprocessor):
-    """Label Encoder - encodes textual data to 0,1,...n
-    
-    Parameters:
-    -----------
-    None
-    
-    Returns:
-    --------
-    X_enc : the encoded array
-    
+    """Label Encoder - encodes textual data to 0,1,...
     """
 
     def __init__(self):
