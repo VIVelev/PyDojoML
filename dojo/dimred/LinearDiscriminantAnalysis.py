@@ -42,6 +42,7 @@ class LinearDiscriminantAnalysis(BasePreprocessor):
         # Compute the eigenvalues and eigenvectors
         A = linalg.inv(Sw) @ Sb
         eigvals, eigvecs = linalg.eig(A)
+        eigvals_sum = np.sum(eigvals)
 
         # Selecting linear discriminants for the new feature subspace
         eig_pairs = [(eigvals[i], eigvecs[:, i]) for i in range(A.shape[0])]
@@ -54,7 +55,7 @@ class LinearDiscriminantAnalysis(BasePreprocessor):
             eig_pairs[i][0] for i in range(self.n_components)
         ]
         self.explained_variance_ratio = [
-            v / np.sum(eig_pair[0] for eig_pair in eig_pairs) for v in self.explained_variance
+            v / eigvals_sum for v in self.explained_variance
         ]
 
         return self
