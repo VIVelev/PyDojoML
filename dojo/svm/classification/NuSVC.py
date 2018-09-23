@@ -1,5 +1,6 @@
 from ..utils import (
     BaseModel,
+    MethodNotSupportedError,
 
     set_kernel,
     svm_problem,
@@ -16,8 +17,6 @@ __all__ = [
 
 class NuSVC(BaseModel):
     """Nu-Support Vector Machine Classifier
-    
-    ... (more documentation)
     
     Parameters:
     -----------
@@ -45,7 +44,6 @@ class NuSVC(BaseModel):
 
         problem = svm_problem(y, X)
         param_str = f"""
-            -b 1
             -s 0
             -n {self.nu}
             -t {self.kernel}
@@ -65,9 +63,7 @@ class NuSVC(BaseModel):
         return predictions
 
     def predict_proba(self, X):
-        X = super().predict_proba(X)
-        *_, probabilities = svm_predict([0 for _ in X], X, self._estimator, options="-q -b 1")
-        return probabilities
+        raise MethodNotSupportedError("Probability prediction are not supported for Support Vector Machine.")
 
     def decision_function(self, X):
         X = super().decision_function(X)

@@ -18,8 +18,6 @@ __all__ = [
 class NuSVR(BaseModel):
     """Nu-Support Vector Machine Regressor
     
-    ... (more documentation)
-    
     Parameters:
     -----------
     nu : float, optional
@@ -65,7 +63,7 @@ class NuSVR(BaseModel):
         return predictions
 
     def predict_proba(self, X):
-        raise MethodNotSupportedError("Probability prediction are not supported for NuSVR model.")
+        raise MethodNotSupportedError("Probability prediction are not supported for Support Vector Machine.")
 
     def decision_function(self, X):
         X = super().decision_function(X)

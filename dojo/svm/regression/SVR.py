@@ -18,8 +18,6 @@ __all__ = [
 class SVR(BaseModel):
     """Epsilon-Support Vector Machine Regressor
     
-    ... (more documentation)
-    
     Parameters:
     -----------
     epsilon : float, optional
@@ -65,7 +63,7 @@ class SVR(BaseModel):
         return predictions
 
     def predict_proba(self, X):
-        raise MethodNotSupportedError("Probability prediction are not supported for SVR model.")
+        raise MethodNotSupportedError("Probability prediction are not supported for Support Vector Machine.")
 
     def decision_function(self, X):
         X = super().decision_function(X)

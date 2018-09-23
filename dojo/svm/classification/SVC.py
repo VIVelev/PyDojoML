@@ -1,5 +1,6 @@
 from ..utils import (
     BaseModel,
+    MethodNotSupportedError,
 
     set_kernel,
     svm_problem,
@@ -16,8 +17,6 @@ __all__ = [
 
 class SVC(BaseModel):
     """C-Support Vector Machine Classifier
-    
-    ... (more documentation)
     
     Parameters:
     -----------
@@ -45,7 +44,6 @@ class SVC(BaseModel):
 
         problem = svm_problem(y, X)
         param_str = f"""
-            -b 1
             -s 0
             -c {self.C}
             -t {self.kernel}
@@ -65,9 +63,7 @@ class SVC(BaseModel):
         return predictions
 
     def predict_proba(self, X):
-        X = super().predict_proba(X)
-        *_, probabilities = svm_predict([0 for _ in X], X, self._estimator, options="-q -b 1")
-        return probabilities
+        raise MethodNotSupportedError("Probability prediction are not supported for Support Vector Machine.")
 
     def decision_function(self, X):
         X = super().decision_function(X)
