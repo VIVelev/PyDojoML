@@ -11,13 +11,13 @@ class KMeans:
 
         self.centroids = []
         self.distortion = 0
+        self.clusters = []
         self._X = None
-        self._clusters = []
 
     def _calc_distortion(self):
         m = self._X.shape[0]
         return 1/m * sum(
-            linalg.norm(self._X[i, :] - self.centroids[self._clusters[i]])**2 for i in range(m)
+            linalg.norm(self._X[i, :] - self.centroids[self.clusters[i]])**2 for i in range(m)
         )
 
     def _init_random_centroids(self):
@@ -25,7 +25,7 @@ class KMeans:
 
     def _move_centroids(self):
         self.centroids = np.array(
-            [np.mean(self._X[self._clusters == k, :], axis=0) for k in range(self.n_clusters)]
+            [np.mean(self._X[self.clusters == k, :], axis=0) for k in range(self.n_clusters)]
         )
 
     def _closest_centroid(self, x):
@@ -41,22 +41,28 @@ class KMeans:
         return closest_centroid
 
     def _assign_clusters(self):
-        self._clusters = np.array([self._closest_centroid(x) for x in self._X])
+        self.clusters = np.array([self._closest_centroid(x) for x in self._X])
 
     def fit(self, X):
         self._X = X
-        self._init_random_centroids()
+        candidates = []
 
-        while True:
-            prev_clusters = self._clusters
-            self._assign_clusters()
-            self._move_centroids()
+        for _ in range(self.n_init):
+            self._init_random_centroids()
+            while True:
+                prev_clusters = self.clusters
+                self._assign_clusters()
+                self._move_centroids()
 
-            if np.all(prev_clusters == self._clusters):
-                break
+                if np.all(prev_clusters == self.clusters):
+                    break
 
-        self.distortion = self._calc_distortion()
+            self.distortion = self._calc_distortion()
+            candidates.append((self.centroids, self.distortion, self.clusters))
+        
+        candidates.sort(key=lambda x: x[1])
+        self.centroids = candidates[0][0]
+        self.distortion = candidates[0][1]
+        self.clusters = candidates[0][2]
+
         return self
-
-    def cluster(self, X):
-        pass
