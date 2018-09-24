@@ -23,8 +23,8 @@ class KMeans(BaseClustering):
         self.n_clusters = n_clusters
         self.n_runs = n_runs
 
-        self.centroids = []
         self.distortion = 0
+        self.centroids = []
         self.clusters = []
         self._X = None
 
@@ -32,9 +32,10 @@ class KMeans(BaseClustering):
         """Calculates the distortion value of the current clusters
         """
         m = self._X.shape[0]
-        return 1/m * sum(
+        self.distortion = 1/m * sum(
             linalg.norm(self._X[i, :] - self.centroids[self.clusters[i]])**2 for i in range(m)
         )
+        return self.distortion
 
     def _init_random_centroids(self):
         """Initialize the centroids as k random samples of X (k = n_clusters)
@@ -84,12 +85,12 @@ class KMeans(BaseClustering):
                 if np.all(prev_clusters == self.clusters):
                     break
 
-            self.distortion = self._calc_distortion()
-            candidates.append((self.centroids, self.distortion, self.clusters))
+            self._calc_distortion()
+            candidates.append((self.distortion, self.centroids, self.clusters))
         
-        candidates.sort(key=lambda x: x[1])
-        self.centroids = candidates[0][0]
-        self.distortion = candidates[0][1]
+        candidates.sort(key=lambda x: x[0])
+        self.distortion = candidates[0][0]
+        self.centroids = candidates[0][1]
         self.clusters = candidates[0][2]
 
         return self
