@@ -70,8 +70,8 @@ class Leaf:
 
     def __init__(self, data):
         self.data = data
-        self.probabilities = [
+        self.probabilities = np.array([
             list(data).count(x)/len(data) for x in set(data)
-        ]
+        ])
         self.most_frequent = max(set(data), key=list(data).count)
         self.mean = np.mean(data)

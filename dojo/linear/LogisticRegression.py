@@ -84,22 +84,17 @@ class LogisticRegression(BaseModel):
 
         self.intercept += self.lr * grad[0]
         self.coefs += self.lr * grad[1:]
-        self.coefs = list(self.coefs)
         return self
 
     def predict(self, X):
-        return list(
-            np.round(self.predict_proba(X))
-        )
+        return np.round(self.predict_proba(X))
 
     def predict_proba(self, X):
-        return list(
-            sigmoid(self.decision_function(X))
-        )
+        return sigmoid(self.decision_function(X))
 
     def decision_function(self, X):
         X = super().decision_function(X)
-        return [self.intercept + np.array(self.coefs).T @ x for x in X]
+        return (X @ self.coefs).reshape(1, -1) + np.array([self.intercept for _ in range(X.shape[0])])
 
     def evaluate(self, X, y):
         X, y = super().evaluate(X, y)

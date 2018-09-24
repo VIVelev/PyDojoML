@@ -1,7 +1,7 @@
 from ..base import BaseModel
 from ..exceptions import MethodNotSupportedError
 
-from .utils.functions import build_tree, tree_predict, print_tree
+from .utils.functions import np, build_tree, tree_predict, print_tree
 from ..metrics.classification import accuracy_score
 
 __all__ = [
@@ -35,11 +35,11 @@ class ClassificationTree(BaseModel):
 
     def predict(self, X):
         X = super().predict(X)
-        return [tree_predict(x, self.root) for x in X]
+        return np.array([tree_predict(x, self.root) for x in X])
 
     def predict_proba(self, X):
         X = super().predict_proba(X)
-        return [tree_predict(x, self.root, proba=True) for x in X]
+        return np.array([tree_predict(x, self.root, proba=True) for x in X])
 
     def decision_function(self, X):
         raise MethodNotSupportedError("Decision function is not supported for Classification Tree model.")

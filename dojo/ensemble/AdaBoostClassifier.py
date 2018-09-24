@@ -78,7 +78,7 @@ class AdaBoostClassifier(BaseModel):
                 max(set(current_predictions), key=current_predictions.count)
             )
 
-        return predictions
+        return np.array(predictions)
 
     def predict_proba(self, X):
         X = super().predict_proba(X)

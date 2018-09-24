@@ -1,7 +1,7 @@
 from ..base import BaseModel
 from ..exceptions import MethodNotSupportedError
 
-from .utils.functions import build_tree, tree_predict, print_tree
+from .utils.functions import np, build_tree, tree_predict, print_tree
 from ..metrics.regression import mean_squared_error
 
 __all__ = [
@@ -35,7 +35,7 @@ class RegressionTree(BaseModel):
 
     def predict(self, X):
         X = super().predict(X)
-        return [tree_predict(x, self.root, regression=True) for x in X]
+        return np.array([tree_predict(x, self.root, regression=True) for x in X])
 
     def predict_proba(self, X):
         raise MethodNotSupportedError("Probability predictions are not supported for Regression Tree model.")

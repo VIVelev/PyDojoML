@@ -53,7 +53,7 @@ class LinearRegression(BaseModel):
 
     def predict(self, X):
         X = super().predict(X)
-        return [self.intercept + np.array(self.coefs).T @ x for x in X]
+        return (X @ self.coefs).reshape(1, -1) + np.array([self.intercept for _ in range(X.shape[0])])
     
     def predict_proba(self, X):
         raise MethodNotSupportedError("Probability predictions are not supported for Linear Regression.")

@@ -47,12 +47,12 @@ class PrincipalComponentAnalysis(BasePreprocessor):
         self.components = np.column_stack((
             eig_pairs[i][1] for i in range(self.n_components)
         ))
-        self.explained_variance = [
+        self.explained_variance = np.array([
             eig_pairs[i][0] for i in range(self.n_components)
-        ]
-        self.explained_variance_ratio = [
+        ])
+        self.explained_variance_ratio = np.array([
             v / eigvals_sum for v in self.explained_variance
-        ]
+        ])
 
         return self
 

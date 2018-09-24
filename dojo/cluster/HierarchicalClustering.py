@@ -1,8 +1,10 @@
 from .utils import (
     np,
-    linkage, fcluster, dendrogram,
+    linkage,
+    fcluster,
+    dendrogram,
 
-    ParameterError
+    ParameterError,
 )
 
 __all__ = [
@@ -34,7 +36,7 @@ class HierarchicalClustering:
         self.max_distance = max_distance
         self.linkage = linkage
 
-    def cluster(self, X):
+    def fit_predict(self, X):
         self._distances = linkage(X, method=self.linkage)
 
         if self.mode == "n_clusters":

@@ -23,4 +23,4 @@ class LabelEncoder(BasePreprocessor):
         for i in range(len(X)):
             X[i] = self.mapper[X[i]]
 
-        return X
+        return np.array(X)
