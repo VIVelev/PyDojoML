@@ -69,4 +69,16 @@ class BaseClustering:
             vars(self)[k] = v
 
     def cluster(self, X):
+        """Clustering - assigns clusters to the samples
+        
+        Parameters:
+        -----------
+        X : array-like, shape (m, n), the samples
+        
+        Returns:
+        --------
+        clusters : array-like, shape (m, ), the assigned clusters
+        
+        """
+
         return np.array(X, dtype=np.float32)

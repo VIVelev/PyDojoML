@@ -1,5 +1,6 @@
 from .utils import (
-    np, linalg,
+    np,
+    linalg,
 
     BaseClustering,
 )
@@ -9,9 +10,18 @@ __all__ = [
 ]
 
 class KMeans(BaseClustering):
-    def __init__(self, n_clusters=2, n_init=10):
+    """K-Means Clustering algorithm
+    
+    Parameters:
+    -----------
+    n_clusters : integer, optional
+    n_runs : integer, how many times to run the algorithm, optional
+    
+    """
+
+    def __init__(self, n_clusters=2, n_runs=10):
         self.n_clusters = n_clusters
-        self.n_init = n_init
+        self.n_runs = n_runs
 
         self.centroids = []
         self.distortion = 0
@@ -19,20 +29,28 @@ class KMeans(BaseClustering):
         self._X = None
 
     def _calc_distortion(self):
+        """Calculates the distortion value of the current clusters
+        """
         m = self._X.shape[0]
         return 1/m * sum(
             linalg.norm(self._X[i, :] - self.centroids[self.clusters[i]])**2 for i in range(m)
         )
 
     def _init_random_centroids(self):
+        """Initialize the centroids as k random samples of X (k = n_clusters)
+        """
         self.centroids = self._X[np.random.choice(list(range(self._X.shape[0])), size=self.n_clusters), :]
 
     def _move_centroids(self):
-        self.centroids = np.array(
-            [np.mean(self._X[self.clusters == k, :], axis=0) for k in range(self.n_clusters)]
-        )
+        """Calculate new centroids as the means of the samples in each cluster
+        """
+        self.centroids = np.array([
+            np.mean(self._X[self.clusters == k, :], axis=0) for k in range(self.n_clusters)
+        ])
 
     def _closest_centroid(self, x):
+        """Returns the index of the closest centroid to the sample
+        """
         closest_centroid = 0
         distance = 10^9
 
@@ -45,13 +63,18 @@ class KMeans(BaseClustering):
         return closest_centroid
 
     def _assign_clusters(self):
+        """Assign the samples to the closest centroids to create clusters
+        """
         self.clusters = np.array([self._closest_centroid(x) for x in self._X])
 
     def fit(self, X):
+        """The K-Means itself
+        """
+
         self._X = super().cluster(X)
         candidates = []
 
-        for _ in range(self.n_init):
+        for _ in range(self.n_runs):
             self._init_random_centroids()
             while True:
                 prev_clusters = self.clusters
