@@ -1,10 +1,14 @@
-from .utils import np, linalg
+from .utils import (
+    np, linalg,
+
+    BaseClustering,
+)
 
 __all__ = [
     "KMeans",
 ]
 
-class KMeans:
+class KMeans(BaseClustering):
     def __init__(self, n_clusters=2, n_init=10):
         self.n_clusters = n_clusters
         self.n_init = n_init
@@ -44,7 +48,7 @@ class KMeans:
         self.clusters = np.array([self._closest_centroid(x) for x in self._X])
 
     def fit(self, X):
-        self._X = X
+        self._X = super().cluster(X)
         candidates = []
 
         for _ in range(self.n_init):
@@ -66,3 +70,7 @@ class KMeans:
         self.clusters = candidates[0][2]
 
         return self
+
+    def cluster(self, X):
+        X = super().cluster(X)
+        return np.array([self._closest_centroid(x) for x in X])

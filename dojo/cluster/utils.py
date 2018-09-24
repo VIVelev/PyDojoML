@@ -7,4 +7,5 @@ from scipy.cluster.hierarchy import (
     dendrogram,
 )
 
+from ..base import BaseClustering
 from ..exceptions import ParameterError

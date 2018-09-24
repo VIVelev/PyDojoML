@@ -1,11 +1,11 @@
 import numpy as np
 
 __all__ = [
-    "BasePreprocessor",
+    "BaseClustering",
 ]
 
-class BasePreprocessor:
-    """Every Dojo-Preprocessor inherits this class.
+class BaseClustering:
+    """Every Dojo-Clustering model inherits this class.
     """
 
     def __init__(self):
@@ -29,7 +29,7 @@ class BasePreprocessor:
         return self.__repr__()
 
     def get_params(self, *keys):
-        """Returns the specified parameters for the current preprocessor.
+        """Returns the specified parameters for the clustering.
 
         Parameters:
         -----------
@@ -56,7 +56,7 @@ class BasePreprocessor:
         params : variable sized dictionary, n key-word arguments
         Example:
         ```
-        scaler.set_params(std=0.30)
+        clustering.set_params(n_clusters=5)
         ```
         
         Returns:
@@ -68,47 +68,5 @@ class BasePreprocessor:
         for k, v in params.items():
             vars(self)[k] = v
 
-    def fit(self, X, y=None):
-        """Passing the data to transform to the data-preprocessor.
-        
-        Parameters:
-        -----------
-        X : array-like data
-        y : the labels, optional
-        
-        """
-
-        if y is None:
-            return np.array(X, dtype=np.float32)
-        else:
-            X, y = (np.array(X, dtype=np.float32), 
-                np.array(y, dtype=np.float32))
-            assert X.shape[0] == y.shape[0]
-            return X, y
-
-    def transform(self, X):
-        """Transforms the data given.
-        
-        Parameters:
-        -----------
-        X : array-like data        
-        
-        """
-
+    def cluster(self, X):
         return np.array(X, dtype=np.float32)
-
-    def fit_transform(self, X, y=None):
-        """Fit-Transform shortcut function.
-        
-        Parameters:
-        -----------
-        X : array-like data
-        y : the labels, optional
-        
-        """
-
-        if y is None:
-            self.fit(X)
-        else:
-            self.fit(X, y)
-        return self.transform(X)

@@ -4,6 +4,7 @@ from .utils import (
     fcluster,
     dendrogram,
 
+    BaseClustering,
     ParameterError,
 )
 
@@ -11,7 +12,7 @@ __all__ = [
     "HierarchicalClustering",
 ]
 
-class HierarchicalClustering:
+class HierarchicalClustering(BaseClustering):
     """Agglomerative Hierarchical Clustering
     
     Parameters:
@@ -36,7 +37,8 @@ class HierarchicalClustering:
         self.max_distance = max_distance
         self.linkage = linkage
 
-    def fit_predict(self, X):
+    def cluster(self, X):
+        X = super().cluster(X)
         self._distances = linkage(X, method=self.linkage)
 
         if self.mode == "n_clusters":
