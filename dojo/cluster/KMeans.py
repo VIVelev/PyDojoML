@@ -61,8 +61,8 @@ class KMeans:
             candidates.append((self.centroids, self.distortion, self.clusters))
         
         candidates.sort(key=lambda x: x[1])
-        self.centroids = candidates[0][0]
+        self.centroids = [list(c) for c in candidates[0][0]]
         self.distortion = candidates[0][1]
-        self.clusters = candidates[0][2]
+        self.clusters = list(candidates[0][2])
 
         return self
