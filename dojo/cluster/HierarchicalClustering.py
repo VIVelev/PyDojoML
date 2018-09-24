@@ -34,11 +34,9 @@ class HierarchicalClustering:
         self.max_distance = max_distance
         self.linkage = linkage
 
-    def fit(self, X):
+    def cluster(self, X):
         self._distances = linkage(X, method=self.linkage)
-        return self
 
-    def predict(self):
         if self.mode == "n_clusters":
             return fcluster(
                 self._distances,
@@ -55,10 +53,6 @@ class HierarchicalClustering:
 
         else:
             raise ParameterError(f"Unknown / unsupported clustering mode: \"{self.mode}\"")
-
-    def fit_predict(self, X):
-        self.fit(X)
-        return self.predict()
 
     def plot_dendrogram(self):
         dendrogram(self._distances)
