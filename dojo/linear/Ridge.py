@@ -50,6 +50,7 @@ class Ridge(BaseModel):
             print("-----------------------------------------")
             print("Fitting...")
         self.intercept, *self.coefs = linalg.inv(X.T @ X + self.alpha * 2*L) @ X.T @ y
+        self.coefs = np.array(self.coefs, dtype=np.float32)
         if self.verbose:
             print("The model has been fitted successfully!")
             print("-----------------------------------------")
@@ -58,7 +59,7 @@ class Ridge(BaseModel):
 
     def predict(self, X):
         X = super().predict(X)
-        return (X @ self.coefs).reshape(1, -1) + np.array([self.intercept for _ in range(X.shape[0])])
+        return X @ self.coefs + self.intercept
     
     def predict_proba(self, X):
         raise MethodNotSupportedError("Probability predictions are not supported for Ridge Regression.")

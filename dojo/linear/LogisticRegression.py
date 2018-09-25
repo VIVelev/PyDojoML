@@ -51,7 +51,7 @@ class LogisticRegression(BaseModel):
 
         grad = np.zeros(n+1, dtype=np.float32)
         grad[0] = 1/m * np.sum(y_pred - self._y)
-        grad[1:] = (self._X.T @ (y_pred - self._y)).T * 1/m + 1/self.C * 1/m * self.coefs
+        grad[1:] = 1/m * (self._X.T @ (y_pred - self._y)).T + 1/self.C * 1/m * self.coefs
         
         return grad
 
@@ -94,7 +94,7 @@ class LogisticRegression(BaseModel):
 
     def decision_function(self, X):
         X = super().decision_function(X)
-        return (X @ self.coefs).reshape(1, -1) + np.array([self.intercept for _ in range(X.shape[0])])
+        return X @ self.coefs + self.intercept
 
     def evaluate(self, X, y):
         X, y = super().evaluate(X, y)

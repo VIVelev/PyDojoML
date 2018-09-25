@@ -37,6 +37,8 @@ class HierarchicalClustering(BaseClustering):
         self.max_distance = max_distance
         self.linkage = linkage
 
+        self._distances = []
+
     def cluster(self, X):
         X = super().cluster(X)
         self._distances = linkage(X, method=self.linkage)
