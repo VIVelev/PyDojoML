@@ -11,6 +11,10 @@ __all__ = [
     "false_positives",
     "true_negatives",
     "false_negatives",
+    
+    "precision",
+    "recall",
+    "f1_score",
 ]
 
 def accuracy_score(y, y_pred):
@@ -60,3 +64,19 @@ def false_negatives(y, y_pred):
     assert_binary_problem(y)
 
     return np.count_nonzero(y_pred[y == 1] == 0)
+
+def precision(y, y_pred):
+    tp = true_positives(y, y_pred)
+    fp = false_positives(y, y_pred)
+    return  tp / (tp + fp)
+
+def recall(y, y_pred):
+    tp = true_positives(y, y_pred)
+    fn = false_negatives(y, y_pred)
+    return  tp / (tp + fn)
+
+def f1_score(y, y_pred):
+    p = precision(y, y_pred)
+    r = recall(y, y_pred)
+
+    return 2*p*r / (p+r)
