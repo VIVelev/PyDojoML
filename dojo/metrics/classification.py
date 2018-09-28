@@ -42,24 +42,87 @@ def accuracy_score(y, y_pred):
 accuracy = accuracy_score
 
 def true_positives(y, y_pred):
+    """True-positives
+    
+    Parameters:
+    -----------
+    y : vector, shape (n_samples,)
+    The target labels.
+
+    y_pred : vector, shape (n_samples,)
+    The predicted labels.
+    
+    Returns:
+    --------
+    tp : integer, the number of true-positives
+    
+    """
+
     y, y_pred = convert_assert(y, y_pred)
     assert_binary_problem(y)
 
     return np.count_nonzero(y_pred[y == 1] == 1)
 
 def false_positives(y, y_pred):
+    """False-positives
+    
+    Parameters:
+    -----------
+    y : vector, shape (n_samples,)
+    The target labels.
+
+    y_pred : vector, shape (n_samples,)
+    The predicted labels.
+    
+    Returns:
+    --------
+    fp : integer, the number of false-positives
+    
+    """
+
     y, y_pred = convert_assert(y, y_pred)
     assert_binary_problem(y)
 
     return np.count_nonzero(y_pred[y == 0] == 1)
 
 def true_negatives(y, y_pred):
+    """True-negatives
+    
+    Parameters:
+    -----------
+    y : vector, shape (n_samples,)
+    The target labels.
+
+    y_pred : vector, shape (n_samples,)
+    The predicted labels.
+    
+    Returns:
+    --------
+    tn : integer, the number of true-negatives
+    
+    """
+
     y, y_pred = convert_assert(y, y_pred)
     assert_binary_problem(y)
 
     return np.count_nonzero(y_pred[y == 0] == 0)
 
 def false_negatives(y, y_pred):
+    """False-negatives
+    
+    Parameters:
+    -----------
+    y : vector, shape (n_samples,)
+    The target labels.
+
+    y_pred : vector, shape (n_samples,)
+    The predicted labels.
+    
+    Returns:
+    --------
+    fn : integer, the number of false-negatives
+    
+    """
     y, y_pred = convert_assert(y, y_pred)
     assert_binary_problem(y)
 
