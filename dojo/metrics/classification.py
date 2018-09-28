@@ -123,22 +123,77 @@ def false_negatives(y, y_pred):
     fn : integer, the number of false-negatives
     
     """
+
     y, y_pred = convert_assert(y, y_pred)
     assert_binary_problem(y)
 
     return np.count_nonzero(y_pred[y == 1] == 0)
 
 def precision(y, y_pred):
+    """Precision score
+
+    precision = true_positives / (true_positives + false_positives)
+    
+    Parameters:
+    -----------
+    y : vector, shape (n_samples,)
+    The target labels.
+
+    y_pred : vector, shape (n_samples,)
+    The predicted labels.
+    
+    Returns:
+    --------
+    precision : float
+    
+    """
+
     tp = true_positives(y, y_pred)
     fp = false_positives(y, y_pred)
     return  tp / (tp + fp)
 
 def recall(y, y_pred):
+    """Recall score
+
+    recall = true_positives / (true_positives + false_negatives)
+    
+    Parameters:
+    -----------
+    y : vector, shape (n_samples,)
+    The target labels.
+
+    y_pred : vector, shape (n_samples,)
+    The predicted labels.
+    
+    Returns:
+    --------
+    recall : float
+    
+    """
+
     tp = true_positives(y, y_pred)
     fn = false_negatives(y, y_pred)
     return  tp / (tp + fn)
 
 def f1_score(y, y_pred):
+    """F1 score
+
+    f1_score = 2 * precision*recall / (precision + recall)
+    
+    Parameters:
+    -----------
+    y : vector, shape (n_samples,)
+    The target labels.
+
+    y_pred : vector, shape (n_samples,)
+    The predicted labels.
+    
+    Returns:
+    --------
+    f1_score : float
+    
+    """
+
     p = precision(y, y_pred)
     r = recall(y, y_pred)
 
