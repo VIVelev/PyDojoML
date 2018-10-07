@@ -1,9 +1,0 @@
-# Runtime enviroment requirements
-numpy
-scipy
-
-# Development requirements
-pylint
-jupyter
-scikit-learn
-matplotlib
