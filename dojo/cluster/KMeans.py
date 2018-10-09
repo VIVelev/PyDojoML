@@ -45,9 +45,16 @@ class KMeans(BaseClustering):
     def _move_centroids(self):
         """Calculate new centroids as the means of the samples in each cluster
         """
-        self.centroids = np.array([
-            np.mean(self._X[self.clusters == k, :], axis=0) for k in range(self.n_clusters)
-        ])
+        for k in range(self.n_clusters):
+            if k in self.clusters:
+                centroid = np.mean(self._X[self.clusters == k, :], axis=0)
+                self.centroids[k] = centroid
+
+            else:
+                self.n_clusters-=1
+                self.centroids = self.centroids[:self.n_clusters]
+                self.clusters-=1
+                k-=1
 
     def _closest_centroid(self, x):
         """Returns the index of the closest centroid to the sample
