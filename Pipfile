@@ -12,6 +12,7 @@ matplotlib = "*"
 pylint = "*"
 scikit-learn = "*"
 jupyter = "*"
+pydojoml = "*"
 
 [requires]
 python_version = "3.7"
