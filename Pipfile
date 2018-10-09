@@ -10,9 +10,10 @@ matplotlib = "*"
 
 [dev-packages]
 pylint = "*"
+pydojoml = "*"
 scikit-learn = "*"
 jupyter = "*"
-pydojoml = "*"
+twine = "*"
 
 [requires]
 python_version = "3.7"
