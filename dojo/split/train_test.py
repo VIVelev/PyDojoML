@@ -1,4 +1,4 @@
-import numpy as np
+from .utils import np, convert_assert
 
 __all__ = [
     "train_test_split",
@@ -30,8 +30,7 @@ def train_test_split(X, y, test_size=0.3, shuffle=True):
     
     """
 
-    X, y = np.array(X), np.array(y)
-    assert X.shape[0] == y.shape[0]
+    X, y = convert_assert(X, y)
 
     if shuffle:
         data = np.column_stack((
