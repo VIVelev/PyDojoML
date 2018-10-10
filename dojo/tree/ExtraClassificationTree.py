@@ -45,7 +45,6 @@ class ExtraClassificationTree(BaseModel):
         raise MethodNotSupportedError("Decision function is not supported for Extra Classification Tree model.")
 
     def evaluate(self, X, y):
-        X, y = super().evaluate(X, y)
         print(
             f"Accuracy score: {accuracy_score(y, self.predict(X))}"
         )

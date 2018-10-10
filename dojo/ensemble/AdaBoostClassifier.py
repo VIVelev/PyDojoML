@@ -81,15 +81,12 @@ class AdaBoostClassifier(BaseModel):
         return np.array(predictions)
 
     def predict_proba(self, X):
-        X = super().predict_proba(X)
         return self._classifiers[-1].predict_proba(X)
 
     def decision_function(self, X):
-        X = super().decision_function(X)
         return self._classifiers[-1].decision_function(X)
 
     def evaluate(self, X, y):
-        X, y = super().evaluate(X, y)
         print(
             f"Accuracy score: {accuracy_score(y, self.predict(X))}"
         )

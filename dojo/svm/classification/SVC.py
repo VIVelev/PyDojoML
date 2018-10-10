@@ -71,7 +71,6 @@ class SVC(BaseModel):
         return decision_values
 
     def evaluate(self, X, y):
-        X, y = super().evaluate(X, y)
         print(
             f"Accuracy score: {accuracy_score(y, self.predict(X))}"
         )

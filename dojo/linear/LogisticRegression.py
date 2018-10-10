@@ -97,7 +97,6 @@ class LogisticRegression(BaseModel):
         return X @ self.coefs + self.intercept
 
     def evaluate(self, X, y):
-        X, y = super().evaluate(X, y)
         print(
             f"Accuracy score: {accuracy_score(y, self.predict(X))}"
         )

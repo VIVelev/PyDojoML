@@ -63,7 +63,6 @@ class LinearRegression(BaseModel):
         raise MethodNotSupportedError("Use `predict` method instead.")
 
     def evaluate(self, X, y):
-        X, y = super().evaluate(X, y)
         print(
             f"Mean Squared Error: {mean_squared_error(y, self.predict(X))}"
         )
