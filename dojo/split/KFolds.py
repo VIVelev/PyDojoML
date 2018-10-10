@@ -5,6 +5,8 @@ __all__ = [
 ]
 
 class KFolds:
+    # TODO: Add docs.
+
     def __init__(self, X, y, k=5):
         self.X, self.y = convert_assert(X, y)
 
