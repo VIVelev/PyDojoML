@@ -15,7 +15,7 @@ class KFolds:
             k-=1
         self.k = k
         
-        self.i = 0
+        self._i = 0
         self._X_folds = np.split(X, k, axis=0)
         self._y_folds = np.split(y, k)
 
@@ -23,15 +23,15 @@ class KFolds:
         return self
 
     def __next__(self):
-        if self.i >= self.k:
+        if self._i >= self.k:
             raise StopIteration
 
         X_train = X_test = y_train = y_test = np.array([])
 
         for j in range(self.k):
-            if j == self.i:
-                X_test = self._X_folds[self.i]
-                y_test = self._y_folds[self.i]
+            if j == self._i:
+                X_test = self._X_folds[self._i]
+                y_test = self._y_folds[self._i]
             else:
                 X_train = np.vstack((
                     X_train, self._X_folds[j]
