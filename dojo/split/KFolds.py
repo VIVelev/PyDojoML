@@ -6,6 +6,8 @@ __all__ = [
 
 class KFolds:
     def __init__(self, X, y, k=5):
+        assert len(X) == len(y)
+
         self.X = X
         self.y = y
 
