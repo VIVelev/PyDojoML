@@ -1,6 +1,7 @@
 import os
 
 from . import (
+    anomaly,
     base,
     cluster,
     dimred,
@@ -16,6 +17,7 @@ from . import (
 )
 
 __all__ = [
+    "anomaly",
     "base",
     "cluster",
     "dimred",
