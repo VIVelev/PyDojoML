@@ -1,4 +1,6 @@
 import numpy as np
+from scipy import linalg
+
 from numpy import pi
 
 from ..base import BaseModel
@@ -21,13 +23,18 @@ class GaussianDist(BaseModel):
     
     """
 
-    def __init__(self):
+    def __init__(self, multi=False):
+        self.multi = multi
+
         self.mean = None
         self.std = None
+        self.sigma = None
 
     def fit(self, X, y=None):
         self.mean = np.mean(X, axis=0)
         self.std = np.std(X, axis=0)
+        if self.multi:
+            self.sigma = np.cov(X)
 
         return self
 
@@ -49,8 +56,14 @@ class GaussianDist(BaseModel):
 
     def p(self, x):
         assert type(x) is list or type(x) is np.ndarray
+        x = np.array(x)
 
-        return np.prod([
-            1/(np.sqrt(2*pi) * self.std[j]) * \
-            np.exp(-(x[j] - self.mean[j])**2 / (2*self.std[j]**2)) for j in range(x.size)
-        ])
+        if not self.multi:
+            return np.prod([
+                1/(np.sqrt(2*pi) * self.std[j]) * \
+                np.exp(-(x[j] - self.mean[j])**2 / (2*self.std[j]**2)) for j in range(x.size)
+            ])
+
+        else:
+            return 1/(np.power(2*pi, x.size/2)*np.power(linalg.det(self.sigma), 1/2)) * \
+            np.exp(-1/2*(x - self.mean).T * linalg.inv(self.sigma)*(x-self.mean))
