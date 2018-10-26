@@ -9,6 +9,17 @@ __all__ = [
 ]
 
 class GaussianDist(BaseModel):
+    """Gaussian Distribution Anomaly Detection Algorithm
+    
+    Builds a Gaussion Distribution from the given data and it's
+    features. Based on the feature's distributions the algorithm
+    separates the anomalies from the normal examples.
+    
+    Parameters:
+    -----------
+    None
+    
+    """
 
     def __init__(self):
         self.mean = None
