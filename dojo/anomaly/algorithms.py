@@ -19,7 +19,8 @@ class GaussianDist(BaseModel):
     
     Parameters:
     -----------
-    None
+    multi : boolean, whether to model Multivariate Gaussian Distribution
+    or a univariate one
     
     """
 
