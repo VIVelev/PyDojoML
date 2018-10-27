@@ -20,7 +20,7 @@ class GaussianDist(BaseModel):
     Parameters:
     -----------
     multi : boolean, whether to model Multivariate Gaussian Distribution
-    or a univariate one
+    or a Univariate one
     
     """
 
@@ -35,7 +35,7 @@ class GaussianDist(BaseModel):
         self.mean = np.mean(X, axis=0)
         self.std = np.std(X, axis=0)
         if self.multi:
-            self.sigma = np.cov(X)
+            self.sigma = np.cov(np.transpose(X))
 
         return self
 
@@ -67,4 +67,4 @@ class GaussianDist(BaseModel):
 
         else:
             return 1/(np.power(2*pi, x.size/2)*np.power(linalg.det(self.sigma), 1/2)) * \
-            np.exp(-1/2*(x - self.mean).T * linalg.inv(self.sigma)*(x-self.mean))
+            np.exp(-1/2 * (x - self.mean).T @ linalg.inv(self.sigma) @ (x-self.mean))
