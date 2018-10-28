@@ -7,6 +7,8 @@ __all__ = [
 
 
 class CBUser:
+    # TODO: Add __doc__
+    
     _id_counter = 0
 
     def __init__(self, ratings):

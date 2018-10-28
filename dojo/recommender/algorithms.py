@@ -7,15 +7,18 @@ __all__ = [
 
 
 class ContentBased:
+    # TODO: Add __doc__
+
     def __init__(self):
         self.users = []
 
     def fit(self, ratings):
         ratings = np.array(ratings)
-
         self.users = [
             CBUser(ratings[:, i]) for i in range(ratings.shape[1]) 
         ]
+        
+        return self
 
     def recommend(self, user_id=None):
         if user_id is None:

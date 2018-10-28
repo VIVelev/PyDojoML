@@ -48,7 +48,7 @@ class NaiveBayes(BaseModel):
         return likelihood * prior1/prior2
 
     def decision_function(self, X):
-        raise MethodNotSupportedError("...")
+        raise MethodNotSupportedError("Decision function is not supported for Naive Bayes Classifier.")
 
     def evaluate(self, X, y):
         print(
