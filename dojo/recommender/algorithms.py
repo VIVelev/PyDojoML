@@ -1,4 +1,5 @@
-from .utils import User, np
+import numpy as np
+from .users import User
 
 __all__ = [
     "ContentBased",
