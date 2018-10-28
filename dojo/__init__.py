@@ -3,6 +3,7 @@ import os
 from . import (
     anomaly,
     base,
+    bayes,
     cluster,
     dimred,
     ensemble,
@@ -20,6 +21,7 @@ from . import (
 __all__ = [
     "anomaly",
     "base",
+    "bayes",
     "cluster",
     "dimred",
     "ensemble",
