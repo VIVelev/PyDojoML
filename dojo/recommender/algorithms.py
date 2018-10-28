@@ -1,5 +1,5 @@
 import numpy as np
-from .users import User
+from .users import CBUser
 
 __all__ = [
     "ContentBased",
@@ -13,7 +13,7 @@ class ContentBased:
         ratings = np.array(ratings)
 
         self.users = [
-            User(ratings[:, i]) for i in range(ratings.shape[1]) 
+            CBUser(ratings[:, i]) for i in range(ratings.shape[1]) 
         ]
 
     def recommend(self, user_id=None):

@@ -2,15 +2,15 @@ import numpy as np
 from ..linear import LinearRegression
 
 __all__ = [
-    "User",
+    "CBUser",
 ]
 
-class User:
+class CBUser:
     _id_counter = 0
 
     def __init__(self, ratings):
-        self._id = User._id_counter
-        User._id_counter += 1
+        self._id = CBUser._id_counter
+        CBUser._id_counter += 1
         
         self.none_idxs = []
         self.non_rated = []

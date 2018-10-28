@@ -1,7 +1,7 @@
 from .algorithms import ContentBased
-from .users import User
+from .users import CBUser
 
 __all__ = [
     "ContentBased",
-    "User",
+    "CBUser",
 ]
