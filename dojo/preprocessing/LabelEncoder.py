@@ -5,6 +5,7 @@ __all__ = [
     "LabelEncoder",
 ]
 
+
 class LabelEncoder(BasePreprocessor):
     """Label Encoder - encodes textual data to 0,1,...
     """

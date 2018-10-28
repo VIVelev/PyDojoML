@@ -9,6 +9,7 @@ __all__ = [
     "PrincipalComponentAnalysis",
 ]
 
+
 class PrincipalComponentAnalysis(BasePreprocessor):
     """Principal Component Analysis (PCA)
 

@@ -8,6 +8,7 @@ __all__ = [
     "RegressionTree",
 ]
 
+
 class RegressionTree(BaseModel):
     """Regression Decision Tree model
     

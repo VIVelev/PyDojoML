@@ -4,6 +4,7 @@ __all__ = [
     "BaseModel",
 ]
 
+
 class BaseModel:
     """Every Dojo-Model inherits this class.
     """

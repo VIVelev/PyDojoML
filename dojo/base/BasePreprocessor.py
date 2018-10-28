@@ -4,6 +4,7 @@ __all__ = [
     "BasePreprocessor",
 ]
 
+
 class BasePreprocessor:
     """Every Dojo-Preprocessor inherits this class.
     """

@@ -15,6 +15,7 @@ __all__ = [
     "NuSVC",
 ]
 
+
 class NuSVC(BaseModel):
     """Nu-Support Vector Machine Classifier
     

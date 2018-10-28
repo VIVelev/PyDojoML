@@ -22,6 +22,7 @@ __all__ = [
     "print_tree",
 ]
 
+
 def split(X, Y, question):
     """Partitions a dataset.
 

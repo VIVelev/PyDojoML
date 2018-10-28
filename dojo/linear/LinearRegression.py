@@ -12,6 +12,7 @@ __all__ = [
     "LinearRegression",
 ]
 
+
 class LinearRegression(BaseModel):
     """Linear Regression model.
     

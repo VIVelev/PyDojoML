@@ -6,6 +6,7 @@ __all__ = [
     "InvalidProblemError",
 ]
 
+
 class MethodNotSupportedError(BaseError):
     pass
 

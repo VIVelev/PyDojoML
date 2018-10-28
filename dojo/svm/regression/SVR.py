@@ -15,6 +15,7 @@ __all__ = [
     "SVR",
 ]
 
+
 class SVR(BaseModel):
     """Epsilon-Support Vector Machine Regressor
     

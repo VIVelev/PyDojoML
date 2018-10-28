@@ -5,6 +5,7 @@ __all__ = [
     "ContentBased",
 ]
 
+
 class ContentBased:
     def __init__(self):
         self.users = []

@@ -4,6 +4,7 @@ __all__ = [
     "sigmoid",
 ]
 
+
 def sigmoid(x):
     """The Sigmoid (Logistic) function.
 

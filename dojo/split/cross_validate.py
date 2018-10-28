@@ -5,6 +5,7 @@ __all__ = [
     "cross_validate",
 ]
 
+
 def cross_validate(model, X, y, cv=5, metric=mean_squared_error):
     # TODO: Add feature that handles the metric function
     # automatically when metric="auto".

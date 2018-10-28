@@ -8,6 +8,7 @@ __all__ = [
     "ExtraRegressionTree",
 ]
 
+
 class ExtraRegressionTree(BaseModel):
     """Extremely Randomized Regression Decision Tree model
     

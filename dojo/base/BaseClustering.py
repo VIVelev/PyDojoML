@@ -4,6 +4,7 @@ __all__ = [
     "BaseClustering",
 ]
 
+
 class BaseClustering:
     """Every Dojo-Clustering model inherits this class.
     """

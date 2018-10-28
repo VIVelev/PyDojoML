@@ -8,6 +8,7 @@ __all__ = [
     "ExtraClassificationTree",
 ]
 
+
 class ExtraClassificationTree(BaseModel):
     """Extremely Randomized Classification Decision Tree model
     

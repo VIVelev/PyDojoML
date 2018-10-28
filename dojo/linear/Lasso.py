@@ -12,6 +12,7 @@ __all__ = [
     "Lasso",
 ]
 
+
 class Lasso(BaseModel):
     """L1 regularized Linear Regression model.
     

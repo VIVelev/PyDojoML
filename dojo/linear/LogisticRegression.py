@@ -9,6 +9,7 @@ __all__ = [
     "LogisticRegression",
 ]
 
+
 class LogisticRegression(BaseModel):
     """Logistic Regression classification model.
     

@@ -10,6 +10,7 @@ __all__ = [
     "GaussianDist",
 ]
 
+
 class GaussianDist(BaseModel):
     """Gaussian Distribution Anomaly Detection Algorithm
     
@@ -40,7 +41,7 @@ class GaussianDist(BaseModel):
         return self
 
     def predict(self, X):
-        X = np.array(X)
+        X = super().predict(X)
         assert len(X.shape) == 2
 
         return np.array([self.p(x) for x in X])

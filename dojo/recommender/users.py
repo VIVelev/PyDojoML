@@ -5,6 +5,7 @@ __all__ = [
     "CBUser",
 ]
 
+
 class CBUser:
     _id_counter = 0
 

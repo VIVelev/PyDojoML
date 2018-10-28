@@ -2,6 +2,7 @@ __all__ = [
     "BaseError",
 ]
 
+
 class BaseError(Exception):
     """Every Dojo-Exception inherits this class.
     """

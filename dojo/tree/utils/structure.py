@@ -6,6 +6,7 @@ __all__ = [
     "Leaf",
 ]
 
+
 class Question:
     """A Question is used to partition a dataset.
 

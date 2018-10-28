@@ -7,6 +7,7 @@ __all__ = [
     "mean_absolute_error",
 ]
 
+
 def squared_error(y, y_pred):
     """Calculates the sum of the squared
     differences between target and prediction.

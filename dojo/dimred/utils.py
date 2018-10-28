@@ -10,6 +10,7 @@ __all__ = [
     "get_covariance_matrix",
 ]
 
+
 def get_mean_vectors(X, y):
     """Calculates the mean samples per class
     

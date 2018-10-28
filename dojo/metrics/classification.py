@@ -17,6 +17,7 @@ __all__ = [
     "f1_score",
 ]
 
+
 def accuracy_score(y, y_pred):
     """Calculates the fraction of the correctly
     classified samples over all.

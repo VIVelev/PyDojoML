@@ -12,6 +12,7 @@ __all__ = [
     "Ridge",
 ]
 
+
 class Ridge(BaseModel):
     """L2 regularized Linear Regression model.
     

@@ -8,6 +8,7 @@ __all__ = [
     "ClassificationTree",
 ]
 
+
 class ClassificationTree(BaseModel):
     """Classification Decision Tree model
     

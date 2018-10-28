@@ -15,6 +15,7 @@ __all__ = [
     "SVC",
 ]
 
+
 class SVC(BaseModel):
     """C-Support Vector Machine Classifier
     

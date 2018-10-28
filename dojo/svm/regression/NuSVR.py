@@ -15,6 +15,7 @@ __all__ = [
     "NuSVR",
 ]
 
+
 class NuSVR(BaseModel):
     """Nu-Support Vector Machine Regressor
     

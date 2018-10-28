@@ -8,6 +8,7 @@ __all__ = [
     "AdaBoostClassifier",
 ]
 
+
 class AdaBoostClassifier(BaseModel):
     """Adaptive Boost Classifier - ensemble method
     

@@ -9,6 +9,7 @@ __all__ = [
     "KMeans",
 ]
 
+
 class KMeans(BaseClustering):
     """K-Means Clustering algorithm
     

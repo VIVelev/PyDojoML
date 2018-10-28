@@ -4,6 +4,7 @@ from ..base import BaseModel
 from ..exceptions import MethodNotSupportedError
 from ..metrics.classification import accuracy_score
 
+
 class NaiveBayes(BaseModel):
     """Naive Bayes Classifier
     

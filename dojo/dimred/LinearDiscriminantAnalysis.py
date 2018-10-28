@@ -10,6 +10,7 @@ __all__ = [
     "LinearDiscriminantAnalysis",
 ]
 
+
 class LinearDiscriminantAnalysis(BasePreprocessor):
     """Linear Discriminant Analysis (LDA)
 

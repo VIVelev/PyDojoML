@@ -7,6 +7,7 @@ __all__ = [
     "info_gain",
 ]
 
+
 def prop(x, s):
     """Returns the proportion of `x` in `s`.
     """
