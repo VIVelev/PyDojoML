@@ -1,25 +1,24 @@
-import numpy as np
-from ..linear import LinearRegression
+from .utils import User, np
 
-class User:
-    def __init__(self, id, data):
-        self.id = id
-        self.data = np.array(data)
-
-        self.model = None
-
-    def fit(self):
-        self.model = LinearRegression().fit(self.data[:, :-1], self.data[:, -1])
-
-    def predict(self, x):
-        return self.model.predict([x])[0]
+__all__ = [
+    "ContentBased",
+]
 
 class ContentBased:
     def __init__(self):
         self.users = []
 
-    def fit(self, X):
-        pass
+    def fit(self, ratings):
+        ratings = np.array(ratings)
+
+        self.users = [
+            User(ratings[:, i]) for i in range(ratings.shape[1]) 
+        ]
 
     def recommend(self, user_id=None):
-        pass
+        if user_id is None:
+            return [
+                user.recommend() for user in self.users
+            ]
+        else:
+            return self.users[user_id].recommend()
