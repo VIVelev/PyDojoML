@@ -27,9 +27,8 @@ class NaiveBayes(BaseModel):
         return self
 
     def predict(self, X):
-        probabilities = self.predict_proba(X)
         return np.array([
-            np.unique(self._y)[np.argmax(probabilities[i])] for i in range(len(probabilities))
+            np.unique(self._y)[np.argmax(prob)] for prob in self.predict_proba(X)
         ])
 
     def predict_proba(self, X):
