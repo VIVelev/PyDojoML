@@ -1,7 +1,8 @@
-from .algorithms import ContentBased
+from .algorithms import ContentBased, CollaborativeFiltering
 from .users import CBUser
 
 __all__ = [
     "ContentBased",
+    "CollaborativeFiltering",
     "CBUser",
 ]

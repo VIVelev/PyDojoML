@@ -3,6 +3,7 @@ from .users import CBUser
 
 __all__ = [
     "ContentBased",
+    "CollaborativeFiltering",
 ]
 
 
@@ -27,3 +28,15 @@ class ContentBased:
             ]
         else:
             return self.users[user_id].recommend()
+
+class CollaborativeFiltering:
+    # TODO: Add __doc__
+
+    def __init__(self):
+        pass
+
+    def fit(self):
+        pass
+
+    def recommend(self):
+        pass
