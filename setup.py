@@ -25,5 +25,7 @@ setup(
         "numpy",
         "scipy",
     ],
-    ext_modules=[Exception("libsvm", ["./dojo/svm/libsvm/libsvm.so.2"])]
+    ext_modules=[
+        Extension("libsvm", ["./dojo/svm/libsvm/libsvm.so.2"]),
+    ],
 )
