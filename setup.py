@@ -25,4 +25,7 @@ setuptools.setup(
         "numpy",
         "scipy",
     ],
+    scripts=[
+        "./scripts/libsvm_install.sh",
+    ],
 )
