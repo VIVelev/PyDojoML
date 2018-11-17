@@ -36,6 +36,4 @@ __all__ = [
     "exceptions",
 ]
 
-DIR = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(DIR, "../VERSION"), 'r') as f:
-    __version__ = f.read()
+__version__ = "0.2.0"
