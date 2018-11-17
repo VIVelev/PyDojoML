@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages, Extension
+from setuptools import setup, find_packages
 
 with open("VERSION", "r") as fv:
     VERSION = fv.read()
@@ -24,8 +24,5 @@ setup(
     install_requires=[
         "numpy",
         "scipy",
-    ],
-    ext_modules=[
-        Extension("libsvm", ["./dojo/svm/libsvm/libsvm.so.2"]),
     ],
 )
