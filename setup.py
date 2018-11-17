@@ -1,4 +1,4 @@
-import setuptools
+from setuptools import setup, find_packages, Extension
 
 with open("VERSION", "r") as fv:
     VERSION = fv.read()
@@ -6,7 +6,7 @@ with open("VERSION", "r") as fv:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setuptools.setup(
+setup(
     name="PyDojoML",
     version=VERSION,
     author="Victor Velev",
@@ -15,7 +15,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/VIVelev/PyDojo",
-    packages=setuptools.find_packages(),
+    packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -25,7 +25,5 @@ setuptools.setup(
         "numpy",
         "scipy",
     ],
-    scripts=[
-        "./scripts/libsvm_install.sh",
-    ],
+    ext_modules=[Exception("libsvm", ["./dojo/svm/libsvm/libsvm.so.2"])]
 )

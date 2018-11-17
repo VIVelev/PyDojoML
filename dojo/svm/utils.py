@@ -1,7 +1,7 @@
 from ..base import BaseModel
 from ..exceptions import MethodNotSupportedError
 
-from .libsvm.python.svmutil import (
+from .libsvm.svmutil import (
     svm_problem,
     svm_parameter,
     svm_train,
