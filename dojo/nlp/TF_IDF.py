@@ -24,11 +24,8 @@ class TF_IDF(BasePreprocessor):
         - frequency ("freq")
         - smooth frequency ("smooth")
     
-    Returns:
-    --------
-    
-    
     """
+
     def __init__(self, tf_weighting_scheme="freq", idf_weighting_scheme="freq", k=0.5):
         self.tf_weighting_scheme = tf_weighting_scheme.lower()
         self.idf_weighting_scheme = idf_weighting_scheme.lower()
