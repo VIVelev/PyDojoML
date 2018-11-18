@@ -14,15 +14,16 @@ class TF_IDF(BasePreprocessor):
     -----------
     tf_weighting_scheme : string, optional
     Supported weighting schemes:
-        - raw count ("raw")
-        - frequency ("freq")
-        - log normalization ("log")
-        - k normalization, k = 0.5 by default ("k-norm")
+        - raw count; ("raw")
+        - frequency - raw count / total number of terms; ("freq")
+        - log normalization - log(1 + raw count); ("log")
+        - k normalization - k + (1-k)*(raw count / max term count),
+        k = 0.5 by default; ("k-norm")
 
     idf_weighting_scheme : string, optional
     Supported weighting schemes:
-        - frequency ("freq")
-        - smooth frequency ("smooth")
+        - frequency - log(N / (nt+1)); ("freq")
+        - smooth frequency - log(1 + N / (nt+1)); ("smooth")
     
     """
 
