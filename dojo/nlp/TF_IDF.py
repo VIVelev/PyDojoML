@@ -31,6 +31,9 @@ class TF_IDF(BasePreprocessor):
         self.idf_weighting_scheme = idf_weighting_scheme.lower()
         self.k = k
 
+        self.unique_terms = []
+        self.idfs = {}
+
     def _term_frequency(self, t, d):
         arr = np.array(d.split(' '))
         raw_count = np.count_nonzero(
@@ -56,7 +59,12 @@ class TF_IDF(BasePreprocessor):
             return np.log(1 + N / (nt+1))
 
     def fit(self, X):
-        pass
+        X = super().fit(X)
+        self.unique_terms = np.unique([term for term in doc for doc in X])
+        self.idfs = {term: self._inverse_doc_frequency(term, X) for term in self.unique_terms}
 
     def transform(self, X):
-        pass
+        X = super().transform(X)
+        return np.array([
+            [self._term_frequency(term, doc) * self.idfs[term] for term, doc in zip(self.unique_terms, X)]
+        ])
