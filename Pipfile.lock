@@ -448,11 +448,11 @@
         },
         "pydojoml": {
             "hashes": [
-                "sha256:09ac006ec1b421616148a49692103d931ca4fa3d225fcfdd6e9f83f7f3e0da51",
-                "sha256:2a4e25858746010f8a2818322a8767dcf8227b396d44f1cd76fc908b39629bb9"
+                "sha256:483fb3739dae17ec3741542a9613808e1b639d74e0f974cdd6a6e87797a1868e",
+                "sha256:cf0247f1137efec1b30c0f6be6822ce00b51c58c01a6d234735ffd8ba08c5d8e"
             ],
             "index": "pypi",
-            "version": "==0.1.8"
+            "version": "==0.2.0"
         },
         "pygments": {
             "hashes": [
