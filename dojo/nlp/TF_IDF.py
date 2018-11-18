@@ -22,8 +22,8 @@ class TF_IDF(BasePreprocessor):
 
     idf_weighting_scheme : string, optional
     Supported weighting schemes:
-        - frequency - log(N / (nt+1)); ("freq")
-        - smooth frequency - log(1 + N / (nt+1)); ("smooth")
+        - frequency - log(N / (nt+1e-18)); ("freq")
+        - smooth frequency - log(1 + N / (nt+1e-18)); ("smooth")
     
     """
 
@@ -55,17 +55,17 @@ class TF_IDF(BasePreprocessor):
         nt = len([1 for doc in D if t in doc])
 
         if self.idf_weighting_scheme == "freq":
-            return np.log(N / (nt+1))
+            return np.log(N / (nt+1e-18))
         else: # smooth
-            return np.log(1 + N / (nt+1))
+            return np.log(1 + N / (nt+1e-18))
 
     def fit(self, X):
-        X = super().fit(X)
-        self.unique_terms = np.unique([term for term in doc for doc in X])
+        self.unique_terms = np.unique([term for doc in X for term in doc.split(' ')])
         self.idfs = {term: self._inverse_doc_frequency(term, X) for term in self.unique_terms}
 
+        return self
+
     def transform(self, X):
-        X = super().transform(X)
         return np.array([
-            [self._term_frequency(term, doc) * self.idfs[term] for term, doc in zip(self.unique_terms, X)]
+            [self._term_frequency(term, doc) * self.idfs[term] for term in self.unique_terms] for doc in X
         ])
