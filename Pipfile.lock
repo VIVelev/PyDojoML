@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "53cf7a05deb0aeaf0e73a495bc16f38175476410c4b7b6966f4616b0a51e72b3"
+            "sha256": "3029ded9b1981136b2c9c865fe4924f551ec949428204bcbf319ec1b1b736c34"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -448,11 +448,11 @@
         },
         "pydojoml": {
             "hashes": [
-                "sha256:5e483213fcd35872dea20fbb2d76f3396d515f6f4ea81ce18ec6b15d65a58e66",
-                "sha256:7920b8bde5f64c81f86b0f78f63194e2c9f72fcacdbf05ef360b09166ab67b62"
+                "sha256:5d21a6e458779e28c6349d8ba618b06b23accf3d97328f2a6121039e1c75215a",
+                "sha256:bf81d3c2b3f81b558554667d3f47db8d46c185e5f98e30b543013be0b4a4cde9"
             ],
             "index": "pypi",
-            "version": "==0.3.2"
+            "version": "==0.3.3"
         },
         "pygments": {
             "hashes": [
