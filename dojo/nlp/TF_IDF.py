@@ -25,6 +25,9 @@ class TF_IDF(BasePreprocessor):
         - frequency - log(N / (nt+1e-18)); ("freq")
         - smooth frequency - log(1 + N / (nt+1e-18)); ("smooth")
     
+    k : float, optional
+    Only taken into an account when tf_weighting_scheme="k-norm".
+
     """
 
     def __init__(self, tf_weighting_scheme="freq", idf_weighting_scheme="freq", k=0.5):
@@ -32,8 +35,8 @@ class TF_IDF(BasePreprocessor):
         self.idf_weighting_scheme = idf_weighting_scheme.lower()
         self.k = k
 
-        self.unique_terms = []
-        self.idfs = {}
+        self._unique_terms = []
+        self._idfs = {}
 
     def _term_frequency(self, t, d):
         arr = np.array(d.split(' '))
@@ -60,12 +63,12 @@ class TF_IDF(BasePreprocessor):
             return np.log(1 + N / (nt+1e-18))
 
     def fit(self, X):
-        self.unique_terms = np.unique([term for doc in X for term in doc.split(' ')])
-        self.idfs = {term: self._inverse_doc_frequency(term, X) for term in self.unique_terms}
+        self._unique_terms = np.unique([term for doc in X for term in doc.split(' ')])
+        self._idfs = {term: self._inverse_doc_frequency(term, X) for term in self._unique_terms}
 
         return self
 
     def transform(self, X):
         return np.array([
-            [self._term_frequency(term, doc) * self.idfs[term] for term in self.unique_terms] for doc in X
+            [self._term_frequency(term, doc) * self._idfs[term] for term in self._unique_terms] for doc in X
         ])
