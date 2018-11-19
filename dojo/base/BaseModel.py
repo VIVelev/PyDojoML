@@ -170,7 +170,7 @@ class BaseModel:
         return self.predict(X_)
 
     def evaluate(self, X, y):
-        """Error/Accuracy examination of the model.
+        """Error/Accuracy evaluation of the model.
         
         Parameters:
         -----------
@@ -182,7 +182,7 @@ class BaseModel:
         
         Returns:
         --------
-        void : nothing, prints a summary of the examination
+        nothing : void, prints a summary of the evaluation
         
         """
 

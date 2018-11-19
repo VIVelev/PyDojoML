@@ -9,7 +9,7 @@ scipy = "*"
 
 [dev-packages]
 pylint = "*"
-pydojoml = "==0.3.3"
+pydojoml = "==0.3.4"
 scikit-learn = "*"
 jupyter = "*"
 twine = "*"
