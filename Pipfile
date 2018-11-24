@@ -8,9 +8,10 @@ numpy = "*"
 scipy = "*"
 
 [dev-packages]
-pylint = "*"
 pydojoml = "==0.3.4"
 scikit-learn = "*"
+matplotlib = "*"
+pylint = "*"
 jupyter = "*"
 twine = "*"
 
