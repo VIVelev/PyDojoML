@@ -6,7 +6,18 @@ __all__ = [
 
 
 class KFolds:
-    # TODO: Add docs.
+    """K-Folds
+    
+    Represents the k folds (chunks) used for the
+    Cross Validation procedure.
+    
+    Parameters:
+    -----------
+    X : matrix, shape (n_samples, n_features)
+    y : vector, shape (n_samples, )
+    k : integer, optional, the number of folds
+    
+    """
 
     def __init__(self, X, y, k=5):
         self.X, self.y = convert_assert(X, y)
