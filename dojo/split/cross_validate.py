@@ -1,3 +1,5 @@
+import numpy as np
+
 from ..metrics.regression import mean_squared_error
 from .KFolds import KFolds
 
@@ -30,18 +32,18 @@ def cross_validate(model, X, y, cv=5, metric=mean_squared_error):
     # TODO: Add feature that handles the metric function
     # automatically when metric="auto".
 
-    train_score = 0
-    test_score = 0
+    train_scores = []
+    test_scores = []
 
     folds = KFolds(X, y, k=cv)
 
     for X_train, X_test, y_train, y_test in folds:
         model.fit(X_train, y_train)
 
-        train_score += metric(y_train, model.predict(X_train))
-        test_score += metric(y_test, model.predict(X_test))
+        train_scores.append(metric(y_train, model.predict(X_train)))
+        test_scores.append(metric(y_test, model.predict(X_test)))
 
     return {
-        "train_score": train_score / folds.k,
-        "test_score": test_score / folds.k
+        "train_score": np.array(train_scores),
+        "test_score": np.array(test_scores),
     }
