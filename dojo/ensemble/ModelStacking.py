@@ -11,27 +11,27 @@ __all__ = [
 class ModelStacking(BaseModel):
     # TODO: add __doc__
 
-    def __init__(self, level_one_models, level_two_model):
-        self.level_one_models = level_one_models
-        self.level_two_model = level_two_model
+    def __init__(self, first_level_models, second_level_model):
+        self.first_level_models = first_level_models
+        self.second_level_model = second_level_model
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
 
         new_columns = []
-        for i in range(len(self.level_one_models)):
-            self.level_one_models[i].fit(X, y)
-            new_columns.append(self.level_one_models[i].predict(X))
+        for i in range(len(self.first_level_models)):
+            self.first_level_models[i].fit(X, y)
+            new_columns.append(self.first_level_models[i].predict(X))
 
         X_final = np.hstack((
             X, np.transpose(new_columns)
         ))
-        self.level_two_model.fit(X_final, y)
+        self.second_level_model.fit(X_final, y)
         return self
 
     def _prepare_data(self, X):
         new_columns = []
-        for model in self.level_one_models:
+        for model in self.first_level_models:
             new_columns.append(model.predict(X))
 
         return np.hstack((
@@ -39,13 +39,13 @@ class ModelStacking(BaseModel):
         ))
 
     def predict(self, X):
-        return self.level_two_model.predict(self._prepare_data(X))
+        return self.second_level_model.predict(self._prepare_data(X))
 
     def predict_proba(self, X):
-        return self.level_two_model.predict_proba(self._prepare_data(X))
+        return self.second_level_model.predict_proba(self._prepare_data(X))
 
     def decision_function(self, X):
-        return self.level_two_model.decision_function(self._prepare_data(X))
+        return self.second_level_model.decision_function(self._prepare_data(X))
 
     def evaluate(self, X, y):
         print(
