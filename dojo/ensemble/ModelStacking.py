@@ -16,6 +16,8 @@ class ModelStacking(BaseModel):
         self.level_two_model = level_two_model
 
     def fit(self, X, y):
+        X, y = super().fit(X, y)
+
         new_columns = []
         for i in range(len(self.level_one_models)):
             self.level_one_models[i].fit(X, y)
