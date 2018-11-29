@@ -51,4 +51,4 @@ class KFolds:
                 y_train = np.append(y_train, self._y_folds[j])
         
         self._i+=1
-        return X_train[1:, :], X_test, y_train, y_test
+        return X_train[1:, :], y_train, X_test, y_test

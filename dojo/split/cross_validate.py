@@ -34,8 +34,9 @@ def cross_validate(model, X, y, cv=5, metric=mean_squared_error):
 
     train_scores = []
     test_scores = []
+    folds = KFolds(X, y, k=cv)
 
-    for X_train, X_test, y_train, y_test in KFolds(X, y, k=cv):
+    for X_train, y_train, X_test, y_test in folds:
         model.fit(X_train, y_train)
 
         train_scores.append(metric(y_train, model.predict(X_train)))
