@@ -14,7 +14,7 @@ setup(
     description="A General Purpose Machine Learning Library for Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/VIVelev/PyDojo",
+    url="https://github.com/VIVelev/PyDojoML",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
