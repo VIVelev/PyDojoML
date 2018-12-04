@@ -30,3 +30,58 @@ linear_reg.fit(X, y)
 prediction = linear_reg.predict(X[:20, :])
 
 ```
+
+## Currently supported Machine Learning Models
+### Linear Models
+  - Linear Regression
+  - LASSO
+  - Ridge
+  - Logistic Regression
+  
+### Tree Models
+  - Classification And Regression Trees (CARTs)
+  - Extra-Trees
+  
+### Support Vector Machines
+  - C-SVM
+  - Epsilon-SVM
+  - Nu-SVMs
+
+### Bayes
+  - Naive Bayes algorithm
+  
+### Ensemble Learning
+  - AdaBoost
+  - Model Stacking
+  
+### Clustering
+  - Hierarchical Clustering
+  - K-Means algorithm
+  
+### Anomaly detection
+  - Univariate and Multivariate Gaussian Distribution
+  
+### Dimensionality Reduction Techniques
+  - Principal Component Analysis
+  - Linear Discriminant Analysis
+  
+### Various metrics
+  - classification
+  - regression
+  - clustering
+  
+### Model evaluation utils
+  - Train-Test splits
+  - K-Fold Cross Validation
+  
+### Data Preprocessing utils
+  - encoders
+  - normalizers
+  - scalers
+
+### Natural Language Processing utils
+  - TF-IDF
+
+### Recommender Systems
+  - Content Based
+  - Collaborative Filtering
