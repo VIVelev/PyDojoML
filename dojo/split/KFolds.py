@@ -16,19 +16,29 @@ class KFolds:
     X : matrix, shape (n_samples, n_features)
     y : vector, shape (n_samples, )
     k : integer, optional, the number of folds
+    shuffle : boolean, whether to shuffle the data before
+    splitting it or not
     
     """
 
-    def __init__(self, X, y, k=5):
+    def __init__(self, X, y, k=5, shuffle=True):
         self.X, self.y = convert_assert(X, y)
 
         while self.X.shape[0] % k != 0:
             k-=1
         self.k = k
+
+        if shuffle:
+            data = np.column_stack((
+                self.X, self.y
+            ))
+            np.random.shuffle(data)
+
+        self.X, self.y = data[:, :-1], data[:, -1]
         
         self._i = 0
-        self._X_folds = np.split(X, k, axis=0)
-        self._y_folds = np.split(y, k)
+        self._X_folds = np.split(self.X, k, axis=0)
+        self._y_folds = np.split(self.y, k)
 
     def __iter__(self):
         return self
@@ -51,4 +61,4 @@ class KFolds:
                 y_train = np.append(y_train, self._y_folds[j])
         
         self._i+=1
-        return X_train[1:, :], y_train, X_test, y_test
+        return X_train[1:, :], X_test, y_train, y_test

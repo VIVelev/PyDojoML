@@ -8,7 +8,7 @@ numpy = "*"
 scipy = "*"
 
 [dev-packages]
-pydojoml = "==0.3.4"
+pydojoml = "==0.3.6"
 scikit-learn = "*"
 matplotlib = "*"
 pylint = "*"

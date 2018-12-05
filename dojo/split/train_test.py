@@ -25,8 +25,8 @@ def train_test_split(X, y, test_size=0.3, shuffle=True):
     Returns:
     --------
     X_train : train-set, samples
-    y_train : train-set, labels
     X_test : test-set, samples
+    y_train : train-set, labels
     y_test : test-set, labels
     
     """
@@ -42,4 +42,4 @@ def train_test_split(X, y, test_size=0.3, shuffle=True):
         X, y = data[:, :-1], data[:, -1]
 
     border = int((1 - test_size) * X.shape[0])
-    return X[:border, :], y[:border], X[border:, :], y[border:]
+    return X[:border, :], X[border:, :], y[:border], y[border:]
