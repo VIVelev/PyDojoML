@@ -8,7 +8,7 @@ __all__ = [
 ]
 
 
-def cross_validate(model, X, y, cv=5, metric=None, shuffle=True):
+def cross_validate(model, X, y, cv=5, metric="auto", shuffle=True):
     """Cross Validation
 
     Evaluates the given model using the given data
@@ -38,7 +38,7 @@ def cross_validate(model, X, y, cv=5, metric=None, shuffle=True):
     for X_train, X_test, y_train, y_test in folds:
         model.fit(X_train, y_train)
 
-        if metric is None:
+        if metric is None or metric == "auto":
             train_scores.append(model.evaluate(X_train, y_train))
             test_scores.append(model.evaluate(X_test, y_test))
         else:
