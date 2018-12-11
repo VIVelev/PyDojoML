@@ -88,6 +88,4 @@ class AdaBoostClassifier(BaseModel):
         return self._classifiers[-1].decision_function(X)
 
     def evaluate(self, X, y):
-        print(
-            f"Accuracy score: {accuracy_score(y, self.predict(X))}"
-        )
+        return accuracy_score(y, self.predict(X))

@@ -54,6 +54,4 @@ class NaiveBayes(BaseModel):
         raise MethodNotSupportedError("Decision function is not supported for Naive Bayes Classifier.")
 
     def evaluate(self, X, y):
-        print(
-            f"Accuracy score: {accuracy_score(y, self.predict(X))}"
-        )
+        return accuracy_score(y, self.predict(X))

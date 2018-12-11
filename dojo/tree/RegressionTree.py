@@ -45,9 +45,7 @@ class RegressionTree(BaseModel):
         raise MethodNotSupportedError("Decision function is not supported for Regression Tree model.")
 
     def evaluate(self, X, y):
-        print(
-            f"Mean Squared Error: {mean_squared_error(y, self.predict(X))}"
-        )
+        return mean_squared_error(y, self.predict(X))
 
     def visualize(self):
         """Decision Tree visualization.

@@ -48,6 +48,4 @@ class ModelStacking(BaseModel):
         return self.second_level_model.decision_function(self._prepare_data(X))
 
     def evaluate(self, X, y):
-        print(
-            f"Accuracy score: {accuracy_score(y, self.predict(X))}"
-        )
+        return accuracy_score(y, self.predict(X))

@@ -46,9 +46,7 @@ class ClassificationTree(BaseModel):
         raise MethodNotSupportedError("Decision function is not supported for Classification Tree model.")
 
     def evaluate(self, X, y):
-        print(
-            f"Accuracy score: {accuracy_score(y, self.predict(X))}"
-        )
+        return accuracy_score(y, self.predict(X))
 
     def visualize(self):
         """Decision Tree visualization.
