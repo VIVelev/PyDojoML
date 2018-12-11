@@ -30,3 +30,34 @@ def sigmoid(x):
 
     else:
         return z(x)
+
+def tanh(x):
+    return np.tanh(x)
+
+def relu(x):
+    return np.vectorize(max)(0, x)
+
+def leaky_relu(x, eps=0.01):
+    return np.vectorize(max)(0.01*x, x)
+
+# ====================================================================================================
+# ====================================================================================================
+
+def sigmoid_grad(x):
+    a = sigmoid(x)
+    return  a * (1 - a)
+
+def tanh_grad(x):
+    return 1 - tanh(x)**2
+
+def relu_grad(x):
+    if x >= 0:
+        return 1
+    else:
+        return 0
+
+def leaky_relu_grad(x, eps=0.01):
+    if x >= 0:
+        return 1
+    else:
+        return eps

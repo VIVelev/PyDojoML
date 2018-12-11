@@ -1,4 +1,4 @@
-import numpy as np
+from . import np
 
 __all__ = [
     "linear_forward",

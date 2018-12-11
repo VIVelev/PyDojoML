@@ -1,4 +1,4 @@
-import numpy as np
+from .utils import np
 from ..base import BaseModel
 
 from ..metrics.classification import accuracy_score
