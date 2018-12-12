@@ -8,6 +8,8 @@ __all__ = [
 
 
 class Layer:
+    # TODO: add __doc__
+
     def __init__(self, n_neurons, n_inputs, activation="sigmoid"):
         self.n_neurons = n_neurons
         self.n_inputs = n_inputs

@@ -2,6 +2,14 @@ import numpy as np
 
 __all__ = [
     "sigmoid",
+    "tanh",
+    "relu",
+    "leaky_relu",
+
+    "sigmoid_grad",
+    "tanh_grad",
+    "relu_grad",
+    "leaky_relu_grad",
 ]
 
 
