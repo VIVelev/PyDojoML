@@ -1,4 +1,4 @@
-from .utils import np
+import numpy as np
 from ..base import BaseModel
 
 from ..metrics.classification import accuracy_score
@@ -28,16 +28,18 @@ class NeuralNetwork(BaseModel):
 
         return AL
 
-    def backward(self):
-        for layer in self._layers:
-            layer.linear_activation_backward()
+    def backward(self, Y, AL):
+        dA = - Y / AL + (1 - Y) / (1 - AL)
+        for layer in reversed(self._layers):
+            layer.linear_activation_backward(dA)
+            dA = layer.grads["dA_prev"]
 
     def fit(self, X, y):
         for i in range(1, self.n_iterations + 1):
             AL = self.forward(X)
             if i % 100 == 0:
                 print(f"Iteration {i}, Cost: {cross_entropy(y, AL)}")
-            self.backward()
+            self.backward(y, AL)
 
             for layer in self._layers:
                 layer.update()
