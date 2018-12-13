@@ -29,7 +29,10 @@ class NeuralNetwork(BaseModel):
         return AL
 
     def backward(self, Y, AL):
+        # Cross Entropy dA
         dA = - Y / AL + (1 - Y) / (1 - AL)
+
+        # Back-propagation
         for layer in reversed(self._layers):
             layer.linear_activation_backward(dA)
             dA = layer.grads["dA_prev"]
