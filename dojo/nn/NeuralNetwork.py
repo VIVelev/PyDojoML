@@ -31,6 +31,8 @@ class NeuralNetwork(BaseModel):
         return AL
 
     def backward(self, Y, AL):
+        # Avoid division by zero
+        AL = np.clip(AL, 1e-18, 1-1e-18)
         # Cross Entropy dA
         dA = - Y / AL + (1 - Y) / (1 - AL)
 
