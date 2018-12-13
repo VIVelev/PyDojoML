@@ -12,10 +12,12 @@ __all__ = [
 class NeuralNetwork(BaseModel):
     # TODO: add __doc__
 
-    def __init__(self, alpha=0.01, n_iterations=5_000):
+    def __init__(self, alpha=0.01, n_iterations=5_000, verbose=False):
         self.alpha = alpha
         self.n_iterations = n_iterations
+        self.verbose = verbose
 
+        self.last_cost = 0
         self._layers = []
 
     def add(self, layer):
@@ -40,8 +42,9 @@ class NeuralNetwork(BaseModel):
     def fit(self, X, y):
         for i in range(1, self.n_iterations + 1):
             AL = self.forward(X)
-            if i % 100 == 0:
-                print(f"Iteration {i}, Cost: {cross_entropy(y, AL)}")
+            self.last_cost = cross_entropy(y, AL)
+            if i % 100 == 0 and self.verbose:
+                print(f"Iteration {i}, Cost: {self.last_cost}")
             self.backward(y, AL)
 
             for layer in self._layers:
