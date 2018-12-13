@@ -34,13 +34,13 @@ class Layer:
 
         self.grads = {}
 
-    def linear_forward(self, A_prev):
-        self.A_prev = A_prev
-        self.Z = self.W @ A_prev + self.b
+    def linear_forward(self):
+        self.Z = self.W @ self.A_prev + self.b
         return self.Z
 
     def linear_activation_forward(self, A_prev):
-        self.A = self.activation_func(self.linear_forward(A_prev))
+        self.A_prev = A_prev
+        self.A = self.activation_func(self.linear_forward())
         return self.A
 
     def linear_backward(self):

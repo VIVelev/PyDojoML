@@ -6,4 +6,6 @@ __all__ = [
 
 
 def cross_entropy(Y, AL):
-    return -np.mean(Y * np.log(AL) + (1 - Y) * np.log(1 - AL))
+    return np.squeeze(
+        - np.mean(Y * np.log(AL) + (1 - Y) * np.log(1 - AL))
+    )

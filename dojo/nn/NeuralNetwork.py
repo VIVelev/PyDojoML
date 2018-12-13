@@ -42,7 +42,9 @@ class NeuralNetwork(BaseModel):
             self.backward(y, AL)
 
             for layer in self._layers:
-                layer.update()
+                layer.update(self.alpha)
+
+        return self
 
     def predict(self, X):
         return np.round(self.predict_proba(X))
