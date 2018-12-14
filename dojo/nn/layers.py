@@ -5,12 +5,12 @@ from ..exceptions import ParameterError
 from ..activations import *
 
 __all__ = [
-    "BaseLayer",
+    "Layer",
     "Dense",
 ]
 
 
-class BaseLayer(ABC):
+class Layer(ABC):
 
     @abstractmethod
     def forward(self, prev_A):
@@ -27,7 +27,7 @@ class BaseLayer(ABC):
 # ====================================================================================================
 # ====================================================================================================
 
-class Dense(BaseLayer):
+class Dense(Layer):
     # TODO: add __doc__
 
     def __init__(self, n_neurons, n_inputs, activation="sigmoid"):
