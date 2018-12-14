@@ -7,7 +7,7 @@ __all__ = [
 
 def cross_entropy(Y, AL):
     # Avoid division by zero
-    Y = np.clip(Y, 1e-18, 1 - 1e-18)
+    AL = np.clip(AL, 1e-18, 1-1e-18)
 
     # Cross-Entropy Cost function
     return np.squeeze(
