@@ -23,14 +23,14 @@ class NeuralNetwork(BaseModel):
     def add(self, layer):
         self._layers.append(layer)
 
-    def forward(self, X):
+    def forwardprop(self, X):
         AL = X
         for layer in self._layers:
-            AL = layer.linear_activation_forward(AL)
+            AL = layer.forward(AL)
 
         return AL
 
-    def backward(self, Y, AL):
+    def backprop(self, Y, AL):
         # Avoid division by zero
         AL = np.clip(AL, 1e-18, 1-1e-18)
         # Cross Entropy dA
@@ -38,16 +38,16 @@ class NeuralNetwork(BaseModel):
 
         # Back-propagation
         for layer in reversed(self._layers):
-            layer.linear_activation_backward(dA)
+            layer.backward(dA)
             dA = layer.grads["dA_prev"]
 
     def fit(self, X, y):
         for i in range(1, self.n_iterations + 1):
-            AL = self.forward(X)
+            AL = self.forwardprop(X)
             self.last_cost = cross_entropy(y, AL)
             if i % 100 == 0 and self.verbose:
                 print(f"Iteration {i}, Cost: {self.last_cost}")
-            self.backward(y, AL)
+            self.backprop(y, AL)
 
             for layer in self._layers:
                 layer.update(self.alpha)
@@ -58,7 +58,7 @@ class NeuralNetwork(BaseModel):
         return np.round(self.predict_proba(X))
 
     def predict_proba(self, X):
-        return self.forward(X)
+        return self.forwardprop(X)
 
     def decision_function(self, X):
         pass

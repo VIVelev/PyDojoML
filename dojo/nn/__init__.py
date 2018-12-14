@@ -1,7 +1,7 @@
-from .Layer import Layer
+from .layers import Dense
 from .NeuralNetwork import NeuralNetwork
 
 __all__ = [
-    "Layer",
+    "Dense",
     "NeuralNetwork",
 ]

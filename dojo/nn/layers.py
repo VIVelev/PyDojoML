@@ -1,13 +1,31 @@
+from abc import ABC, abstractmethod
+
 import numpy as np
 from ..exceptions import ParameterError
 from ..activations import *
 
 __all__ = [
-    "Layer",
+    "BaseLayer",
+    "Dense",
 ]
 
 
-class Layer:
+class BaseLayer(ABC):
+
+    @abstractmethod
+    def forward(self, prev_A):
+        pass
+
+    @abstractmethod
+    def backward(self, dA):
+        pass
+
+    @abstractmethod
+    def update(self, alpha):
+        pass
+
+
+class Dense(BaseLayer):
     # TODO: add __doc__
 
     def __init__(self, n_neurons, n_inputs, activation="sigmoid"):
@@ -43,6 +61,9 @@ class Layer:
         self.A = self.activation_func(self.linear_forward())
         return self.A
 
+    def forward(self, A_prev):
+        return self.linear_activation_forward(A_prev)
+
     def linear_backward(self):
         m = self.A_prev.shape[1]
         self.grads["dW"] = 1/m * self.grads["dZ"] @ self.A_prev.T
@@ -63,6 +84,9 @@ class Layer:
             self.grads["dZ"] = dA * np.vectorize(lambda x: 1 if x >= 0 else 0.01)(self.A)
 
         self.linear_backward()
+
+    def backward(self, dA):
+        return self.linear_activation_backward(dA)
 
     def update(self, alpha):
         self.W -= alpha*self.grads["dW"]
