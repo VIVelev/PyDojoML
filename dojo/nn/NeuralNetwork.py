@@ -2,7 +2,7 @@ import numpy as np
 from ..base import BaseModel
 
 from ..metrics.classification import accuracy_score
-from .cost import cross_entropy
+from .losses import CrossEntropy
 
 __all__ = [
     "NeuralNetwork",
@@ -12,12 +12,13 @@ __all__ = [
 class NeuralNetwork(BaseModel):
     # TODO: add __doc__
 
-    def __init__(self, alpha=0.01, n_iterations=5_000, verbose=False):
+    def __init__(self, alpha=0.01, n_iterations=5_000, loss=CrossEntropy(), verbose=False):
         self.alpha = alpha
         self.n_iterations = n_iterations
+        self.loss = loss
         self.verbose = verbose
 
-        self.last_cost = 0
+        self.last_loss_value = 0
         self._layers = []
 
     def add(self, layer):
@@ -31,12 +32,8 @@ class NeuralNetwork(BaseModel):
         return AL
 
     def backprop(self, Y, AL):
-        # Avoid division by zero
-        AL = np.clip(AL, 1e-18, 1-1e-18)
-        # Cross Entropy dA
-        dA = - Y / AL + (1 - Y) / (1 - AL)
+        dA = self.loss.gradient(Y, AL)
 
-        # Back-propagation
         for layer in reversed(self._layers):
             layer.backward(dA)
             dA = layer.grads["dA_prev"]
@@ -44,9 +41,9 @@ class NeuralNetwork(BaseModel):
     def fit(self, X, y):
         for i in range(1, self.n_iterations + 1):
             AL = self.forwardprop(X)
-            self.last_cost = cross_entropy(y, AL)
+            self.last_loss_value = self.loss(y, AL)
             if i % 100 == 0 and self.verbose:
-                print(f"Iteration {i}, Cost: {self.last_cost}")
+                print(f"Iteration {i}, Cost: {self.last_loss_value}")
             self.backprop(y, AL)
 
             for layer in self._layers:

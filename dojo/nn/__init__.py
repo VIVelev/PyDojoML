@@ -4,5 +4,7 @@ from .NeuralNetwork import NeuralNetwork
 
 __all__ = [
     "Dense",
+    "SquareLoss",
+    "CrossEntropy",
     "NeuralNetwork",
 ]
