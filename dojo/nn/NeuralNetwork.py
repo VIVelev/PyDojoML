@@ -41,7 +41,7 @@ class NeuralNetwork(BaseModel):
     def fit(self, X, y):
         for i in range(1, self.n_iterations + 1):
             AL = self.forwardprop(X)
-            self.last_loss_value = self.loss(y, AL)
+            self.last_loss_value = np.mean(self.loss(y, AL))
             if i % 100 == 0 and self.verbose:
                 print(f"Iteration {i}, Cost: {self.last_loss_value}")
             self.backprop(y, AL)
