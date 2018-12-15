@@ -36,15 +36,19 @@ class NaiveBayes(BaseModel):
     def predict_proba(self, X):
         X = super().predict_proba(X)
         return np.array([
-            [self.p(label, x) for label in self._labels] for x in X
+            [
+                np.prod(
+                    [self.p(label, x, i) for i in range(len(x))]
+                ) for label in self._labels
+            ] for x in X
         ])
 
-    def p(self, label, x):
+    def p(self, label, x, i):
         tmp = self._X[self._y == label, :]
-        likelihood = np.count_nonzero(tmp == x) / tmp.shape[0]
+        likelihood = np.count_nonzero(tmp[:, i] == x[i]) / tmp.shape[0]
 
         prior1 = np.count_nonzero(self._y == label) / self._y.size
-        prior2 = np.count_nonzero(self._X == x) / self._X.shape[0]
+        prior2 = np.count_nonzero(self._X[:, i] == x[i]) / self._X.shape[0]
         if prior2 == 0:
             prior2 += self.alpha
 
