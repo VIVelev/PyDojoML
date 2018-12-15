@@ -22,6 +22,9 @@ class NeuralNetwork(BaseModel):
         self._layers = []
 
     def add(self, layer):
+        if len(self._layers) > 0:
+            layer.n_inputs = self._layers[-1].n_neurons
+        layer.init_weights()
         self._layers.append(layer)
 
     def forwardprop(self, X):

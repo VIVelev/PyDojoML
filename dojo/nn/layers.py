@@ -13,6 +13,10 @@ __all__ = [
 class Layer(ABC):
 
     @abstractmethod
+    def init_weights(self):
+        pass
+
+    @abstractmethod
     def forward(self, prev_A):
         pass
 
@@ -30,7 +34,7 @@ class Layer(ABC):
 class Dense(Layer):
     # TODO: add __doc__
 
-    def __init__(self, n_neurons, n_inputs, activation="sigmoid"):
+    def __init__(self, n_neurons, n_inputs=0, activation="sigmoid"):
         self.n_neurons = n_neurons
         self.n_inputs = n_inputs
         self.activation = activation
@@ -46,13 +50,19 @@ class Dense(Layer):
         else:
             raise ParameterError(f"Activation: \"{activation}\" not known.")
 
-        self.W = np.random.randn(n_neurons, n_inputs)
-        self.b = np.zeros((n_neurons, 1))
+        self.W = None
+        self.b = None
+        self.init_weights()
+
         self.A_prev = None
         self.Z = None
         self.A = None
 
         self.grads = {}
+
+    def init_weights(self):
+        self.W = np.random.randn(self.n_neurons, self.n_inputs)
+        self.b = np.zeros((self.n_neurons, 1))
 
     def linear_forward(self):
         self.Z = self.W @ self.A_prev + self.b
@@ -88,7 +98,7 @@ class Dense(Layer):
         self.linear_backward()
 
     def backward(self, dA):
-        return self.linear_activation_backward(dA)
+        self.linear_activation_backward(dA)
 
     def update(self, alpha):
         self.W -= alpha*self.grads["dW"]
