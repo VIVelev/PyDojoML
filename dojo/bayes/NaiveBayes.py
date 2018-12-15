@@ -35,24 +35,29 @@ class NaiveBayes(BaseModel):
 
     def predict_proba(self, X):
         X = super().predict_proba(X)
-        return np.array([
+        res = np.array([
             [
-                np.prod(
-                    [self.p(label, x, i) for i in range(len(x))]
+                self._calc_prior(label) * np.product(
+                    [self._calc_likelihood(x, i, label) / self._calc_evidence(x, i) for i in range(len(x))]
                 ) for label in self._labels
             ] for x in X
         ])
 
-    def p(self, label, x, i):
+        return res / (np.sum(res, axis=1, keepdims=True) + self.alpha)
+
+    def _calc_likelihood(self, x, i, label):
         tmp = self._X[self._y == label, :]
-        likelihood = np.count_nonzero(tmp[:, i] == x[i]) / tmp.shape[0]
+        return np.count_nonzero(tmp[:, i] == x[i]) / tmp.shape[0]
 
-        prior1 = np.count_nonzero(self._y == label) / self._y.size
-        prior2 = np.count_nonzero(self._X[:, i] == x[i]) / self._X.shape[0]
-        if prior2 == 0:
-            prior2 += self.alpha
+    def _calc_prior(self, label):
+        return np.count_nonzero(self._y == label) / self._y.size
 
-        return likelihood * prior1/prior2
+    def _calc_evidence(self, x, i):
+        val = np.count_nonzero(self._X[:, i] == x[i]) / self._X.shape[0]
+        if val == 0:
+            return self.alpha
+        else:
+            return val
 
     def decision_function(self, X):
         raise MethodNotSupportedError("Decision function is not supported for Naive Bayes Classifier.")
