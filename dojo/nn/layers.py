@@ -34,7 +34,7 @@ class Layer(ABC):
 class Dense(Layer):
     # TODO: add __doc__
 
-    def __init__(self, n_neurons, n_inputs=0, activation="sigmoid"):
+    def __init__(self, n_neurons, n_inputs=1, activation="sigmoid"):
         self.n_neurons = n_neurons
         self.n_inputs = n_inputs
         self.activation = activation
@@ -61,7 +61,9 @@ class Dense(Layer):
         self.grads = {}
 
     def init_weights(self):
-        self.W = np.random.randn(self.n_neurons, self.n_inputs)
+        """Performs He initialization"""
+
+        self.W = np.random.randn(self.n_neurons, self.n_inputs) * np.sqrt(2 / self.n_inputs)
         self.b = np.zeros((self.n_neurons, 1))
 
     def linear_forward(self):
