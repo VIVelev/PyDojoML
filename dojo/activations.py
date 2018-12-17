@@ -1,71 +1,70 @@
+from abc import ABC, abstractmethod
 import numpy as np
 
 __all__ = [
-    "sigmoid",
-    "tanh",
-    "relu",
-    "leaky_relu",
-
-    "sigmoid_grad",
-    "tanh_grad",
-    "relu_grad",
-    "leaky_relu_grad",
+    "Activation",
+    "Sigmoid",
+    "TanH",
+    "ReLU",
+    "LeakyReLU",
 ]
 
 
-def sigmoid(x):
-    """The Sigmoid (Logistic) function.
+class Activation(ABC):
+    @abstractmethod
+    def __call__(self, x):
+        pass
 
-    s(k) = 1.0 / (1.0 + e^-k)
-    
-    Parameters:
-    -----------
-    x : any real number or a vector of real numbers
-    
-    Returns:
-    --------
-    res : float number or a vector of float numbers
-    The output from the sigmoid function.
-    
-    """
-
-    z = lambda k: 1.0/(1 + np.exp(-k))
-
-    if type(x) in [list, np.ndarray]:
-        for i in range(len(x)):
-            x[i] = z(x[i])
-        return x
-
-    else:
-        return z(x)
-
-def tanh(x):
-    return np.tanh(x)
-
-def relu(x):
-    return np.vectorize(max)(0, x)
-
-def leaky_relu(x, eps=0.01):
-    return np.vectorize(max)(0.01*x, x)
+    @abstractmethod
+    def gradient(self, x):
+        pass
 
 # ====================================================================================================
 # ====================================================================================================
 
-def sigmoid_grad(x):
-    a = sigmoid(x)
-    return  a * (1 - a)
+class Sigmoid(Activation):
+    def __init__(self):
+        pass
 
-def tanh_grad(x):
-    return 1 - tanh(x)**2
+    def __call__(self, x):
+        return np.vectorize(lambda k: 1.0/(1 + np.exp(-k)))(x)
 
-def relu_grad(x):
-    if x >= 0:
-        return 1
-    else:
-        return 0
+    def gradient(self, x):
+        a = self(x)
+        return  a * (1 - a)
 
-def leaky_relu_grad(x, eps=0.01):
-    if x >= 0:
-        return 1
-    else:
-        return eps
+class TanH(Activation):
+    def __init__(self):
+        pass
+
+    def __call__(self, x):
+        return np.tanh(x)
+    
+    def gradient(self, x):
+        return 1 - self(x)**2
+
+class ReLU(Activation):
+    def __init__(self):
+        pass
+
+    def __call__(self, x):
+        return np.vectorize(max)(0, x)
+    
+    def gradient(self, x):
+        if x >= 0:
+            return 1
+        else:
+            return 0
+
+class LeakyReLU(Activation):
+    def __init__(self, eps):
+        self.eps = eps
+
+    def __call__(self, x):
+        return np.vectorize(max)(self.eps*x, x)
+
+    def gradient(self, x):
+        if x >= 0:
+            return 1
+        else:
+            return self.eps
