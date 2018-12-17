@@ -51,10 +51,7 @@ class ReLU(Activation):
         return np.vectorize(max)(0, x)
     
     def gradient(self, x):
-        if x >= 0:
-            return 1
-        else:
-            return 0
+        return (np.array(x) >= 0).astype(int)
 
 class LeakyReLU(Activation):
     def __init__(self, eps=0.01):
@@ -64,7 +61,6 @@ class LeakyReLU(Activation):
         return np.vectorize(max)(self.eps*x, x)
 
     def gradient(self, x):
-        if x >= 0:
-            return 1
-        else:
-            return self.eps
+        grad = (np.array(x) >= 0).astype(int)
+        grad[grad == 0] = self.eps
+        return grad
