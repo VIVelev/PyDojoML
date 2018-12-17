@@ -12,12 +12,12 @@ class NaiveBayes(BaseModel):
     
     Parameters:
     -----------
-    alpha : float, laplacian smoothing coefficient, optional
+    eps : float, laplacian smoothing coefficient, optional
     
     """
 
-    def __init__(self, alpha=1e-18):
-        self.alpha = alpha
+    def __init__(self, eps=1e-18):
+        self.eps = eps
 
         self._X = []
         self._y = []
@@ -43,7 +43,7 @@ class NaiveBayes(BaseModel):
             ] for x in X
         ])
 
-        return res / (np.sum(res, axis=1, keepdims=True) + self.alpha)
+        return res / (np.sum(res, axis=1, keepdims=True) + self.eps)
 
     def _calc_likelihood(self, x, i, label):
         tmp = self._X[self._y == label, :]
@@ -55,7 +55,7 @@ class NaiveBayes(BaseModel):
     def _calc_evidence(self, x, i):
         val = np.count_nonzero(self._X[:, i] == x[i]) / self._X.shape[0]
         if val == 0:
-            return self.alpha
+            return self.eps
         else:
             return val
 
