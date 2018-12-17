@@ -2,6 +2,8 @@ from .utils import (
     np,
     BaseModel,
     Sigmoid,
+    CrossEntropy,
+    L2,
     accuracy_score,
 )
 
@@ -20,78 +22,69 @@ class LogisticRegression(BaseModel):
     
     Parameters:
     -----------
-    intercept : float number, optional
-    coefs : list of float numbers, shape (n_features,), optional
-    C : float number, weight given to the loss
-    compared to the regularization, optional
-    lr : float number, learning rate also known as alpha factor, optional
+    alpha : float number, learning rate also known as alpha factor, optional
+    loss : Dojo-Loss, optional
+    regularizer, Dojo-Regularizer, optional
     verbose : boolean, optional
     
     """
 
-    def __init__(self, intercept=0, coefs=[], C=1.0, lr=0.01, verbose=False):
-        self.intercept = intercept
-        self.coefs = coefs
-        self.C = C
-        self.lr = lr
+    def __init__(self, alpha=0.1, loss=CrossEntropy(), regularizer=L2(0), verbose=False):
+        self.alpha = alpha
+        self.loss = loss
+        self.regularizer = regularizer
         self.verbose = verbose
-
-        self._X, self._y = [], []
-
-    def _loss(self):
-        y_pred = np.array([1-(1e-12) if self.predict([x])[0] == 1 else 1e-12 for x in self._X])
-        m, _ = self._X.shape
-
-        return -1/m * np.sum(
-            self._y * np.log(y_pred) + (np.ones(m)-self._y) * np.log(np.ones(m)-y_pred)
-        ) + 1/self.C * 1/2*m * np.sum(self.coefs**2)
-
-    def _gradient(self):
-        y_pred = np.array([self.predict([x])[0] for x in self._X])
-        m, n = self._X.shape
-
-        grad = np.zeros(n+1, dtype=np.float32)
-        grad[0] = 1/m * np.sum(y_pred - self._y)
-        grad[1:] = 1/m * (self._X.T @ (y_pred - self._y)).T + 1/self.C * 1/m * self.coefs
         
-        return grad
+        self.intercept = 0
+        self.coefs = []
+        self._activation_func = Sigmoid()
 
     def fit(self, X, y):
-        self._X, self._y = super().fit(X, y)
-        m, n = self._X.shape
+        X, y = super().fit(X, y)
+        y = y.reshape(-1, 1)
+        m, n = X.shape
 
-        self.intercept = 0
-        self.coefs = np.zeros(n, dtype=np.float32)
+        self.intercept = dintercept = 0
+        self.coefs = dcoefs = np.zeros((n, 1), dtype=np.float32)
         
         best_loss = 1e6
-        grad = None
         n_iters = 1
-        l = self._loss()
+        l = 0
 
-        while n_iters < m or best_loss > l:
+        z = self.decision_function(X)
+        a = self._activation_func(z)
+        l = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
+        
+        while n_iters <= m or best_loss > l:
             best_loss = l
-            grad = self._gradient()
+            
+            # Compute the derivatives
+            dz = self.loss.gradient(y, a) * self._activation_func.gradient(z)
+            dintercept = np.mean(dz)
+            dcoefs = 1/m * X.T @ dz + 1/m * self.regularizer.gradient(self.coefs)
             
             if self.verbose and n_iters % 10 == 0:
                 print("--------------------------")
                 print(f"{n_iters}th iteration")
                 print(f"Loss: {best_loss}")
 
-            self.intercept -= self.lr * grad[0]
-            self.coefs -= self.lr * grad[1:]
-
+            self.intercept -= self.alpha * dintercept
+            self.coefs -= self.alpha * dcoefs
+            
             n_iters += 1
-            l = self._loss()
+            z = self.decision_function(X)
+            a = self._activation_func(z)
+            l = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
 
-        self.intercept += self.lr * grad[0]
-        self.coefs += self.lr * grad[1:]
+        self.intercept += self.alpha * dintercept
+        self.coefs += self.alpha * dcoefs
         return self
 
     def predict(self, X):
         return np.round(self.predict_proba(X))
 
     def predict_proba(self, X):
-        return Sigmoid()(self.decision_function(X))
+        return self._activation_func(self.decision_function(X))
 
     def decision_function(self, X):
         X = super().decision_function(X)

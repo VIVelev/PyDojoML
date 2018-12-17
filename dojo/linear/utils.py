@@ -3,6 +3,8 @@ from scipy import linalg
 
 from ..base import BaseModel
 from ..activations import Sigmoid
+from ..losses import CrossEntropy
+from ..regularizers import L2
 
 from ..exceptions import MethodNotSupportedError
 
