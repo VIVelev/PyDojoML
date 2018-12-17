@@ -2,7 +2,7 @@ import numpy as np
 from ..base import BaseModel
 
 from ..metrics.classification import accuracy_score
-from .losses import CrossEntropy
+from ..losses import CrossEntropy
 
 __all__ = [
     "NeuralNetwork",
@@ -43,15 +43,28 @@ class NeuralNetwork(BaseModel):
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
+        m = X.shape[0]
         X = X.T
 
         for i in range(1, self.n_iterations + 1):
+            # Forward-propagation
             AL = self.forwardprop(X)
+
+            # Computing the cost
             self._loss_values.append(np.mean(self.loss(y, AL)))
+            penalty = 0
+            for layer in self._layers:
+                penalty += layer.regularizer(layer.W)
+            self._loss_values[-1] += 1/m * penalty
+
+            # Printing
             if i % 100 == 0 and self.verbose:
                 print(f"Iteration {i}, Cost: {self._loss_values[-1]}")
+
+            # Back-propagation
             self.backprop(y, AL)
 
+            # Updating the weights
             for layer in self._layers:
                 layer.update(self.alpha)
 

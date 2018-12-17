@@ -16,6 +16,8 @@ from . import (
     tree,
     activations,
     exceptions,
+    losses,
+    regularizers,
 )
 
 __all__ = [
@@ -36,6 +38,8 @@ __all__ = [
     "tree",
     "activations",
     "exceptions",
+    "losses",
+    "regularizers",
 ]
 
 __version__ = "0.3.7"

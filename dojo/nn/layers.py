@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 from ..exceptions import ParameterError
 from ..activations import *
+from ..regularizers import L2
 
 __all__ = [
     "Layer",
@@ -34,10 +35,11 @@ class Layer(ABC):
 class Dense(Layer):
     # TODO: add __doc__
 
-    def __init__(self, n_neurons, n_inputs=1, activation="sigmoid"):
+    def __init__(self, n_neurons, n_inputs=1, activation="sigmoid", regularizer=L2(0)):
         self.n_neurons = n_neurons
         self.n_inputs = n_inputs
         self.activation = activation
+        self.regularizer = regularizer
         
         if activation == "sigmoid":
             self.activation_func = sigmoid
@@ -80,7 +82,7 @@ class Dense(Layer):
 
     def linear_backward(self):
         m = self.A_prev.shape[1]
-        self.grads["dW"] = 1/m * self.grads["dZ"] @ self.A_prev.T
+        self.grads["dW"] = 1/m * self.grads["dZ"] @ self.A_prev.T + 1/m * self.regularizer.gradient(self.W)
         self.grads["db"] = np.mean(self.grads["dZ"], axis=1, keepdims=True)
         self.grads["dA_prev"] = self.W.T @ self.grads["dZ"]
 
