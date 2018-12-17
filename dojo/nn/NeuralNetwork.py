@@ -1,8 +1,8 @@
 import numpy as np
-from ..base import BaseModel
 
-from ..metrics.classification import accuracy_score
+from ..base import BaseModel
 from ..losses import CrossEntropy
+from ..metrics.classification import accuracy_score
 
 __all__ = [
     "NeuralNetwork",

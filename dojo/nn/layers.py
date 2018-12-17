@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-
 import numpy as np
-from ..exceptions import ParameterError
+
 from ..activations import *
+from ..exceptions import ParameterError
 from ..regularizers import L2
 
 __all__ = [

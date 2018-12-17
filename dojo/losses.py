@@ -10,6 +10,10 @@ __all__ = [
 
 class Loss(ABC):
     @abstractmethod
+    def __call__(self, y, y_pred):
+        pass
+
+    @abstractmethod
     def gradient(self, y, y_pred):
         pass
 

@@ -10,6 +10,10 @@ __all__ = [
 
 class Regularizer(ABC):
     @abstractmethod
+    def __call__(self, W):
+        pass
+
+    @abstractmethod
     def gradient(self, W):
         pass
 
