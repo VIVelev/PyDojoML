@@ -2,7 +2,7 @@ import numpy as np
 from scipy import linalg
 
 from ..base import BaseModel
-from ..activations import sigmoid
+from ..activations import Sigmoid
 
 from ..exceptions import MethodNotSupportedError
 

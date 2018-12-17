@@ -1,7 +1,7 @@
 from .utils import (
     np,
     BaseModel,
-    sigmoid,
+    Sigmoid,
     accuracy_score,
 )
 
@@ -91,7 +91,7 @@ class LogisticRegression(BaseModel):
         return np.round(self.predict_proba(X))
 
     def predict_proba(self, X):
-        return sigmoid(self.decision_function(X))
+        return Sigmoid()(self.decision_function(X))
 
     def decision_function(self, X):
         X = super().decision_function(X)

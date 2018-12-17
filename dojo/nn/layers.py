@@ -38,19 +38,19 @@ class Dense(Layer):
     def __init__(self, n_neurons, n_inputs=1, activation="sigmoid", regularizer=L2(0)):
         self.n_neurons = n_neurons
         self.n_inputs = n_inputs
-        self.activation = activation
-        self.regularizer = regularizer
         
-        if activation == "sigmoid":
-            self.activation_func = sigmoid
-        elif activation == "tanh":
-            self.activation_func = tanh
-        elif activation == "relu":
-            self.activation_func = relu
-        elif activation == "leaky_relu":
-            self.activation_func = leaky_relu
+        if activation.lower() == "sigmoid":
+            self.activation_func = Sigmoid()
+        elif activation.lower() == "tanh":
+            self.activation_func = TanH()
+        elif activation.lower() == "relu":
+            self.activation_func = ReLU()
+        elif activation.lower() == "leaky_relu":
+            self.activation_func = LeakyReLU()
         else:
             raise ParameterError(f"Activation: \"{activation}\" not known.")
+
+        self.regularizer = regularizer
 
         self.W = None
         self.b = None
@@ -87,18 +87,7 @@ class Dense(Layer):
         self.grads["dA_prev"] = self.W.T @ self.grads["dZ"]
 
     def linear_activation_backward(self, dA):
-        if self.activation == "sigmoid":
-            self.grads["dZ"] = dA * self.A * (1 - self.A)
-
-        elif self.activation == "tanh":
-            self.grads["dZ"] = dA * (1 - self.A**2)
-
-        elif self.activation == "relu":
-            self.grads["dZ"] = dA * np.vectorize(lambda x: 1 if x >= 0 else 0)(self.A)
-
-        else: # Leaky ReLU
-            self.grads["dZ"] = dA * np.vectorize(lambda x: 1 if x >= 0 else 0.01)(self.A)
-
+        self.grads["dZ"] = dA * self.activation_func.gradient(self.Z)
         self.linear_backward()
 
     def backward(self, dA):

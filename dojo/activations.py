@@ -57,7 +57,7 @@ class ReLU(Activation):
             return 0
 
 class LeakyReLU(Activation):
-    def __init__(self, eps):
+    def __init__(self, eps=0.01):
         self.eps = eps
 
     def __call__(self, x):
