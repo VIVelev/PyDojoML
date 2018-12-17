@@ -29,7 +29,7 @@ class LogisticRegression(BaseModel):
     
     """
 
-    def __init__(self, alpha=0.1, loss=CrossEntropy(), regularizer=L2(0), verbose=False):
+    def __init__(self, alpha=0.1, loss=CrossEntropy(), regularizer=L2(0.001), verbose=False):
         self.alpha = alpha
         self.loss = loss
         self.regularizer = regularizer
@@ -47,16 +47,16 @@ class LogisticRegression(BaseModel):
         self.intercept = dintercept = 0
         self.coefs = dcoefs = np.zeros((n, 1), dtype=np.float32)
         
-        best_loss = 1e6
+        best_cost = 1e6
+        current_cost = 0
         n_iters = 1
-        l = 0
 
         z = self.decision_function(X)
         a = self._activation_func(z)
-        l = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
+        current_cost = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
         
-        while n_iters <= m or best_loss > l:
-            best_loss = l
+        while n_iters <= m or best_cost > current_cost:
+            best_cost = current_cost
             
             # Compute the derivatives
             dz = self.loss.gradient(y, a) * self._activation_func.gradient(z)
@@ -66,15 +66,17 @@ class LogisticRegression(BaseModel):
             if self.verbose and n_iters % 10 == 0:
                 print("--------------------------")
                 print(f"{n_iters}th iteration")
-                print(f"Loss: {best_loss}")
+                print(f"Loss: {best_cost}")
 
+            # Update
             self.intercept -= self.alpha * dintercept
             self.coefs -= self.alpha * dcoefs
             
+            # Compute the current cost
             n_iters += 1
             z = self.decision_function(X)
             a = self._activation_func(z)
-            l = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
+            current_cost = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
 
         self.intercept += self.alpha * dintercept
         self.coefs += self.alpha * dcoefs
