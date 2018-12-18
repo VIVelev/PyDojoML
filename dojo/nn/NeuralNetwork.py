@@ -45,6 +45,7 @@ class NeuralNetwork(BaseModel):
         X, y = super().fit(X, y)
         m = X.shape[0]
         X = X.T
+        y = y.reshape(1, -1)
 
         for i in range(1, self.n_iterations + 1):
             # Forward-propagation

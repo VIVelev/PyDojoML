@@ -44,6 +44,7 @@ class LogisticRegression(BaseModel):
         y = y.reshape(-1, 1)
         m, n = X.shape
 
+        # Init parameters
         self.intercept = dintercept = 0
         self.coefs = dcoefs = np.zeros((n, 1), dtype=np.float32)
         
@@ -51,6 +52,7 @@ class LogisticRegression(BaseModel):
         current_cost = 0
         n_iters = 1
 
+        # Compute the current cost
         z = self.decision_function(X)
         a = self._activation_func(z)
         current_cost = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
@@ -78,6 +80,7 @@ class LogisticRegression(BaseModel):
             a = self._activation_func(z)
             current_cost = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
 
+        # Go back to the local minimum
         self.intercept += self.alpha * dintercept
         self.coefs += self.alpha * dcoefs
         return self
