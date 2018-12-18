@@ -35,54 +35,57 @@ class LogisticRegression(BaseModel):
         self.regularizer = regularizer
         self.verbose = verbose
         
-        self.intercept = 0
-        self.coefs = []
+        self._intercept = 0
+        self._coefs = []
         self._activation_func = Sigmoid()
+    
+    def _calc_gradient(self, X, y, a, z):
+        dz = self.loss.gradient(y, a) * self._activation_func.gradient(z)
+        dintercept = np.mean(dz)
+        dcoefs = 1/y.size * X.T @ dz + 1/y.size * self.regularizer.gradient(self._coefs)
+
+        return dintercept, dcoefs
+
+    def _forwardprop(self, X, y):
+        z = self.decision_function(X)
+        a = self._activation_func(z)
+        current_cost = np.mean(self.loss(y, a)) + 1/y.size * self.regularizer(self._coefs)
+
+        return z, a, current_cost
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
         y = y.reshape(-1, 1)
-        m, n = X.shape
 
         # Init parameters
-        self.intercept = dintercept = 0
-        self.coefs = dcoefs = np.zeros((n, 1), dtype=np.float32)
+        self._intercept = dintercept = 0
+        self._coefs = dcoefs = np.zeros((X.shape[1], 1), dtype=np.float32)
         
         best_cost = 1e6
         current_cost = 0
         n_iters = 1
-
-        # Compute the current cost
-        z = self.decision_function(X)
-        a = self._activation_func(z)
-        current_cost = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
+        z, a, current_cost = self._forwardprop(X, y)
         
-        while n_iters <= m or best_cost > current_cost:
+        while n_iters <= X.shape[0] or best_cost > current_cost:
             best_cost = current_cost
-            
-            # Compute the derivatives
-            dz = self.loss.gradient(y, a) * self._activation_func.gradient(z)
-            dintercept = np.mean(dz)
-            dcoefs = 1/m * X.T @ dz + 1/m * self.regularizer.gradient(self.coefs)
-            
             if self.verbose and n_iters % 10 == 0:
                 print("--------------------------")
                 print(f"{n_iters}th iteration")
                 print(f"Loss: {best_cost}")
 
+            # Calculate the gradient
+            dintercept, dcoefs = self._calc_gradient(X, y, a, z)
             # Update
-            self.intercept -= self.alpha * dintercept
-            self.coefs -= self.alpha * dcoefs
+            self._intercept -= self.alpha * dintercept
+            self._coefs -= self.alpha * dcoefs
             
             # Compute the current cost
             n_iters += 1
-            z = self.decision_function(X)
-            a = self._activation_func(z)
-            current_cost = np.mean(self.loss(y, a)) + 1/m * self.regularizer(self.coefs)
+            z, a, current_cost = self._forwardprop(X, y)
 
         # Go back to the local minimum
-        self.intercept += self.alpha * dintercept
-        self.coefs += self.alpha * dcoefs
+        self._intercept += self.alpha * dintercept
+        self._coefs += self.alpha * dcoefs
         return self
 
     def predict(self, X):
@@ -93,7 +96,7 @@ class LogisticRegression(BaseModel):
 
     def decision_function(self, X):
         X = super().decision_function(X)
-        return X @ self.coefs + self.intercept
+        return X @ self._coefs + self._intercept
 
     def evaluate(self, X, y):
         return accuracy_score(y, self.predict(X))
