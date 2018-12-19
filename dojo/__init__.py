@@ -18,6 +18,7 @@ from . import (
     exceptions,
     losses,
     regularizers,
+    utils,
 )
 
 __all__ = [
@@ -40,6 +41,7 @@ __all__ = [
     "exceptions",
     "losses",
     "regularizers",
+    "utils",
 ]
 
 __version__ = "0.3.7"

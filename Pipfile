@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 numpy = "*"
 scipy = "*"
+progressbar = "*"
 
 [dev-packages]
 pydojoml = "==0.3.6"

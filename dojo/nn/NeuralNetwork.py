@@ -1,8 +1,10 @@
 import numpy as np
+import progressbar
 
 from ..base import BaseModel
 from ..losses import CrossEntropy
 from ..metrics.classification import accuracy_score
+from ..utils import bar_widgets
 
 __all__ = [
     "NeuralNetwork",
@@ -12,12 +14,13 @@ __all__ = [
 class NeuralNetwork(BaseModel):
     # TODO: add __doc__
 
-    def __init__(self, alpha=0.01, n_iterations=5_000, loss=CrossEntropy(), verbose=False):
+    def __init__(self, alpha=0.01, n_epochs=5_000, loss=CrossEntropy(), verbose=False):
         self.alpha = alpha
-        self.n_iterations = n_iterations
+        self.n_epochs = n_epochs
         self.loss = loss
         self.verbose = verbose
 
+        self._progressbar = progressbar.ProgressBar(widgets=bar_widgets)
         self._loss_values = []
         self._layers = []
 
@@ -47,7 +50,7 @@ class NeuralNetwork(BaseModel):
         X = X.T
         y = y.reshape(1, -1)
 
-        for i in range(1, self.n_iterations + 1):
+        for i in self._progressbar(range(1, self.n_epochs + 1)):
             # Forward-propagation
             AL = self.forwardprop(X)
 
