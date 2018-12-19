@@ -17,6 +17,7 @@ from . import (
     activations,
     exceptions,
     losses,
+    optimizers,
     regularizers,
     utils,
 )
@@ -40,6 +41,7 @@ __all__ = [
     "activations",
     "exceptions",
     "losses",
+    "optimizers",
     "regularizers",
     "utils",
 ]
