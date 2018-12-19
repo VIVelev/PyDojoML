@@ -33,7 +33,6 @@ class Momentum(Optimizer):
         super().__init__(alpha)
         self.beta = beta
         self.v = None
-        self.t = 1
 
     def update(self, W, dW):
         if self.v is None:
@@ -41,15 +40,24 @@ class Momentum(Optimizer):
 
         # Exponentially Weighted Moving Average
         self.v = self.beta * self.v + (1 - self.beta) * dW
-        # Bias correction
-        # self.v /= (1 - self.beta**self.t)
-        self.t += 1
-
         # Update
         return W - self.alpha * self.v
 
-class RMSprop:
-    pass
+class RMSprop(Optimizer):
+    def __init__(self, alpha=0.01, beta=0.999):
+        super().__init__(alpha)
+        self.beta = beta
+        self.eps = 1e-8
+        self.s = None
+
+    def update(self, W, dW):
+        if self.s is None:
+            self.s = np.zeros_like(W)
+
+        # Exponentially Weighted Moving Average
+        self.s = self.beta * self.s + (1 - self.beta) * np.square(dW)
+        # Update
+        return W - self.alpha * dW / (np.sqrt(self.s) + self.eps)
 
 class Adam:
     pass
