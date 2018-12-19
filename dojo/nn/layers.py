@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import copy
 import numpy as np
 
 from ..activations import *
@@ -62,7 +63,9 @@ class Dense(Layer):
 
         self.W = None
         self.b = None
-        self.init_weights()
+        self.init_weights()    
+        self.W_opt = None
+        self.b_opt = None
 
         self.A_prev = None
         self.Z = None
@@ -107,6 +110,10 @@ class Dense(Layer):
     def backward(self, dA):
         self.linear_activation_backward(dA)
 
-    def update(self, alpha):
-        self.W -= alpha*self.grads["dW"]
-        self.b -= alpha*self.grads["db"]
+    def update(self, optimizer):
+        if self.W_opt is None and self.b_opt is None:
+            self.W_opt = copy.copy(optimizer)
+            self.b_opt = copy.copy(optimizer)
+
+        self.W = self.W_opt.update(self.W, self.grads["dW"])
+        self.b = self.b_opt.update(self.b, self.grads["db"])

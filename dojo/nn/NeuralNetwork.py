@@ -4,6 +4,7 @@ from terminaltables import AsciiTable
 
 from ..base import BaseModel
 from ..losses import CrossEntropy
+from ..optimizers import GradientDescent
 from ..metrics.classification import accuracy_score
 from ..utils import bar_widgets
 
@@ -15,8 +16,8 @@ __all__ = [
 class NeuralNetwork(BaseModel):
     # TODO: add __doc__
 
-    def __init__(self, alpha=0.01, n_epochs=5_000, loss=CrossEntropy(), verbose=False):
-        self.alpha = alpha
+    def __init__(self, optimizer=GradientDescent(0.01), n_epochs=5_000, loss=CrossEntropy(), verbose=False):
+        self.optimizer = optimizer
         self.n_epochs = n_epochs
         self.loss = loss
         self.verbose = verbose
@@ -71,7 +72,7 @@ class NeuralNetwork(BaseModel):
 
             # Updating the weights
             for layer in self._layers:
-                layer.update(self.alpha)
+                layer.update(self.optimizer)
 
         return self
 
