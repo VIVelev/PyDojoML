@@ -59,5 +59,29 @@ class RMSprop(Optimizer):
         # Update
         return W - self.alpha * dW / (np.sqrt(self.s) + self.eps)
 
-class Adam:
-    pass
+class Adam(Optimizer):
+    def __init__(self, alpha=0.01, beta1=0.9, beta2=0.999):
+        super().__init__(alpha)
+        self.beta1 = beta1
+        self.beta2 = beta2
+        self.eps = 1e-8
+        self.t = 1
+        self.v = None
+        self.s = None
+
+    def update(self, W, dW):
+        if self.v is None:
+            self.v = np.zeros_like(W)
+            self.s = np.zeros_like(W)
+
+        # Exponentially Weighted Moving Average
+        self.v = self.beta1 * self.v + (1 - self.beta1) * dW
+        self.s = self.beta2 * self.s + (1 - self.beta2) * np.square(dW)
+
+        # Bias correction
+        v_corrected = self.v / (1 - self.beta1**self.t)
+        s_corrected = self.s / (1 - self.beta2**self.t)
+        self.t += 1
+
+        # Update
+        return W - self.alpha * v_corrected / (np.sqrt(s_corrected) + self.eps)
