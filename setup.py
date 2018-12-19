@@ -24,5 +24,7 @@ setup(
     install_requires=[
         "numpy",
         "scipy",
+        "progressbar",
+        "terminaltable",
     ],
 )
