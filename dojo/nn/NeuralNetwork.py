@@ -1,5 +1,6 @@
 import numpy as np
 import progressbar
+from terminaltables import AsciiTable
 
 from ..base import BaseModel
 from ..losses import CrossEntropy
@@ -86,3 +87,21 @@ class NeuralNetwork(BaseModel):
 
     def evaluate(self, X, y):
         return accuracy_score(y, self.predict(X))
+
+    def summary(self, name="Model Summary"):
+        # Print model name
+        print(AsciiTable([[name]]).table)
+        # Network input shape (first layer's input shape)
+        print("Input Shape: %s" % str((self._layers[0].n_inputs, 1)))
+        # Iterate through network and get each layer's configuration
+        table_data = [["Layer Type", "Number of Parameters", "Number of Neurons"]]
+        tot_params = 0
+        for layer in self._layers:
+            layer_type = layer.get_name()
+            n_params = layer.get_n_params()
+            n_neurons = layer.n_neurons
+            table_data.append([layer_type, str(n_params), str(n_neurons)])
+            tot_params += n_params
+        # Print network configuration table
+        print(AsciiTable(table_data).table)
+        print("Total Parameters: %d\n" % tot_params)

@@ -14,6 +14,14 @@ __all__ = [
 class Layer(ABC):
 
     @abstractmethod
+    def get_name(self):
+        pass
+
+    @abstractmethod
+    def get_n_params(self):
+        pass
+
+    @abstractmethod
     def init_weights(self):
         pass
 
@@ -61,6 +69,12 @@ class Dense(Layer):
         self.A = None
 
         self.grads = {}
+
+    def get_name(self):
+        return "Dense"
+
+    def get_n_params(self):
+        return self.W.size + self.b.size
 
     def init_weights(self):
         """Performs He initialization"""
