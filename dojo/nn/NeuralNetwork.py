@@ -94,14 +94,14 @@ class NeuralNetwork(BaseModel):
         # Network input shape (first layer's input shape)
         print("Input Shape: %s" % str((self._layers[0].n_inputs, 1)))
         # Iterate through network and get each layer's configuration
-        table_data = [["Layer Type", "Number of Parameters", "Number of Neurons"]]
+        table_data = [["Layer Type", "Number of Parameters", "Output Shape"]]
         tot_params = 0
         for layer in self._layers:
             layer_type = layer.get_name()
             n_params = layer.get_n_params()
-            n_neurons = layer.n_neurons
-            table_data.append([layer_type, str(n_params), str(n_neurons)])
+            output_shape = (layer.n_neurons, 1)
+            table_data.append([layer_type, str(n_params), str(output_shape)])
             tot_params += n_params
         # Print network configuration table
         print(AsciiTable(table_data).table)
-        print("Total Parameters: %d\n" % tot_params)
+        print("Total Number of Parameters: %d\n" % tot_params)
