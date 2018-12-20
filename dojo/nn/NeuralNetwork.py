@@ -4,8 +4,9 @@ from terminaltables import AsciiTable
 
 from ..base import BaseModel
 from ..losses import CrossEntropy
-from ..optimizers import Adam
 from ..metrics.classification import accuracy_score
+from ..optimizers import Adam
+from ..split import batch_iterator
 from ..utils import bar_widgets
 
 __all__ = [
@@ -16,9 +17,10 @@ __all__ = [
 class NeuralNetwork(BaseModel):
     # TODO: add __doc__
 
-    def __init__(self, optimizer=Adam(0.01), n_epochs=5_000, loss=CrossEntropy(), verbose=False):
+    def __init__(self, optimizer=Adam(0.01), n_epochs=5_000, batch_size=32, loss=CrossEntropy(), verbose=False):
         self.optimizer = optimizer
         self.n_epochs = n_epochs
+        self.batch_size = batch_size
         self.loss = loss
         self.verbose = verbose
 
@@ -46,33 +48,39 @@ class NeuralNetwork(BaseModel):
             layer.backward(dA)
             dA = layer.grads["dA_prev"]
 
-    def fit(self, X, y):
-        X, y = super().fit(X, y)
-        m = X.shape[0]
+    def train_on_batch(self, X, y):
         X = X.T
         y = y.reshape(1, -1)
 
-        for i in self._progressbar(range(1, self.n_epochs + 1)):
-            # Forward-propagation
-            AL = self.forwardprop(X)
+        # Forward-propagation
+        AL = self.forwardprop(X)
 
-            # Computing the cost
-            self._loss_values.append(np.mean(self.loss(y, AL)))
-            penalty = 0
-            for layer in self._layers:
-                penalty += layer.regularizer(layer.W)
-            self._loss_values[-1] += 1/m * penalty
+        # Computing the cost
+        self._loss_values.append(np.mean(self.loss(y, AL)))
+        penalty = 0
+        for layer in self._layers:
+            penalty += layer.regularizer(layer.W)
+        self._loss_values[-1] += 1/X.shape[1] * penalty
 
+        # Back-propagation
+        self.backprop(y, AL)
+
+        # Updating the weights
+        for layer in self._layers:
+            layer.update(self.optimizer)
+
+        return self._loss_values[-1]
+
+    def fit(self, X, y):
+        X, y = super().fit(X, y)
+
+        for n_epoch in self._progressbar(range(1, self.n_epochs+1)):
+            for X_batch, y_batch in batch_iterator(X, y, batch_size=self.batch_size):
+                self.train_on_batch(X_batch, y_batch)
+                            
             # Printing
-            if i % 100 == 0 and self.verbose:
-                print(f"Iteration {i}, Cost: {self._loss_values[-1]}")
-
-            # Back-propagation
-            self.backprop(y, AL)
-
-            # Updating the weights
-            for layer in self._layers:
-                layer.update(self.optimizer)
+            if n_epoch % 100 == 0 and self.verbose:
+                print(f"Epoch {n_epoch}, Cost: {self._loss_values[-1]}")
 
         return self
 
