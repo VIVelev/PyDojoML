@@ -29,36 +29,32 @@ class KFolds:
         self.k = k
 
         if shuffle:
-            data = np.column_stack((
-                self.X, self.y
-            ))
-            np.random.shuffle(data)
-
-        self.X, self.y = data[:, :-1], data[:, -1]
+            rnd_idxs = np.random.permutation(list(range(y.size)))
+            self.X, self.y = X[rnd_idxs], y[rnd_idxs]
         
-        self._i = 0
-        self._X_folds = np.split(self.X, k, axis=0)
-        self._y_folds = np.split(self.y, k)
+        self.test_set_idx = 0
+        self.X_folds = np.split(self.X, k, axis=0)
+        self.y_folds = np.split(self.y, k)
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        if self._i >= self.k:
+        if self.test_set_idx >= self.k:
             raise StopIteration
         
         X_train = np.zeros((1, self.X.shape[1]))
         X_test = y_train = y_test = []
 
-        for j in range(self.k):
-            if j == self._i:
-                X_test = self._X_folds[self._i]
-                y_test = self._y_folds[self._i]
+        for i in range(self.k):
+            if i == self.test_set_idx:
+                X_test = self.X_folds[self.test_set_idx]
+                y_test = self.y_folds[self.test_set_idx]
             else:
                 X_train = np.vstack((
-                    X_train, self._X_folds[j]
+                    X_train, self.X_folds[i]
                 ))
-                y_train = np.append(y_train, self._y_folds[j])
+                y_train = np.append(y_train, self.y_folds[i])
         
-        self._i+=1
+        self.test_set_idx += 1
         return X_train[1:, :], X_test, y_train, y_test
