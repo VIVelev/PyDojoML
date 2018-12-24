@@ -6,6 +6,7 @@ from ..base import BaseModel
 from ..losses import CrossEntropy
 from ..metrics.classification import accuracy_score
 from ..optimizers import Adam
+from ..preprocessing import OneHotEncoder
 from ..split import batch_iterator
 from ..utils import bar_widgets
 
@@ -27,7 +28,6 @@ class NeuralNetwork(BaseModel):
         self._progressbar = progressbar.ProgressBar(widgets=bar_widgets)
         self._loss_values = []
         self._layers = []
-        self._n_classes = 0
 
     def add(self, layer):
         if len(self._layers) > 0:
@@ -75,17 +75,9 @@ class NeuralNetwork(BaseModel):
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
-        self._n_classes = np.unique(y).size
-
-        Y_vec = []
-        for i in range(y.size):
-            vec = np.zeros(self._n_classes)
-            vec[int(y[i])] = 1
-            Y_vec.append(vec)
-        Y_vec = np.array(Y_vec)
 
         for n_epoch in self._progressbar(range(1, self.n_epochs+1)):
-            for X_batch, y_batch in batch_iterator(X, Y_vec, batch_size=self.batch_size):
+            for X_batch, y_batch in batch_iterator(X, OneHotEncoder().fit_transform(y), batch_size=self.batch_size):
                 self.train_on_batch(X_batch, y_batch)
 
             # Printing
