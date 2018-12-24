@@ -37,12 +37,12 @@ class Sigmoid(Activation):
 class Softmax(Activation):
     """Computing the numerical stable Softmax function and its derivative."""
 
-    def __init__(self):
-        pass
+    def __init__(self, axis=-1):
+        self.axis = axis
 
     def __call__(self, x):
-        exps = np.exp(x - np.max(x))
-        return exps / np.sum(exps)
+        exps = np.exp(x - np.max(x, axis=self.axis, keepdims=True))
+        return exps / np.sum(exps, axis=self.axis, keepdims=True)
 
     def gradient(self, x):
         a = self(x)

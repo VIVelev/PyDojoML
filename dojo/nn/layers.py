@@ -51,7 +51,7 @@ class Dense(Layer):
         if activation.lower() == "sigmoid":
             self.activation_func = Sigmoid()
         elif activation.lower() == "softmax":
-            self.activation_func = Softmax()
+            self.activation_func = Softmax(axis=0)
         elif activation.lower() == "tanh":
             self.activation_func = TanH()
         elif activation.lower() == "relu":
