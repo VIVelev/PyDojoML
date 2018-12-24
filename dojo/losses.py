@@ -37,7 +37,7 @@ class CrossEntropy(Loss):
     def __call__(self, y, y_pred):
         # Avoid division by zero
         y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
-        return - y * np.log(y_pred) - (1 - y) * np.log(1 - y_pred)
+        return np.sum(- y * np.log(y_pred) - (1 - y) * np.log(1 - y_pred), axis=0)
 
     def gradient(self, y, y_pred):
         # Avoid division by zero

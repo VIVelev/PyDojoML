@@ -50,8 +50,7 @@ class NeuralNetwork(BaseModel):
             dA = layer.grads["dA_prev"]
 
     def train_on_batch(self, X, y):
-        X = X.T
-        y = y.T
+        X, y = X.T, y.T
         assert X.shape[1] == y.shape[1]
 
         # Forward-propagation
