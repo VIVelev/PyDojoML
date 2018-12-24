@@ -8,7 +8,7 @@ __all__ = [
 class batch_iterator:
 
     def __init__(self, X, y, batch_size=32):
-        rnd_idxs = np.random.permutation(list(range(y.size)))
+        rnd_idxs = np.random.permutation(list(range(X.shape[0])))
         self.X = X[rnd_idxs]
         self.y = y[rnd_idxs]
         self.batch_size = batch_size

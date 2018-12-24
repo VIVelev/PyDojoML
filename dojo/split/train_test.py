@@ -34,12 +34,8 @@ def train_test_split(X, y, test_size=0.3, shuffle=True):
     X, y = convert_assert(X, y)
 
     if shuffle:
-        data = np.column_stack((
-            X, y
-        ))
-
-        np.random.shuffle(data)
-        X, y = data[:, :-1], data[:, -1]
+        rnd_idxs = np.random.permutation(list(range(X.shape[0])))
+        X, y = X[rnd_idxs], y[rnd_idxs]
 
     border = int((1 - test_size) * X.shape[0])
     return X[:border, :], X[border:, :], y[:border], y[border:]

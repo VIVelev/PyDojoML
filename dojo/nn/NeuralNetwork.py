@@ -27,6 +27,7 @@ class NeuralNetwork(BaseModel):
         self._progressbar = progressbar.ProgressBar(widgets=bar_widgets)
         self._loss_values = []
         self._layers = []
+        self._n_classes = 0
 
     def add(self, layer):
         if len(self._layers) > 0:
@@ -50,7 +51,8 @@ class NeuralNetwork(BaseModel):
 
     def train_on_batch(self, X, y):
         X = X.T
-        y = y.reshape(1, -1)
+        y = y.T
+        assert X.shape[1] == y.shape[1]
 
         # Forward-propagation
         AL = self.forwardprop(X)
@@ -73,11 +75,19 @@ class NeuralNetwork(BaseModel):
 
     def fit(self, X, y):
         X, y = super().fit(X, y)
+        self._n_classes = np.unique(y).size
+
+        Y_vec = []
+        for i in range(y.size):
+            vec = np.zeros(self._n_classes)
+            vec[int(y[i])] = 1
+            Y_vec.append(vec)
+        Y_vec = np.array(Y_vec)
 
         for n_epoch in self._progressbar(range(1, self.n_epochs+1)):
-            for X_batch, y_batch in batch_iterator(X, y, batch_size=self.batch_size):
+            for X_batch, y_batch in batch_iterator(X, Y_vec, batch_size=self.batch_size):
                 self.train_on_batch(X_batch, y_batch)
-                            
+
             # Printing
             if n_epoch % 100 == 0 and self.verbose:
                 print(f"Epoch {n_epoch}, Cost: {self._loss_values[-1]}")
@@ -85,7 +95,7 @@ class NeuralNetwork(BaseModel):
         return self
 
     def predict(self, X):
-        return np.round(self.predict_proba(X))
+        return np.argmax(self.predict_proba(X), axis=0)
 
     def predict_proba(self, X):
         X = super().predict_proba(X).T

@@ -29,7 +29,7 @@ class KFolds:
         self.k = k
 
         if shuffle:
-            rnd_idxs = np.random.permutation(list(range(y.size)))
+            rnd_idxs = np.random.permutation(list(range(X.shape[0])))
             self.X, self.y = X[rnd_idxs], y[rnd_idxs]
         
         self.test_set_idx = 0

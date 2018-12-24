@@ -4,6 +4,7 @@ import numpy as np
 __all__ = [
     "Activation",
     "Sigmoid",
+    "Softmax",
     "TanH",
     "ReLU",
     "LeakyReLU",
@@ -31,7 +32,21 @@ class Sigmoid(Activation):
 
     def gradient(self, x):
         a = self(x)
-        return  a * (1 - a)
+        return a * (1 - a)
+
+class Softmax(Activation):
+    """Computing the numerical stable Softmax function and its derivative."""
+
+    def __init__(self):
+        pass
+
+    def __call__(self, x):
+        exps = np.exp(x - np.max(x))
+        return exps / np.sum(exps)
+
+    def gradient(self, x):
+        a = self(x)
+        return a * (1 - a)
 
 class TanH(Activation):
     def __init__(self):
