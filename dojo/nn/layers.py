@@ -94,15 +94,15 @@ class Dense(Layer):
 
     def linear_forward(self):
         self.Z = self.W @ self.A_prev + self.b
-        return self.Z
 
     def linear_activation_forward(self, A_prev):
         self.A_prev = A_prev
-        self.A = self.activation_func(self.linear_forward())
-        return self.A
+        self.linear_forward()
+        self.A = self.activation_func(self.Z)
 
     def forward(self, A_prev):
-        return self.linear_activation_forward(A_prev)
+        self.linear_activation_forward(A_prev)
+        return self.A
 
     def linear_backward(self):
         m = self.A_prev.shape[1]
@@ -111,12 +111,12 @@ class Dense(Layer):
         self.grads["dA_prev"] = self.W.T @ self.grads["dZ"]
 
     def linear_activation_backward(self, dA):
-        if "dZ" not in self.grads.keys():
-            self.grads["dZ"] = dA * self.activation_func.gradient(self.Z)
+        self.grads["dZ"] = dA * self.activation_func.gradient(self.Z)
         self.linear_backward()
 
     def backward(self, dA):
         self.linear_activation_backward(dA)
+        return self.grads["dA_prev"]
 
     def update(self, optimizer):
         if self.W_opt is None and self.b_opt is None:
@@ -148,8 +148,11 @@ class ActivationLayer(Layer):
 
         self.n_inputs = None
         self.n_neurons = None
+
         self.Z = None
+        self.A = None
         self.dZ = None
+        self.dA = None
 
     def get_name(self):
         return "Activation Layer"
@@ -162,10 +165,13 @@ class ActivationLayer(Layer):
 
     def forward(self, Z):
         self.Z = Z
-        return self.activation_func(Z)
+        self.A = self.activation_func(self.Z)
+        return self.A
 
     def backward(self, dA):
-        self.dZ = dA * self.activation_func.gradient(self.Z)
+        self.dA = dA
+        self.dZ = self.dA * self.activation_func.gradient(self.Z)
+        return self.dZ
 
     def update(self, optimizer):
         pass

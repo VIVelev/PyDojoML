@@ -47,20 +47,9 @@ class NeuralNetwork(BaseModel):
         return AL
 
     def backprop(self, Y, AL):
-        dA = self.loss.gradient(Y, AL)
-        dZ = None
-
+        accum_grad = self.loss.gradient(Y, AL)
         for layer in reversed(self._layers):
-            if dZ is not None and isinstance(layer, Dense):
-                layer.grads["dZ"] = dZ
-
-            layer.backward(dA)
-            
-            if isinstance(layer, ActivationLayer):
-                dZ = layer.dZ
-                continue
-                
-            dA = layer.grads["dA_prev"]
+            accum_grad = layer.backward(accum_grad)
 
     def train_on_batch(self, X, y):
         X, y = X.T, y.T
