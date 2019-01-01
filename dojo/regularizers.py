@@ -21,6 +21,8 @@ class Regularizer(ABC):
 # ====================================================================================================
 
 class L1(Regularizer):
+    """Performs absolute norm"""
+
     def __init__(self, lambd):
         self.lambd = lambd
 
@@ -31,6 +33,8 @@ class L1(Regularizer):
         return self.lambd * np.abs(W)
 
 class L2(Regularizer):
+    """Performs Forbenius Norm (squared norm)"""
+
     def __init__(self, lambd):
         self.lambd = lambd
 

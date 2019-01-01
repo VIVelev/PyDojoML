@@ -25,6 +25,11 @@ class Activation(ABC):
 # ====================================================================================================
 
 class Linear(Activation):
+    """Computing the Linear (Identity) function and its derivative.
+
+        g(x) = x
+    """
+
     def __init__(self):
         pass
 
@@ -35,6 +40,11 @@ class Linear(Activation):
         return 1
 
 class Sigmoid(Activation):
+    """Computing the Sigmoid function and its derivative.
+
+        g(x) = 1 / (1 + e^-x)
+    """
+
     def __init__(self):
         pass
 
@@ -46,7 +56,10 @@ class Sigmoid(Activation):
         return a * (1 - a)
 
 class Softmax(Activation):
-    """Computing the numerical stable Softmax function and its derivative."""
+    """Computing the numerical stable Softmax function and its derivative.
+
+        g(vec) = e^vec[j] / sum(e^vec[k])
+    """
 
     def __init__(self, axis=-1):
         self.axis = axis
@@ -60,6 +73,11 @@ class Softmax(Activation):
         return a * (1 - a)
 
 class TanH(Activation):
+    """Computing the TanH function and its derivative.
+
+        g(x) = (e^x - e^-x) / (e^x + e^-x)
+    """
+
     def __init__(self):
         pass
 
@@ -70,6 +88,11 @@ class TanH(Activation):
         return 1 - self(x)**2
 
 class ReLU(Activation):
+    """Computing the ReLU function and its derivative.
+
+        g(x) = max(x, 0)
+    """
+
     def __init__(self):
         pass
 
@@ -80,6 +103,11 @@ class ReLU(Activation):
         return (np.array(x) >= 0).astype(int)
 
 class LeakyReLU(Activation):
+    """Computing the ReLU function and its derivative.
+
+        g(x) = max(x, eps*x)
+    """
+
     def __init__(self, eps=0.01):
         self.eps = eps
 
