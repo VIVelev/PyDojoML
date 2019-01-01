@@ -39,7 +39,7 @@ class LogisticRegression(BaseModel):
         self._coefs = []
         self._activation_func = Sigmoid()
     
-    def _calc_gradient(self, X, y, a, z):
+    def _backprop(self, X, y, a, z):
         dz = self.loss.gradient(y, a) * self._activation_func.gradient(z)
         dintercept = np.mean(dz)
         dcoefs = 1/y.size * X.T @ dz + 1/y.size * self.regularizer.gradient(self._coefs)
@@ -74,7 +74,7 @@ class LogisticRegression(BaseModel):
                 print(f"Loss: {best_cost}")
 
             # Calculate the gradient
-            dintercept, dcoefs = self._calc_gradient(X, y, a, z)
+            dintercept, dcoefs = self._backprop(X, y, a, z)
             # Update
             self._intercept -= self.alpha * dintercept
             self._coefs -= self.alpha * dcoefs
