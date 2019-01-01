@@ -81,7 +81,7 @@ class Dense(Layer):
         self.grads = {}
 
     def get_name(self):
-        return "Dense Layer"
+        return "Dense"
 
     def get_n_params(self):
         return self.W.size + self.b.size
@@ -127,6 +127,7 @@ class Dense(Layer):
         self.b = self.b_opt.update(self.b, self.grads["db"])
 
 class ActivationLayer(Layer):
+    # TODO: add __doc__
 
     def __init__(self, activation):
         if activation.lower() == "linear":
@@ -155,7 +156,7 @@ class ActivationLayer(Layer):
         self.dA = None
 
     def get_name(self):
-        return "Activation Layer"
+        return "Activation"
 
     def get_n_params(self):
         return 0

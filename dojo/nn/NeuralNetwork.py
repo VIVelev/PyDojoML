@@ -33,6 +33,8 @@ class NeuralNetwork(BaseModel):
     def add(self, layer):
         if len(self._layers) > 0:
             layer.n_inputs = self._layers[-1].n_neurons
+
+            # For activation layers n_neurons equals the n_inputs
             if isinstance(layer, ActivationLayer):
                 layer.n_neurons = layer.n_inputs
 
