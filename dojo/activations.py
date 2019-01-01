@@ -3,6 +3,7 @@ import numpy as np
 
 __all__ = [
     "Activation",
+    "Linear",
     "Sigmoid",
     "Softmax",
     "TanH",
@@ -22,6 +23,16 @@ class Activation(ABC):
 
 # ====================================================================================================
 # ====================================================================================================
+
+class Linear(Activation):
+    def __init__(self):
+        pass
+
+    def __call__(self, x):
+        return x
+
+    def gradient(self, x):
+        return 1
 
 class Sigmoid(Activation):
     def __init__(self):

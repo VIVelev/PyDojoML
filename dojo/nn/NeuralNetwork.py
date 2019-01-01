@@ -3,6 +3,7 @@ import progressbar
 from terminaltables import AsciiTable
 
 from ..base import BaseModel
+from .layers import Dense, ActivationLayer
 from ..losses import CrossEntropy
 from ..metrics.classification import accuracy_score
 from ..optimizers import Adam
@@ -32,6 +33,9 @@ class NeuralNetwork(BaseModel):
     def add(self, layer):
         if len(self._layers) > 0:
             layer.n_inputs = self._layers[-1].n_neurons
+            if isinstance(layer, ActivationLayer):
+                layer.n_neurons = layer.n_inputs
+
         layer.init_weights()
         self._layers.append(layer)
 
@@ -44,9 +48,18 @@ class NeuralNetwork(BaseModel):
 
     def backprop(self, Y, AL):
         dA = self.loss.gradient(Y, AL)
+        dZ = None
 
         for layer in reversed(self._layers):
+            if dZ is not None and isinstance(layer, Dense):
+                layer.grads["dZ"] = dZ
+
             layer.backward(dA)
+            
+            if isinstance(layer, ActivationLayer):
+                dZ = layer.dZ
+                continue
+                
             dA = layer.grads["dA_prev"]
 
     def train_on_batch(self, X, y):
@@ -60,7 +73,10 @@ class NeuralNetwork(BaseModel):
         self._loss_values.append(np.mean(self.loss(y, AL)))
         penalty = 0
         for layer in self._layers:
-            penalty += layer.regularizer(layer.W)
+            try:
+                penalty += layer.regularizer(layer.W)
+            except AttributeError:
+                pass
         self._loss_values[-1] += 1/X.shape[1] * penalty
 
         # Back-propagation

@@ -9,6 +9,7 @@ from ..regularizers import L2
 __all__ = [
     "Layer",
     "Dense",
+    "ActivationLayer",
 ]
 
 
@@ -35,7 +36,7 @@ class Layer(ABC):
         pass
 
     @abstractmethod
-    def update(self, alpha):
+    def update(self, optimizer):
         pass
 
 # ====================================================================================================
@@ -44,11 +45,13 @@ class Layer(ABC):
 class Dense(Layer):
     # TODO: add __doc__
 
-    def __init__(self, n_neurons, n_inputs=1, activation="sigmoid", regularizer=L2(0)):
+    def __init__(self, n_neurons, n_inputs=1, activation="linear", regularizer=L2(0)):
         self.n_neurons = n_neurons
         self.n_inputs = n_inputs
-        
-        if activation.lower() == "sigmoid":
+
+        if activation.lower() == "linear":
+            self.activation_func = Linear()
+        elif activation.lower() == "sigmoid":
             self.activation_func = Sigmoid()
         elif activation.lower() == "softmax":
             self.activation_func = Softmax(axis=0)
@@ -58,8 +61,10 @@ class Dense(Layer):
             self.activation_func = ReLU()
         elif activation.lower() == "leaky_relu":
             self.activation_func = LeakyReLU()
+        elif isinstance(activation, Activation):
+            self.activation_func = activation
         else:
-            raise ParameterError(f"Activation: \"{activation}\" not known.")
+            raise ParameterError(f"Unknown activation function: `{activation}`")
 
         self.regularizer = regularizer
 
@@ -76,7 +81,7 @@ class Dense(Layer):
         self.grads = {}
 
     def get_name(self):
-        return "Dense"
+        return "Dense Layer"
 
     def get_n_params(self):
         return self.W.size + self.b.size
@@ -106,7 +111,8 @@ class Dense(Layer):
         self.grads["dA_prev"] = self.W.T @ self.grads["dZ"]
 
     def linear_activation_backward(self, dA):
-        self.grads["dZ"] = dA * self.activation_func.gradient(self.Z)
+        if "dZ" not in self.grads.keys():
+            self.grads["dZ"] = dA * self.activation_func.gradient(self.Z)
         self.linear_backward()
 
     def backward(self, dA):
@@ -119,3 +125,47 @@ class Dense(Layer):
 
         self.W = self.W_opt.update(self.W, self.grads["dW"])
         self.b = self.b_opt.update(self.b, self.grads["db"])
+
+class ActivationLayer(Layer):
+
+    def __init__(self, activation):
+        if activation.lower() == "linear":
+            self.activation_func = Linear()
+        elif activation.lower() == "sigmoid":
+            self.activation_func = Sigmoid()
+        elif activation.lower() == "softmax":
+            self.activation_func = Softmax(axis=0)
+        elif activation.lower() == "tanh":
+            self.activation_func = TanH()
+        elif activation.lower() == "relu":
+            self.activation_func = ReLU()
+        elif activation.lower() == "leaky_relu":
+            self.activation_func = LeakyReLU()
+        elif isinstance(activation, Activation):
+            self.activation_func = activation
+        else:
+            raise ParameterError(f"Unknown activation function: `{activation}`")
+
+        self.n_inputs = None
+        self.n_neurons = None
+        self.Z = None
+        self.dZ = None
+
+    def get_name(self):
+        return "Activation Layer"
+
+    def get_n_params(self):
+        return 0
+
+    def init_weights(self):
+        pass
+
+    def forward(self, Z):
+        self.Z = Z
+        return self.activation_func(Z)
+
+    def backward(self, dA):
+        self.dZ = dA * self.activation_func.gradient(self.Z)
+
+    def update(self, optimizer):
+        pass
