@@ -31,13 +31,40 @@ prediction = linear_reg.predict(X[:20, :])
 
 ```
 
-## Currently supported Machine Learning Models
+## Dojo's ingredients
 ### Linear Models
   - Linear Regression
   - LASSO
   - Ridge
   - Logistic Regression
-  
+
+### Deep Neural Networks
+  - Layers:
+    - Dense
+    - Activation
+
+### Activation functions
+  - Linear
+  - Sigmoid
+  - Softmax
+  - TanH
+  - ReLU
+  - Leaky ReLU
+
+### Losses
+  - Squared Error
+  - Cross Entropy
+
+### Optimizers
+  - Stochastic/Batch/Mini-batch Gradient Descent
+  - Momentum
+  - RMSprop
+  - Adam
+
+## Regularizer
+  - L1
+  - L2
+
 ### Tree Models
   - Classification And Regression Trees (CARTs)
   - Extra-Trees
@@ -64,7 +91,14 @@ prediction = linear_reg.predict(X[:20, :])
 ### Dimensionality Reduction Techniques
   - Principal Component Analysis
   - Linear Discriminant Analysis
-  
+
+### Preprocessing
+  - Encoders:
+    - Label Encoder
+    - OneHot Encoder
+  - Scalers:
+    - Normalizer
+
 ### Various metrics
   - classification
   - regression
@@ -73,6 +107,9 @@ prediction = linear_reg.predict(X[:20, :])
 ### Model evaluation utils
   - Train-Test splits
   - K-Fold Cross Validation
+
+### Plotting
+  - Decision Boundary plotter
   
 ### Data Preprocessing utils
   - encoders
