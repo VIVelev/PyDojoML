@@ -11,7 +11,7 @@ progressbar = "*"
 terminaltables = "*"
 
 [dev-packages]
-pydojoml = "==0.3.6"
+pydojoml = "*"
 scikit-learn = "*"
 pylint = "*"
 jupyter = "*"
