@@ -7,6 +7,7 @@ __all__ = [
     "Momentum",
     "RMSprop",
     "Adam",
+    "NesterovAcceleratedGradient",
 ]
 
 
@@ -85,3 +86,18 @@ class Adam(Optimizer):
 
         # Update
         return W - self.alpha * v_corrected / (np.sqrt(s_corrected) + self.eps)
+
+class NesterovAcceleratedGradient(Optimizer):
+    def __init__(self, alpha=0.01, beta=0.9):
+        super().__init__(alpha)
+        self.beta = beta
+        self.v = None
+
+    def update(self, W, dW_func):
+        if self.v is None:
+            self.v = np.zeros_like(W)
+
+        approx_future_grad = dW_func(W - self.alpha * self.beta * self.v)
+        self.v = self.beta * self.v + (1- self.beta) * approx_future_grad
+
+        return W - self.alpha * self.v
