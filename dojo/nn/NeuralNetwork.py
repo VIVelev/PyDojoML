@@ -3,13 +3,13 @@ import progressbar
 from terminaltables import AsciiTable
 
 from ..base import BaseModel
-from .layers import Dense, ActivationLayer
 from ..losses import CrossEntropy
 from ..metrics.classification import accuracy_score
+from ..misc import bar_widgets
 from ..optimizers import Adam
 from ..preprocessing import OneHotEncoder
 from ..split import batch_iterator
-from ..utils import bar_widgets
+from .layers import ActivationLayer, Dense
 
 __all__ = [
     "NeuralNetwork",

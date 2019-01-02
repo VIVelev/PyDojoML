@@ -6,13 +6,13 @@ name = "pypi"
 [packages]
 numpy = "*"
 scipy = "*"
+matplotlib = "*"
 progressbar = "*"
 terminaltables = "*"
 
 [dev-packages]
 pydojoml = "==0.3.6"
 scikit-learn = "*"
-matplotlib = "*"
 pylint = "*"
 jupyter = "*"
 twine = "*"

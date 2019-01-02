@@ -9,6 +9,7 @@ from . import (
     metrics,
     nlp,
     nn,
+    plot,
     preprocessing,
     recommender,
     split,
@@ -17,9 +18,9 @@ from . import (
     activations,
     exceptions,
     losses,
+    misc,
     optimizers,
     regularizers,
-    utils,
 )
 
 __all__ = [
@@ -33,6 +34,7 @@ __all__ = [
     "metrics",
     "nlp",
     "nn",
+    "plot",
     "preprocessing",
     "recommender",
     "split",
@@ -41,9 +43,9 @@ __all__ = [
     "activations",
     "exceptions",
     "losses",
+    "misc",
     "optimizers",
     "regularizers",
-    "utils",
 ]
 
 __version__ = "0.4.0"
