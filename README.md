@@ -16,12 +16,12 @@ Good job, now it's time we rock-and-roll!<br>
 import numpy as np
 from dojo.linear import LinearRegression
 
-# Building the model.
-linear_reg = LinearRegression()
-
-# Let's creat some data to fit the model to.
+# Let's create some data to fit the model to.
 X = np.random.randn(100_000, 100)
 y = X @ np.random.rand(100)
+
+# Building the model.
+linear_reg = LinearRegression()
 
 # Fitting the model is as easy as a call of a method.
 linear_reg.fit(X, y)
@@ -61,7 +61,7 @@ prediction = linear_reg.predict(X[:20, :])
   - RMSprop
   - Adam
 
-## Regularizer
+### Regularizer
   - L1
   - L2
 
