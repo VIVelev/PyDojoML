@@ -26,6 +26,6 @@ setup(
         "scipy",
         "matplotlib",
         "progressbar",
-        "terminaltable",
+        "terminaltables",
     ],
 )
