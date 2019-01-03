@@ -88,7 +88,7 @@ class Adam(Optimizer):
         return W - self.alpha * v_corrected / (np.sqrt(s_corrected) + self.eps)
 
 class NesterovAcceleratedGradient(Optimizer):
-    def __init__(self, alpha=0.01, beta=0.9):
+    def __init__(self, alpha=0.001, beta=0.4):
         super().__init__(alpha)
         self.beta = beta
         self.v = None
@@ -97,7 +97,10 @@ class NesterovAcceleratedGradient(Optimizer):
         if self.v is None:
             self.v = np.zeros_like(W)
 
+        # Approximate the future gradient
         approx_future_grad = dW_func(W - self.alpha * self.beta * self.v)
-        self.v = self.beta * self.v + (1- self.beta) * approx_future_grad
+        # Exponentially Weighted Moving Average
+        self.v = self.beta * self.v + (1 - self.beta) * approx_future_grad
 
+        # Update
         return W - self.alpha * self.v
