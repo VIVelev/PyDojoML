@@ -30,6 +30,8 @@ def squared_error(y, y_pred):
     y, y_pred = convert_assert(y, y_pred)
     return np.sum((y - y_pred) ** 2)
 
+# ==================================================================================================== #
+
 def mean_squared_error(y, y_pred):
     """Calculates the mean squared difference
     between target and prediction.
@@ -50,6 +52,8 @@ def mean_squared_error(y, y_pred):
     """
 
     return squared_error(y, y_pred) / len(y)
+
+# ==================================================================================================== #
 
 def absolute_error(y, y_pred):
     """Calculates the sum of the differences
@@ -73,6 +77,8 @@ def absolute_error(y, y_pred):
     y, y_pred = convert_assert(y, y_pred)
     return np.sum(y - y_pred)
 
+# ==================================================================================================== #
+
 def mean_absolute_error(y, y_pred):
     """Calculates the mean difference
     between target and prediction.
@@ -93,3 +99,5 @@ def mean_absolute_error(y, y_pred):
     """
 
     return absolute_error(y, y_pred) / len(y)
+
+# ==================================================================================================== #

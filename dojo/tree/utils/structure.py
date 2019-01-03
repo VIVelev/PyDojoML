@@ -54,6 +54,8 @@ class Question:
         else:
             return x[self.feature_n] == self.value
 
+# ==================================================================================================== #
+
 class Node:
     """A Node asks a question.
 
@@ -64,6 +66,8 @@ class Node:
         self.question = question
         self.true_branch = true_branch
         self.false_branch = false_branch
+
+# ==================================================================================================== #
 
 class Leaf:
     """A Leaf node classifies data.
@@ -76,3 +80,5 @@ class Leaf:
         ])
         self.most_frequent = max(set(data), key=list(data).count)
         self.mean = np.mean(data)
+
+# ==================================================================================================== #

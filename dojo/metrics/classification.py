@@ -40,7 +40,11 @@ def accuracy_score(y, y_pred):
     y, y_pred = convert_assert(y, y_pred)
     return np.count_nonzero(y == y_pred) / y.size
 
+# ==================================================================================================== #
+
 accuracy = accuracy_score
+
+# ==================================================================================================== #
 
 def true_positives(y, y_pred):
     """True-positives
@@ -64,6 +68,8 @@ def true_positives(y, y_pred):
 
     return np.count_nonzero(y_pred[y == 1] == 1)
 
+# ==================================================================================================== #
+
 def false_positives(y, y_pred):
     """False-positives
     
@@ -85,6 +91,8 @@ def false_positives(y, y_pred):
     assert_binary_problem(y)
 
     return np.count_nonzero(y_pred[y == 0] == 1)
+
+# ==================================================================================================== #
 
 def true_negatives(y, y_pred):
     """True-negatives
@@ -108,6 +116,8 @@ def true_negatives(y, y_pred):
 
     return np.count_nonzero(y_pred[y == 0] == 0)
 
+# ==================================================================================================== #
+
 def false_negatives(y, y_pred):
     """False-negatives
     
@@ -129,6 +139,8 @@ def false_negatives(y, y_pred):
     assert_binary_problem(y)
 
     return np.count_nonzero(y_pred[y == 1] == 0)
+
+# ==================================================================================================== #
 
 def precision(y, y_pred):
     """Precision score
@@ -153,6 +165,8 @@ def precision(y, y_pred):
     fp = false_positives(y, y_pred)
     return  tp / (tp + fp)
 
+# ==================================================================================================== #
+
 def recall(y, y_pred):
     """Recall score
 
@@ -175,6 +189,8 @@ def recall(y, y_pred):
     tp = true_positives(y, y_pred)
     fn = false_negatives(y, y_pred)
     return  tp / (tp + fn)
+
+# ==================================================================================================== #
 
 def f1_score(y, y_pred):
     """F1 score
@@ -199,3 +215,5 @@ def f1_score(y, y_pred):
     r = recall(y, y_pred)
 
     return 2*p*r / (p+r)
+
+# ==================================================================================================== #

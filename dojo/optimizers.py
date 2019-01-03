@@ -10,6 +10,9 @@ __all__ = [
     "NesterovAcceleratedGradient",
 ]
 
+# Check out information about all the optimizers here: 
+# http://ruder.io/optimizing-gradient-descent/index.html
+
 
 class Optimizer:
     def __init__(self, alpha):
@@ -19,8 +22,8 @@ class Optimizer:
     def update(self, W, dW):
         pass
 
-# ====================================================================================================
-# ====================================================================================================
+# ==================================================================================================== #
+# ==================================================================================================== #
 
 class GradientDescent(Optimizer):
     def __init__(self, alpha=0.01):
@@ -28,6 +31,8 @@ class GradientDescent(Optimizer):
 
     def update(self, W, dW):
         return W - self.alpha * dW
+
+# ==================================================================================================== #
 
 class Momentum(Optimizer):
     def __init__(self, alpha=0.01, beta=0.9):
@@ -44,6 +49,8 @@ class Momentum(Optimizer):
         # Update
         return W - self.alpha * self.v
 
+# ==================================================================================================== #
+
 class RMSprop(Optimizer):
     def __init__(self, alpha=0.01, beta=0.999):
         super().__init__(alpha)
@@ -59,6 +66,8 @@ class RMSprop(Optimizer):
         self.s = self.beta * self.s + (1 - self.beta) * np.square(dW)
         # Update
         return W - self.alpha * dW / (np.sqrt(self.s) + self.eps)
+
+# ==================================================================================================== #
 
 class Adam(Optimizer):
     def __init__(self, alpha=0.01, beta1=0.9, beta2=0.999):
@@ -87,6 +96,8 @@ class Adam(Optimizer):
         # Update
         return W - self.alpha * v_corrected / (np.sqrt(s_corrected) + self.eps)
 
+# ==================================================================================================== #
+
 class NesterovAcceleratedGradient(Optimizer):
     def __init__(self, alpha=0.001, beta=0.4):
         super().__init__(alpha)
@@ -104,3 +115,5 @@ class NesterovAcceleratedGradient(Optimizer):
 
         # Update
         return W - self.alpha * self.v
+
+# ==================================================================================================== #

@@ -1,16 +1,7 @@
 import numpy as np
 
-from .impurity_measurements import (
-    gini_impurity,
-    entropy,
-    info_gain,
-) 
-
-from .structure import (
-    Question,
-    Node,
-    Leaf,
-)
+from .impurity_measurements import entropy, gini_impurity, info_gain
+from .structure import Leaf, Node, Question
 
 __all__ = [
     "split",
@@ -45,6 +36,8 @@ def split(X, Y, question):
     return (np.array(true_X), np.array(false_X),
             np.array(true_Y), np.array(false_Y))
 
+# ==================================================================================================== #
+
 def find_best_question(X, y, criterion):
     """Find the best question to ask by iterating over every feature / value
     and calculating the information gain.
@@ -67,6 +60,8 @@ def find_best_question(X, y, criterion):
                 best_question = q
 
     return best_info_gain, best_question
+
+# ==================================================================================================== #
 
 def pick_rand_question(X, y, criterion):
     rand_features = [
@@ -91,6 +86,8 @@ def pick_rand_question(X, y, criterion):
             best_question = q
     
     return best_info_gain, best_question
+
+# ==================================================================================================== #
 
 def build_tree(X, y, criterion, max_depth, current_depth=1):
     """Builds the decision tree.
@@ -131,6 +128,8 @@ def build_tree(X, y, criterion, max_depth, current_depth=1):
         false_branch=false_branch
     )
 
+# ==================================================================================================== #
+
 def build_extra_tree(X, y, criterion, max_depth, current_depth=1):
     """Builds the extremely randomized decision tree.
     """
@@ -170,6 +169,8 @@ def build_extra_tree(X, y, criterion, max_depth, current_depth=1):
         false_branch=false_branch
     )
 
+# ==================================================================================================== #
+
 def tree_predict(x, root, proba=False, regression=False):
     """Predicts a probabilities/value/label for the sample x.
     """
@@ -187,6 +188,8 @@ def tree_predict(x, root, proba=False, regression=False):
     else:
         return tree_predict(x, root.false_branch, proba=proba, regression=regression)
 
+# ==================================================================================================== #
+
 def print_tree(root, space=' '):
     """Prints the Decision Tree in a pretty way.
     """
@@ -202,3 +205,5 @@ def print_tree(root, space=' '):
 
     print(space + "--> False:")
     print_tree(root.false_branch, space+'  ')
+
+# ==================================================================================================== #

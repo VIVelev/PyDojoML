@@ -13,6 +13,8 @@ def prop(x, s):
     """
     return list(s).count(x)/len(s)
 
+# ==================================================================================================== #
+
 def gini_impurity(s):
     """Calculate the Gini Impurity for a list of samples.
 
@@ -21,12 +23,16 @@ def gini_impurity(s):
     """
     return 1 - sum(prop(s[i], s)**2 for i in range(len(s)))
 
+# ==================================================================================================== #
+
 def entropy(s):
     """Calculate the Entropy Impurity for a list of samples.
     """
     return -sum(
         p*np.log(p) for i in range(len(s)) for p in [prop(s[i], s)]
     )
+
+# ==================================================================================================== #
 
 def info_gain(current_impurity, true_branch, false_branch, criterion):
     """Information Gain.
@@ -39,3 +45,5 @@ def info_gain(current_impurity, true_branch, false_branch, criterion):
     p = float(len(true_branch)) / (len(true_branch) + len(false_branch))
     
     return current_impurity - p * measure_impurity(true_branch) - (1 - p) * measure_impurity(false_branch)
+
+# ==================================================================================================== #

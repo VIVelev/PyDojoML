@@ -7,6 +7,8 @@ __all__ = [
 
 
 class Normalizer(BasePreprocessor):
+    #TODO: add __doc__
+
     def __init__(self):
         self.mean = None
         self.std = None

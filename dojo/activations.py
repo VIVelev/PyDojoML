@@ -21,8 +21,8 @@ class Activation(ABC):
     def gradient(self, x):
         pass
 
-# ====================================================================================================
-# ====================================================================================================
+# ==================================================================================================== #
+# ==================================================================================================== #
 
 class Linear(Activation):
     """Computing the Linear (Identity) function and its derivative.
@@ -39,6 +39,8 @@ class Linear(Activation):
     def gradient(self, x):
         return 1
 
+# ==================================================================================================== #
+
 class Sigmoid(Activation):
     """Computing the Sigmoid function and its derivative.
 
@@ -54,6 +56,8 @@ class Sigmoid(Activation):
     def gradient(self, x):
         a = self(x)
         return a * (1 - a)
+
+# ==================================================================================================== #
 
 class Softmax(Activation):
     """Computing the numerical stable Softmax function and its derivative.
@@ -72,6 +76,8 @@ class Softmax(Activation):
         a = self(x)
         return a * (1 - a)
 
+# ==================================================================================================== #
+
 class TanH(Activation):
     """Computing the TanH function and its derivative.
 
@@ -87,6 +93,8 @@ class TanH(Activation):
     def gradient(self, x):
         return 1 - self(x)**2
 
+# ==================================================================================================== #
+
 class ReLU(Activation):
     """Computing the ReLU function and its derivative.
 
@@ -101,6 +109,8 @@ class ReLU(Activation):
     
     def gradient(self, x):
         return (np.array(x) >= 0).astype(int)
+
+# ==================================================================================================== #
 
 class LeakyReLU(Activation):
     """Computing the ReLU function and its derivative.
@@ -118,3 +128,5 @@ class LeakyReLU(Activation):
         grad = (np.array(x) >= 0).astype(int)
         grad[grad == 0] = self.eps
         return grad
+
+# ==================================================================================================== #
