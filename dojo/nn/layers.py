@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 import copy
 import numpy as np
 
@@ -13,7 +13,10 @@ __all__ = [
 ]
 
 
-class Layer(ABC):
+class Layer:
+    def __init__(self, n_neurons=None, n_inputs=None):
+        self.n_neurons = n_neurons
+        self.n_inputs = n_inputs
 
     @abstractmethod
     def get_name(self):
@@ -28,7 +31,7 @@ class Layer(ABC):
         pass
 
     @abstractmethod
-    def forward(self, prev_A):
+    def forward(self, prev_A, training=True):
         pass
 
     @abstractmethod
@@ -46,8 +49,7 @@ class Dense(Layer):
     # TODO: add __doc__
 
     def __init__(self, n_neurons, n_inputs=1, activation="linear", regularizer=L2(0)):
-        self.n_neurons = n_neurons
-        self.n_inputs = n_inputs
+        super().__init__(n_neurons, n_inputs)
 
         if activation.lower() == "linear":
             self.activation_func = Linear()
@@ -100,7 +102,7 @@ class Dense(Layer):
         self.linear_forward()
         self.A = self.activation_func(self.Z)
 
-    def forward(self, A_prev):
+    def forward(self, A_prev, training=True):
         self.linear_activation_forward(A_prev)
         return self.A
 
@@ -132,6 +134,8 @@ class ActivationLayer(Layer):
     # TODO: add __doc__
 
     def __init__(self, activation):
+        super().__init__()
+
         if activation.lower() == "linear":
             self.activation_func = Linear()
         elif activation.lower() == "sigmoid":
@@ -149,9 +153,6 @@ class ActivationLayer(Layer):
         else:
             raise ParameterError(f"Unknown activation function: `{activation}`")
 
-        self.n_inputs = None
-        self.n_neurons = None
-
         self.Z = None
         self.A = None
         self.dZ = None
@@ -166,7 +167,7 @@ class ActivationLayer(Layer):
     def init_weights(self):
         pass
 
-    def forward(self, Z):
+    def forward(self, Z, training=True):
         self.Z = Z
         self.A = self.activation_func(self.Z)
         return self.A
@@ -175,6 +176,50 @@ class ActivationLayer(Layer):
         self.dA = dA
         self.dZ = self.dA * self.activation_func.gradient(self.Z)
         return self.dZ
+
+    def update(self, optimizer):
+        pass
+
+# ==================================================================================================== #
+
+class Dropout(Layer):
+    """Inverted Dropout regularization technique.
+
+    A layer that randomly sets a fraction p of the output
+    units of the previous layer to zero.
+    
+    Parameters:
+    -----------
+    keep_prob : float
+    The probability that unit x is kept.
+    
+    """
+
+    def __init__(self, keep_prob):
+        super().__init__()
+        self.keep_prob = keep_prob
+        self.mask = None
+
+    def get_name(self):
+        return "Dropout"
+
+    def get_n_params(self):
+        return 0
+
+    def init_weights(self):
+        pass
+
+    def forward(self, prev_A, training=True):
+        A = prev_A
+        if training:
+            self.mask = np.random.rand(A.shape[0], A.shape[1]) < self.keep_prob
+            A = np.multiply(A, self.mask)
+            A = np.multiply(A, 1/self.keep_prob)
+
+        return A
+
+    def backward(self, dA):
+        return dA * self.mask
 
     def update(self, optimizer):
         pass

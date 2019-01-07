@@ -9,7 +9,7 @@ from ..misc import bar_widgets
 from ..optimizers import Adam
 from ..preprocessing import OneHotEncoder
 from ..split import batch_iterator
-from .layers import ActivationLayer, Dense
+from .layers import Dense, ActivationLayer, Dropout
 
 __all__ = [
     "NeuralNetwork",
@@ -35,16 +35,16 @@ class NeuralNetwork(BaseModel):
             layer.n_inputs = self._layers[-1].n_neurons
 
             # For activation layers n_neurons equals the n_inputs
-            if isinstance(layer, ActivationLayer):
+            if isinstance(layer, ActivationLayer) or isinstance(layer, Dropout):
                 layer.n_neurons = layer.n_inputs
 
         layer.init_weights()
         self._layers.append(layer)
 
-    def forwardprop(self, X):
+    def forwardprop(self, X, training=True):
         AL = X
         for layer in self._layers:
-            AL = layer.forward(AL)
+            AL = layer.forward(AL, training=training)
 
         return AL
 
@@ -97,7 +97,7 @@ class NeuralNetwork(BaseModel):
 
     def predict_proba(self, X):
         X = super().predict_proba(X).T
-        return self.forwardprop(X)
+        return self.forwardprop(X, training=False)
 
     def decision_function(self, X):
         pass
