@@ -30,7 +30,7 @@ class KFolds:
 
         if shuffle:
             rnd_idxs = np.random.permutation(list(range(X.shape[0])))
-            self.X, self.y = X[rnd_idxs], y[rnd_idxs]
+            self.X, self.y = self.X[rnd_idxs], self.y[rnd_idxs]
         
         self.test_set_idx = 0
         self.X_folds = np.split(self.X, k, axis=0)
