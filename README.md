@@ -33,7 +33,7 @@ that **Dojo** depends on. To do run the following:
     ```
     pipenv install --dev
     ```
-    The `--dev` tag is used in orther **Pipenv** to know to install also the packages that are used in the
+    The `--dev` tag is used in order **Pipenv** to know to install also the packages that are used in the
     package development process.
 
 ### Installing for use
