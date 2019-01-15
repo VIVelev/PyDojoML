@@ -1,124 +1,88 @@
-# PyDojoML
-A General Purpose Machine Learning Library for Python
+# Dojo
+![Dojo_logo](./img/logo_transparent.png)
 
-## A quick taste of PyDojoML
+Dojo is a Machine Learning library for Python
 
-### How to install
-You can easily install it with `pip`.<br>
-Copy-paste this in your terminal and run it.
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+
+### Prerequisites
+
+* [Python](https://www.python.org/) - The Programming Language used.
+* [Pipenv](https://github.com/pypa/pipenv) - Dependency and Virtual Environment Management
+
+***Download for Mac OSX using Homebrew***
+```
+brew install python
+brew install pipenv
+```
+
+### Installing for development
+
+A step by step series of examples that tell you how to get a development env running
+
+1) Since we are using the **Python** programming language as a main language, you will need to download it.
+You can do so from the official **Python** [website](https://www.python.org/).
+
+2) Once you have **Python** up and running we then need to setup our development env. For that
+we are using **Pipenv**. You will need to install it. Check out [these](https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv) instructions to see how is done.
+
+3) Now, that you have the prerequisites the only part left is too install all the other **Pyhton** packages
+that **Dojo** depends on. To do run the following:
+    ```
+    pipenv install --dev
+    ```
+    The `--dev` tag is used in orther **Pipenv** to know to install also the packages that are used in the
+    package development process.
+
+### Installing for use
+
+If you plan just to use **Dojo** as a Machine Learning library you can install it using **pip** like so:
 ```
 pip install pydojoml
-```
-Good job, now it's time we rock-and-roll!<br>
+``` 
 
-### Simple Linear Regression example:
-```
-import numpy as np
-from dojo.linear import LinearRegression
+## Running the tests
 
-# Let's create some data to fit the model to.
-X = np.random.randn(100_000, 100)
-y = X @ np.random.rand(100)
+Coming soon...
 
-# Building the model.
-linear_reg = LinearRegression()
+### Break down into end to end tests
 
-# Fitting the model is as easy as a call of a method.
-linear_reg.fit(X, y)
+Coming soon...
 
-# Now lets predict.
-prediction = linear_reg.predict(X[:20, :])
+### And coding style tests
 
-```
+Coming soon...
 
-## Dojo's ingredients
-### Linear Models
-  - Linear Regression
-  - LASSO
-  - Ridge
-  - Logistic Regression
+## Built With
 
-### Deep Neural Networks
-  - Layers:
-    - Dense
-    - Activation
+* [NumPy](http://www.numpy.org/) - Fundamental package for scientific computing with Python
+* [SciPy](http://www.scipy.org/) - Package that provides many user-friendly and efficient numerical routines
+* [Matplotlib](http://www.matplotlib.org/) - Python 2D plotting library
+* [progressbar](https://pypi.org/project/progressbar/) - Text progress bar library for Python
+* [terminaltables](https://pypi.org/project/terminaltables/) - Easily draw tables in terminal/console applications
 
-### Activation functions
-  - Linear
-  - Sigmoid
-  - Softmax
-  - TanH
-  - ReLU
-  - Leaky ReLU
+## Contributing
 
-### Losses
-  - Squared Error
-  - Cross Entropy
+Please read [CONTRIBUTING](https://github.com/VIVelev/PyDojoML/CONTRIBUTING) for details on our code of conduct, and the process for submitting pull requests to us.
 
-### Optimizers
-  - Stochastic/Batch/Mini-batch Gradient Descent
-  - Momentum
-  - RMSprop
-  - Adam
+## Versioning
 
-### Regularizer
-  - L1
-  - L2
+For the versions available, see the [tags on this repository](https://github.com/VIVelev/PyDojoML/tags). 
 
-### Tree Models
-  - Classification And Regression Trees (CARTs)
-  - Extra-Trees
-  
-### Support Vector Machines
-  - C-SVM
-  - Epsilon-SVM
-  - Nu-SVMs
+## Authors
 
-### Bayes
-  - Naive Bayes algorithm
-  
-### Ensemble Learning
-  - AdaBoost
-  - Model Stacking
-  
-### Clustering
-  - Hierarchical Clustering
-  - K-Means algorithm
-  
-### Anomaly detection
-  - Univariate and Multivariate Gaussian Distribution
-  
-### Dimensionality Reduction Techniques
-  - Principal Component Analysis
-  - Linear Discriminant Analysis
+* **Victor Velev** - *Initial work* - [VIVelev](https://github.com/VIVelev)
 
-### Preprocessing
-  - Encoders:
-    - Label Encoder
-    - OneHot Encoder
-  - Scalers:
-    - Normalizer
+See also the list of [contributors](https://github.com/VIVelev/PyDojoML/contributors) who participated in this project.
 
-### Various metrics
-  - classification
-  - regression
-  - clustering
-  
-### Model evaluation utils
-  - Train-Test splits
-  - K-Fold Cross Validation
+## License
 
-### Plotting
-  - Decision Boundary plotter
-  
-### Data Preprocessing utils
-  - encoders
-  - normalizers
-  - scalers
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-### Natural Language Processing utils
-  - TF-IDF
+## Acknowledgments
 
-### Recommender Systems
-  - Content Based
-  - Collaborative Filtering
+* **Eric Jones and Travis Oliphant and Pearu Peterson and others** for writing such great packages - the [SciPy](http://www.scipy.org/) ecosystem.
+* **Nilton Volpato** for writing [progressbar](https://pypi.org/project/progressbar/)
+* **Robpol86** for writing [terminaltables](https://pypi.org/project/terminaltables/)
