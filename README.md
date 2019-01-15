@@ -65,7 +65,7 @@ Coming soon...
 
 ## Contributing
 
-Please read [CONTRIBUTING](https://github.com/VIVelev/PyDojoML/CONTRIBUTING) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/VIVelev/PyDojoML/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
