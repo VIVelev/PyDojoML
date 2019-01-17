@@ -1,8 +1,8 @@
-from .Lasso import Lasso
-from .Ridge import Ridge
-from .LinearRegression import LinearRegression
+from .lasso import Lasso
+from .ridge import Ridge
+from .linear_regression import LinearRegression
 
-from .LogisticRegression import LogisticRegression
+from .logistic_regression import LogisticRegression
 
 __all__ = [
     "Lasso",

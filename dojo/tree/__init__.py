@@ -1,8 +1,8 @@
-from .ClassificationTree import ClassificationTree
-from .ExtraClassificationTree import ExtraClassificationTree
+from .classification import ClassificationTree
+from .extra_classification import ExtraClassificationTree
 
-from .RegressionTree import RegressionTree
-from .ExtraRegressionTree import ExtraRegressionTree
+from .regression import RegressionTree
+from .extra_regression import ExtraRegressionTree
 
 __all__ = [
     "ClassificationTree",

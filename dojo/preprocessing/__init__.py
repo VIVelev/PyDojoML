@@ -1,6 +1,6 @@
-from .LabelEncoder import LabelEncoder
-from .Normalizer import Normalizer
-from .OneHotEncoder import OneHotEncoder
+from .label_encoder import LabelEncoder
+from .normalizer import Normalizer
+from .one_hot import OneHotEncoder
 
 __all__ = [
     "LabelEncoder",

@@ -1,5 +1,5 @@
-from .AdaBoostClassifier import AdaBoostClassifier
-from .ModelStacking import ModelStacking
+from .ada_boost import AdaBoostClassifier
+from .stacking import ModelStacking
 
 __all__ = [
     "AdaBoostClassifier",

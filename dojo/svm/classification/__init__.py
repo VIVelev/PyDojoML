@@ -1,5 +1,5 @@
-from .NuSVC import NuSVC
-from .SVC import SVC
+from .nusvc import NuSVC
+from .svc import SVC
 
 __all__ = [
     "NuSVC",

@@ -1,5 +1,5 @@
-from .NuSVR import NuSVR
-from .SVR import SVR
+from .nusvr import NuSVR
+from .svr import SVR
 
 __all__ = [
     "NuSVR",
