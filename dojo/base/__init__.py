@@ -1,11 +1,11 @@
-from .BaseError import BaseError
-from .BaseModel import BaseModel
-from .BaseClustering import BaseClustering
-from .BasePreprocessor import BasePreprocessor
+from .clustering import BaseClustering
+from .error import BaseError
+from .model import BaseModel
+from .preprocessor import BasePreprocessor
 
 __all__ = [
+    "BaseClustering",
     "BaseError",
     "BaseModel",
-    "BaseClustering",
     "BasePreprocessor",
 ]
