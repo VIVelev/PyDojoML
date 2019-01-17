@@ -23,18 +23,23 @@ class KFolds:
 
     def __init__(self, X, y, k=5, shuffle=True):
         self.X, self.y = convert_assert(X, y)
-
-        while self.X.shape[0] % k != 0:
-            k-=1
         self.k = k
 
         if shuffle:
             rnd_idxs = np.random.permutation(list(range(X.shape[0])))
             self.X, self.y = self.X[rnd_idxs], self.y[rnd_idxs]
         
+        border = X.shape[0]
+        while self.X.shape[0] % self.k != 0:
+            border -= 1
+
         self.test_set_idx = 0
-        self.X_folds = np.split(self.X, k, axis=0)
-        self.y_folds = np.split(self.y, k)
+        self.X_folds = np.split(self.X[:border], k, axis=0)
+        self.y_folds = np.split(self.y[:border], k)
+
+        # Append the parts that are left
+        self.X_folds.append(self.X[border:])
+        self.y_folds.append(self.y[border:])
 
     def __iter__(self):
         return self
