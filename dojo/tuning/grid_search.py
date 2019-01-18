@@ -1,6 +1,6 @@
 import numpy as np
 from copy import copy
-from ..base import BaseModel
+from ..base import BaseModel, Regressor
 from ..split import cross_validate
 
 __all__ = [
@@ -10,7 +10,7 @@ __all__ = [
 
 class GridSearch(BaseModel):
     """Exhaustive search over specified parameter values for a model.
-    
+
     Parameters:
     -----------
     model : Dojo-Model
@@ -28,7 +28,7 @@ class GridSearch(BaseModel):
         self.metric = metric
 
         self.best_model = None
-        self.best_score = 10**9
+        self.best_score = 10**9 if isinstance(self.model, Regressor) else 0
 
     def fit(self, X, y):
         n_params = len(self.param_grid)
@@ -45,10 +45,11 @@ class GridSearch(BaseModel):
 
             current_score = cross_validate(current_model, X, y, k_folds=self.cv_folds, metric=self.metric)["test_scores"].mean()
 
-            if current_score < self.best_score:
+            if ((isinstance(self.model, Regressor) and current_score < self.best_score) or
+                (not isinstance(self.model, Regressor) and current_score > self.best_score)):
                 self.best_model = current_model            
                 self.best_score = current_score
-            
+
             if iter_idx == n_params:
                     idxs = [0 for _ in range(n_params)]
                     starting_iter_idx -= 1
