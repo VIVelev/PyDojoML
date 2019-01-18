@@ -9,22 +9,22 @@ __all__ = [
 
 
 class GridSearch(BaseModel):
-    """Exhaustive search over specified parameter values for an estimator.
+    """Exhaustive search over specified parameter values for a model.
     
     Parameters:
     -----------
     model : Dojo-Model
     param_grid : dict
     Dictionary with parameters names (string) as keys and lists of parameter settings to try as values
-    k_folds : integer, optional, the number of iterations/folds
+    cv_folds : integer, optional, the number of iterations/folds for cross-validation
     metric : the single value error/accuracy metric, optional
 
     """
 
-    def __init__(self, model, param_grid={}, k_folds=5, metric="auto"):
+    def __init__(self, model, param_grid={}, cv_folds=5, metric="auto"):
         self.model = model
         self.param_grid = param_grid
-        self.k_folds = k_folds
+        self.cv_folds = cv_folds
         self.metric = metric
 
         self.best_model = None
@@ -43,7 +43,7 @@ class GridSearch(BaseModel):
             current_model = copy(self.model)
             current_model.set_params(**params)
 
-            current_score = cross_validate(current_model, X, y, k_folds=self.k_folds, metric=self.metric)["test_scores"].mean()
+            current_score = cross_validate(current_model, X, y, k_folds=self.cv_folds, metric=self.metric)["test_scores"].mean()
 
             if current_score < self.best_score:
                 self.best_model = current_model            
