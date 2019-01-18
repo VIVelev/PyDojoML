@@ -10,6 +10,7 @@ __all__ = [
     "Layer",
     "Dense",
     "ActivationLayer",
+    "Dropout",
 ]
 
 

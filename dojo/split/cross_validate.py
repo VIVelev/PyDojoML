@@ -1,7 +1,7 @@
 import numpy as np
 
 from ..metrics.regression import mean_squared_error
-from .KFolds import KFolds
+from .kfolds import KFolds
 
 __all__ = [
     "cross_validate",
