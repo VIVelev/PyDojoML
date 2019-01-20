@@ -1,5 +1,5 @@
 import numpy as np
-from copy import copy
+from copy import deepcopy
 from ..base import Classifier, Regressor
 from ..split import cross_validate
 
@@ -40,7 +40,7 @@ class GridSearch(Classifier, Regressor):
             current_values = [list(self.param_grid.values())[i][idxs[i]] for i in range(n_params)]
             params = dict(zip(self.param_grid.keys(), current_values))
 
-            current_model = copy(self.model)
+            current_model = deepcopy(self.model)
             current_model.set_params(**params)
 
             current_score = cross_validate(current_model, X, y, k_folds=self.cv_folds, metric=self.metric)["test_scores"].mean()

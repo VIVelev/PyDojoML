@@ -1,8 +1,8 @@
 from ..base import Regressor
 from ..exceptions import MethodNotSupportedError
-
-from .utils.functions import np, build_extra_tree, tree_predict, print_tree
 from ..metrics.regression import mean_squared_error
+
+from .utils.functions import build_extra_tree, np, print_tree, tree_predict
 
 __all__ = [
     "ExtraRegressionTree",

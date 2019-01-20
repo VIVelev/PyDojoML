@@ -1,8 +1,8 @@
 from ..base import Classifier
 from ..exceptions import MethodNotSupportedError
-
-from .utils.functions import np, build_tree, tree_predict, print_tree
 from ..metrics.classification import accuracy_score
+
+from .utils.functions import build_tree, np, print_tree, tree_predict
 
 __all__ = [
     "ClassificationTree",
