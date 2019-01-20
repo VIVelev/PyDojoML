@@ -1,15 +1,10 @@
 from ..base import Classifier, Regressor
 from ..exceptions import MethodNotSupportedError
-
-from .libsvm.svmutil import (
-    svm_problem,
-    svm_parameter,
-    svm_train,
-    svm_predict,
-)
-
 from ..metrics.classification import accuracy_score
 from ..metrics.regression import mean_squared_error
+
+from .libsvm.svmutil import svm_parameter, svm_predict, svm_problem, svm_train
+
 
 def set_kernel(kernel_string):
     if kernel_string.upper() == "LINEAR":

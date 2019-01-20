@@ -1,5 +1,6 @@
-from abc import abstractmethod
 import copy
+from abc import abstractmethod
+
 import numpy as np
 
 from ..activations import *
