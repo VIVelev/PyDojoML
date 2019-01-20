@@ -2,6 +2,8 @@ import numpy as np
 
 __all__ = [
     "BaseModel",
+    "SupervisedModel",
+    "UnsupervisedModel",
 ]
 
 
@@ -68,6 +70,11 @@ class BaseModel:
 
         for k, v in params.items():
             vars(self)[k] = v
+
+    def fit(self, X, y=None):
+        pass
+
+class SupervisedModel(BaseModel):
 
     def fit(self, X, y):
         """Fits the given model to the data and labels provided.
@@ -191,3 +198,20 @@ class BaseModel:
         assert X.shape[0] == y.shape[0]
 
         return X, y
+
+class UnsupervisedModel(BaseModel):
+    """Fits the given model to the data.
+        
+    Parameters:
+    -----------
+    X : matrix, shape (n_samples, n_features)
+    The samples, the train data.
+        
+    Returns:
+    --------
+    self : instance of the model itself (`self`)
+        
+    """
+
+    def fit(self, X):
+        return np.array(X, dtype=np.float32)

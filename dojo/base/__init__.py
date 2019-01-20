@@ -1,11 +1,7 @@
-from .clustering import BaseClustering
-from .error import BaseError
-from .model import BaseModel
-from .preprocessor import BasePreprocessor
+from .model import BaseModel, SupervisedModel, UnsupervisedModel
 
 __all__ = [
-    "BaseClustering",
-    "BaseError",
     "BaseModel",
-    "BasePreprocessor",
+    "SupervisedModel",
+    "UnsupervisedModel",
 ]
