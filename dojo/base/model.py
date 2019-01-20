@@ -1,3 +1,4 @@
+from abc import abstractmethod
 import numpy as np
 
 __all__ = [
@@ -11,6 +12,7 @@ class BaseModel:
     """Every Dojo-Model inherits this class.
     """
 
+    @abstractmethod
     def __init__(self):
         pass
 
@@ -71,8 +73,12 @@ class BaseModel:
         for k, v in params.items():
             vars(self)[k] = v
 
+    @abstractmethod
     def fit(self, X, y=None):
         pass
+
+# ==================================================================================================== #
+# ==================================================================================================== #
 
 class SupervisedModel(BaseModel):
 
@@ -199,19 +205,22 @@ class SupervisedModel(BaseModel):
 
         return X, y
 
+# ==================================================================================================== #
+
 class UnsupervisedModel(BaseModel):
-    """Fits the given model to the data.
-        
-    Parameters:
-    -----------
-    X : matrix, shape (n_samples, n_features)
-    The samples, the train data.
-        
-    Returns:
-    --------
-    self : instance of the model itself (`self`)
-        
-    """
 
     def fit(self, X):
+        """Fits the given model to the data.
+        
+        Parameters:
+        -----------
+        X : matrix, shape (n_samples, n_features)
+        The samples, the train data.
+        
+        Returns:
+        --------
+        self : instance of the model itself (`self`)
+        
+        """
+
         return np.array(X, dtype=np.float32)
