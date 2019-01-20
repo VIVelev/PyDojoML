@@ -1,12 +1,9 @@
-from .utils import (
-    np,
-    linalg,
+import numpy as np
+from scipy import linalg
 
-    Regressor,
-    MethodNotSupportedError,
-
-    mean_squared_error,
-)
+from ..base import Regressor
+from ..exceptions import MethodNotSupportedError
+from ..metrics import mean_squared_error
 
 __all__ = [
     "Lasso",

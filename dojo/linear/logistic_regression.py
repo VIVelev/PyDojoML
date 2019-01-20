@@ -1,11 +1,10 @@
-from .utils import (
-    np,
-    Classifier,
-    Sigmoid,
-    CrossEntropy,
-    L2,
-    accuracy_score,
-)
+import numpy as np
+
+from ..activations import Sigmoid
+from ..base import Classifier
+from ..losses import CrossEntropy
+from ..metrics.classification import accuracy_score
+from ..regularizers import L2
 
 __all__ = [
     "LogisticRegression",
