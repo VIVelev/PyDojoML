@@ -30,7 +30,7 @@ class KFolds:
             self.X, self.y = self.X[rnd_idxs], self.y[rnd_idxs]
         
         border = X.shape[0]
-        while self.X.shape[0] % self.k != 0:
+        while border % self.k != 0:
             border -= 1
 
         self.test_set_idx = 0
