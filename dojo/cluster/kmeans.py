@@ -1,9 +1,7 @@
-from .utils import (
-    np,
-    linalg,
+import numpy as np
+from scipy import linalg
 
-    Clustering,
-)
+from ..base import Clustering
 
 __all__ = [
     "KMeans",

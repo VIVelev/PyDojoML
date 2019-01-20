@@ -1,11 +1,11 @@
 import numpy as np
 
-from ..base import Classifier
+from ..base import Classifier, Regressor
 from ..exceptions import MethodNotSupportedError
 from ..metrics.classification import accuracy_score
 
 
-class NaiveBayes(Classifier):
+class NaiveBayes(Classifier, Regressor):
     """Naive Bayes Classifier
     
     P(A|B) = P(B|A) * P(A) / P(B)

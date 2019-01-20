@@ -1,12 +1,12 @@
-from .utils import (
-    np,
+import numpy as np
+from scipy.cluster.hierarchy import (
     linkage,
     fcluster,
     dendrogram,
-
-    Clustering,
-    ParameterError,
 )
+
+from ..base import Clustering
+from ..exceptions import ParameterError
 
 __all__ = [
     "HierarchicalClustering",
