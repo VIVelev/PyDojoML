@@ -1,6 +1,6 @@
 import numpy as np
 from copy import copy
-from ..base import BaseModel, Regressor
+from ..base import Classifier, Regressor
 from ..split import cross_validate
 
 __all__ = [
@@ -8,7 +8,7 @@ __all__ = [
 ]
 
 
-class GridSearch(BaseModel):
+class GridSearch(Classifier, Regressor):
     """Exhaustive search over specified parameter values for a model.
 
     Parameters:

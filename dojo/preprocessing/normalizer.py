@@ -1,12 +1,12 @@
 import numpy as np
-from ..base import BasePreprocessor
+from ..base import Preprocessor
 
 __all__ = [
     "Normalizer",
 ]
 
 
-class Normalizer(BasePreprocessor):
+class Normalizer(Preprocessor):
     #TODO: add __doc__
 
     def __init__(self):

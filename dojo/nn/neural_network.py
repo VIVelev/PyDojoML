@@ -2,21 +2,21 @@ import numpy as np
 import progressbar
 from terminaltables import AsciiTable
 
-from ..base import BaseModel
+from ..base import Classifier, Regressor
 from ..losses import CrossEntropy
 from ..metrics.classification import accuracy_score
 from ..misc import bar_widgets
 from ..optimizers import Adam
 from ..preprocessing import OneHotEncoder
 from ..split import batch_iterator
-from .layers import Dense, ActivationLayer, Dropout
+from .layers import ActivationLayer, Dense, Dropout
 
 __all__ = [
     "NeuralNetwork",
 ]
 
 
-class NeuralNetwork(BaseModel):
+class NeuralNetwork(Classifier, Regressor):
     # TODO: add __doc__
 
     def __init__(self, optimizer=Adam(0.01), n_epochs=5_000, batch_size=32, loss=CrossEntropy(), verbose=False):

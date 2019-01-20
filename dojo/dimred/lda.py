@@ -1,6 +1,6 @@
 from .utils import (
     np, linalg,
-    BasePreprocessor,
+    Preprocessor,
 
     get_within_class_scatter_matrix,
     get_between_class_scatter_matrix,
@@ -11,7 +11,7 @@ __all__ = [
 ]
 
 
-class LinearDiscriminantAnalysis(BasePreprocessor):
+class LinearDiscriminantAnalysis(Preprocessor):
     """Linear Discriminant Analysis (LDA)
 
     A generalization of Fisher's linear discriminant, a method usedin statistics,

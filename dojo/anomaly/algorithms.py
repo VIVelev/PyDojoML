@@ -3,7 +3,7 @@ from scipy import linalg
 
 from numpy import pi
 
-from ..base import BaseModel
+from ..base import Classifier
 from ..exceptions import MethodNotSupportedError
 
 __all__ = [
@@ -11,7 +11,7 @@ __all__ = [
 ]
 
 
-class GaussianDist(BaseModel):
+class GaussianDist(Classifier):
     """Gaussian Distribution Anomaly Detection Algorithm
     
     Builds a Gaussion Distribution from the given data and it's

@@ -1,6 +1,6 @@
 import numpy as np
 
-from ..base import BaseModel
+from ..base import Classifier, Regressor
 from ..metrics import accuracy_score
 
 __all__ = [
@@ -8,7 +8,7 @@ __all__ = [
 ]
 
 
-class ModelStacking(BaseModel):
+class ModelStacking(Classifier, Regressor):
     # TODO: add __doc__
 
     def __init__(self, first_level_models, second_level_model):

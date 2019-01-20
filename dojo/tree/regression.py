@@ -1,4 +1,4 @@
-from ..base import BaseModel
+from ..base import Regressor
 from ..exceptions import MethodNotSupportedError
 
 from .utils.functions import np, build_tree, tree_predict, print_tree
@@ -9,7 +9,7 @@ __all__ = [
 ]
 
 
-class RegressionTree(BaseModel):
+class RegressionTree(Regressor):
     """Regression Decision Tree model
     
     Parameters:

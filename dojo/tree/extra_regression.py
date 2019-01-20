@@ -1,4 +1,4 @@
-from ..base import BaseModel
+from ..base import Regressor
 from ..exceptions import MethodNotSupportedError
 
 from .utils.functions import np, build_extra_tree, tree_predict, print_tree
@@ -9,7 +9,7 @@ __all__ = [
 ]
 
 
-class ExtraRegressionTree(BaseModel):
+class ExtraRegressionTree(Regressor):
     """Extremely Randomized Regression Decision Tree model
     
     Parameters:

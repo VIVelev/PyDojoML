@@ -1,6 +1,6 @@
 from .utils import (
     np, linalg,
-    BasePreprocessor,
+    Preprocessor,
 
     get_covariance_matrix,
 )
@@ -10,7 +10,7 @@ __all__ = [
 ]
 
 
-class PrincipalComponentAnalysis(BasePreprocessor):
+class PrincipalComponentAnalysis(Preprocessor):
     """Principal Component Analysis (PCA)
 
     A statistical procedure that uses an orthogonal transformation to convert

@@ -2,7 +2,7 @@ from .utils import (
     np,
     linalg,
 
-    BaseModel,
+    Regressor,
     MethodNotSupportedError,
 
     mean_squared_error,
@@ -13,7 +13,7 @@ __all__ = [
 ]
 
 
-class Lasso(BaseModel):
+class Lasso(Regressor):
     """L1 regularized Linear Regression model.
     
     In statistics and machine learning, lasso (least absolute shrinkage and selection operator)

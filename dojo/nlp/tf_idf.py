@@ -1,12 +1,12 @@
 import numpy as np
-from ..base import BasePreprocessor
+from ..base import Preprocessor
 
 __all__ = [
     "TF_IDF",
 ]
 
 
-class TF_IDF(BasePreprocessor):
+class TF_IDF(Preprocessor):
     """Term Frequency - Inverse Document Frequency
     Text Vectorization.
     

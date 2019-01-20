@@ -1,5 +1,5 @@
 from ..utils import (
-    BaseModel,
+    Classifier,
     MethodNotSupportedError,
 
     set_kernel,
@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 
-class SVC(BaseModel):
+class SVC(Classifier):
     """C-Support Vector Machine Classifier
     
     Parameters:

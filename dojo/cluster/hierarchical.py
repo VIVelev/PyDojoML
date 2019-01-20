@@ -4,7 +4,7 @@ from .utils import (
     fcluster,
     dendrogram,
 
-    BaseClustering,
+    Clustering,
     ParameterError,
 )
 
@@ -13,7 +13,7 @@ __all__ = [
 ]
 
 
-class HierarchicalClustering(BaseClustering):
+class HierarchicalClustering(Clustering):
     """Agglomerative Hierarchical Clustering
     
     Parameters:

@@ -1,6 +1,6 @@
 from .utils import (
     np,
-    BaseModel,
+    Classifier,
     Sigmoid,
     CrossEntropy,
     L2,
@@ -12,7 +12,7 @@ __all__ = [
 ]
 
 
-class LogisticRegression(BaseModel):
+class LogisticRegression(Classifier):
     """Logistic Regression classification model.
     
     In statistics, the logistic model (or logit model) is a statistical model

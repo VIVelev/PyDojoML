@@ -2,7 +2,7 @@ from .utils import (
     np,
     linalg,
 
-    BaseClustering,
+    Clustering,
 )
 
 __all__ = [
@@ -10,7 +10,7 @@ __all__ = [
 ]
 
 
-class KMeans(BaseClustering):
+class KMeans(Clustering):
     """K-Means Clustering algorithm
     
     Parameters:

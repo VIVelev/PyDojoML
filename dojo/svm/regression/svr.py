@@ -1,5 +1,5 @@
 from ..utils import (
-    BaseModel,
+    Regressor,
     MethodNotSupportedError,
 
     set_kernel,
@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 
-class SVR(BaseModel):
+class SVR(Regressor):
     """Epsilon-Support Vector Machine Regressor
     
     Parameters:

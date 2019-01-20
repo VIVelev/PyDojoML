@@ -1,12 +1,12 @@
 import numpy as np
-from ..base import BasePreprocessor
+from ..base import Preprocessor
 
 __all__ = [
     "OneHotEncoder",
 ]
 
 
-class OneHotEncoder(BasePreprocessor):
+class OneHotEncoder(Preprocessor):
     # TODO: extend the functionality to a matrix handler
 
     def __init__(self):

@@ -1,12 +1,12 @@
 import numpy as np
-from ..base import BasePreprocessor
+from ..base import Preprocessor
 
 __all__ = [
     "LabelEncoder",
 ]
 
 
-class LabelEncoder(BasePreprocessor):
+class LabelEncoder(Preprocessor):
     """Label Encoder - encodes textual data to 0,1,...
     """
 

@@ -1,4 +1,4 @@
-from ..base import BaseModel
+from ..base import Classifier, Regressor
 from ..exceptions import MethodNotSupportedError
 
 from .libsvm.svmutil import (

@@ -2,7 +2,7 @@ from .utils import (
     np,
     linalg,
 
-    BaseModel,
+    Regressor,
     MethodNotSupportedError,
 
     mean_squared_error,
@@ -13,7 +13,7 @@ __all__ = [
 ]
 
 
-class LinearRegression(BaseModel):
+class LinearRegression(Regressor):
     """Linear Regression model.
     
     In statistics, linear regression is a linear approach to modelling

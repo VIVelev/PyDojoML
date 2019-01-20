@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 
-from ..base import BaseModel
+from ..base import Classifier
 from ..metrics.classification import accuracy_score
 
 __all__ = [
@@ -9,7 +9,7 @@ __all__ = [
 ]
 
 
-class AdaBoostClassifier(BaseModel):
+class AdaBoostClassifier(Classifier):
     """Adaptive Boost Classifier - ensemble method
     
     Parameters:

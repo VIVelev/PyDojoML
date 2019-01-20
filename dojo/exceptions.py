@@ -1,4 +1,4 @@
-from .base import BaseError
+from .base import DojoError
 
 __all__ = [
     "MethodNotSupportedError",
@@ -7,11 +7,11 @@ __all__ = [
 ]
 
 
-class MethodNotSupportedError(BaseError):
+class MethodNotSupportedError(DojoError):
     pass
 
-class ParameterError(BaseError):
+class ParameterError(DojoError):
     pass
 
-class InvalidProblemError(BaseError):
+class InvalidProblemError(DojoError):
     pass

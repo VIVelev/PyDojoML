@@ -1,5 +1,5 @@
 from ..utils import (
-    BaseModel,
+    Classifier,
     MethodNotSupportedError,
 
     set_kernel,
@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 
-class NuSVC(BaseModel):
+class NuSVC(Classifier):
     """Nu-Support Vector Machine Classifier
     
     Parameters:

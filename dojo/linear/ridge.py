@@ -2,7 +2,7 @@ from .utils import (
     np,
     linalg,
 
-    BaseModel,
+    Regressor,
     MethodNotSupportedError,
 
     mean_squared_error,
@@ -13,7 +13,7 @@ __all__ = [
 ]
 
 
-class Ridge(BaseModel):
+class Ridge(Regressor):
     """L2 regularized Linear Regression model.
     
     Ridge regression is a way to create a parsimonious model when the number

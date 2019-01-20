@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import linalg
 
-from ..base import BasePreprocessor
+from ..base import Preprocessor
 
 __all__ = [
     "get_mean_vectors",
