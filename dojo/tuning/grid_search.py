@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 from ..base import Classifier, Regressor
-from ..split import cross_validate
+from ..split import cross_validate, train_test_split
 
 __all__ = [
     "GridSearch",
@@ -13,10 +13,11 @@ class GridSearch(Classifier, Regressor):
 
     Parameters:
     -----------
-    model : Dojo-Model
+    model : Dojo classifier or regressor
     param_grid : dict
     Dictionary with parameters names (string) as keys and lists of parameter settings to try as values
     cv_folds : integer, optional, the number of iterations/folds for cross-validation
+    Set `cv_folds` to -1 in order not to use cross-validation for evaluation technique, simple evaluation will be used instead.
     metric : the single value error/accuracy metric, optional
 
     """
@@ -43,10 +44,15 @@ class GridSearch(Classifier, Regressor):
             current_model = deepcopy(self.model)
             current_model.set_params(**params)
 
-            current_score = cross_validate(current_model, X, y, k_folds=self.cv_folds, metric=self.metric)["test_scores"].mean()
+            if self.cv_folds > -1:
+                current_score = cross_validate(current_model, X, y, k_folds=self.cv_folds, metric=self.metric)["test_scores"].mean()
+            else:
+                X_train, X_test, y_train, y_test = train_test_split(X, y)
+                current_model.fit(X_train, y_train)
+                current_score = current_model.evaluate(X_test, y_test)
 
             if ((isinstance(self.model, Regressor) and current_score < self.best_score) or
-                (not isinstance(self.model, Regressor) and current_score > self.best_score)):
+                (isinstance(self.model, Classifier) and current_score > self.best_score)):
                 self.best_model = current_model            
                 self.best_score = current_score
 
