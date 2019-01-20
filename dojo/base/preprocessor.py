@@ -1,11 +1,11 @@
 import numpy as np
 
 __all__ = [
-    "BasePreprocessor",
+    "Preprocessor",
 ]
 
 
-class BasePreprocessor:
+class Preprocessor:
     """Every Dojo-Preprocessor inherits this class.
     """
 

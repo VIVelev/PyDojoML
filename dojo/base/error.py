@@ -1,9 +1,9 @@
 __all__ = [
-    "BaseError",
+    "DojoError",
 ]
 
 
-class BaseError(Exception):
+class DojoError(Exception):
     """Every Dojo-Exception inherits this class.
     """
 
