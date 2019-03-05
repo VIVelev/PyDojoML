@@ -28,29 +28,41 @@ class TSNE(Preprocessor):
     perplexity : integer
     learning_rate : float
     momentum : float, (0, 1]
-    sigma : float
     n_iter : integer
     verbose : boolean
 
     """
 
-    def __init__(self, n_components=2, perplexity=30, learning_rate=200.0, momentum=0.99, sigma=1.0, n_iter=1000, verbose=False):
+    def __init__(self, n_components=2, perplexity=30, learning_rate=200.0, momentum=0.99, n_iter=1000, verbose=False):
         self.n_components = n_components
         self.perplexity = perplexity
         self.learning_rate = learning_rate
         self.momentum = momentum
-        self.sigma = sigma
         self.n_iter = n_iter
         self.verbose = verbose
+
+    def _compute_sigma(self, mean, X):
+        """Computes the standard deviation of a Gaussian Distribution with the given mean vector"""
+
+        if X.shape[0] <= 1:
+            return 0.0
+        else:
+            return np.sqrt(
+                sum([np.linalg.norm(x - mean) ** 2 for x in X]) / float(X.shape[0]-1)
+            )
 
     def _high_dim_sim(self, v, w, normalize=False, X=None, idx=None):
         """Similarity measurement based on Gaussian Distribution"""
 
-        sim = np.exp((-np.linalg.norm(v - w) ** 2) / (2*self.sigma ** 2))
+        # TODO: optimize sigma computations
+        sigma = 1
+        if X is not None:
+            sigma = self._compute_sigma(v, X)
+
+        sim = np.exp((-np.linalg.norm(v - w) ** 2) / (2*sigma ** 2))
 
         if normalize:
-            sum_norm = sum(map(lambda x: x[1], self._knn(idx, X, high_dim=True)))
-            return sim / sum_norm
+            return sim / sum(map(lambda x: x[1], self._knn(idx, X, high_dim=True)))
         else:
             return sim
 
@@ -60,12 +72,13 @@ class TSNE(Preprocessor):
         sim = (1 + np.linalg.norm(v - w) ** 2) ** -1
 
         if normalize:
-            sum_norm = sum(map(lambda x: x[1], self._knn(idx, Y, high_dim=False)))
-            return sim / sum_norm
+            return sim / sum(map(lambda x: x[1], self._knn(idx, Y, high_dim=False)))
         else:
             return sim
 
     def _knn(self, i, X, high_dim=True):
+        """Performs KNN search based on high/low-dimensional similarity/distance measurement"""
+
         knns = []
         for j in range(X.shape[0]):
             if j != i:
@@ -110,7 +123,13 @@ class TSNE(Preprocessor):
         ])
 
     def fit(self, X):
-        """Gradient Descent optimization process"""
+        """Gradient Descent optimization process
+        
+        Tunes the embeddings (Y) so that their pairwise distance distribution
+        matches the input high-dimensional data (X) pairwise distance distribution.
+        In other words, minimizes the KL divergence cost.
+
+        """
 
         # compute high-dimensional affinities (Gaussian Distribution)
         high_dim_dist = self._get_high_dim_dist(X)
@@ -139,4 +158,5 @@ class TSNE(Preprocessor):
         return self
 
     def transform(self, X):
+        """Returns the learned low-dimensional embeddings of the high-dimensional data"""
         return self.embeddings
