@@ -1,8 +1,7 @@
-from .utils import (
-    np, Preprocessor,
+import numpy as np
 
-    kl_divergence,
-)
+from ..base import Preprocessor
+from ..losses import KL_Divergence
 
 __all__ = [
     "TSNE",
@@ -114,14 +113,6 @@ class TSNE(Preprocessor):
 
         return table
 
-    def _gradient(self, high_dim_dist, low_dim_dist, Y, i):
-        """Computes the gradient of KL divergence with respect to the i'th example of Y"""
-
-        return 4 * sum([
-            (high_dim_dist[i, j] - low_dim_dist[i, j]) * (Y[i] - Y[j]) * self._low_dim_sim(Y[i], Y[j]) \
-            for j in range(Y.shape[0])
-        ])
-
     def fit(self, X):
         """Gradient Descent optimization process
         
@@ -130,6 +121,9 @@ class TSNE(Preprocessor):
         In other words, minimizes the KL divergence cost.
 
         """
+
+        # Kullback–Leibler divergence
+        kl_cost = KL_Divergence()
 
         # compute high-dimensional affinities (Gaussian Distribution)
         high_dim_dist = self._get_high_dim_dist(X)
@@ -144,7 +138,7 @@ class TSNE(Preprocessor):
     
             for i in range(Y.shape[0]):
                 # compute gradient
-                grad = self._gradient(high_dim_dist, low_dim_dist, Y, i)
+                grad = kl_cost.gradient(high_dim_dist, low_dim_dist, Y, i)
                 # set new Y[i]
                 Y[i] = prev_Ys[1][i] + self.learning_rate * grad + self.momentum * (prev_Ys[1][i] - prev_Ys[0][i])
 
@@ -152,7 +146,7 @@ class TSNE(Preprocessor):
             prev_Ys = [prev_Ys[1], Y]
 
             if iteration % 100 == 0 and self.verbose:
-                print(f"ITERATION: {iteration}{3*' '}|||{3*' '}KL divergence: {kl_divergence(high_dim_dist, low_dim_dist)}")
+                print(f"ITERATION: {iteration}{3*' '}|||{3*' '}KL divergence: {kl_cost(high_dim_dist, low_dim_dist)}")
 
         self.embeddings = Y
         return self
