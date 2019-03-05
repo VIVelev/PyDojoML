@@ -1,4 +1,8 @@
-from .utils import np, Preprocessor
+from .utils import (
+    np, Preprocessor,
+
+    kl_divergence,
+)
 
 __all__ = [
     "TSNE",
@@ -16,6 +20,7 @@ class TSNE(Preprocessor):
     objects are modeled by distant points.
 
     For a good user guide on `How to Use t-SNE Effectively`: https://distill.pub/2016/misread-tsne/
+    Here is the original paper: http://www.cs.toronto.edu/~hinton/absps/tsne.pdf
 
     Parameters:
     -----------
@@ -38,6 +43,8 @@ class TSNE(Preprocessor):
         self.n_iter = n_iter
         self.verbose = verbose
 
+        self._higher_dim_dist = None
+
     def _higher_dim_sim(self, v, w, normalize=False, X=None, idx=None):
         """Computes a Gaussian Distribution"""
 
@@ -50,7 +57,7 @@ class TSNE(Preprocessor):
             return sim
 
     def _lower_dim_sim(self, v, w, normalize=False, Y=None, idx=None):
-        """Computes a (Student's) t-Distribution"""
+        """Computes a (Student) t-Distribution"""
 
         sim = (1 + np.linalg.norm(v - w) ** 2) ** -1
 
@@ -96,51 +103,35 @@ class TSNE(Preprocessor):
 
         return table
 
-    def _kl_divergence(self, higher_dim_dist, lower_dim_dist):
-        """Symmentric Kullback–Leibler divergence (KL divergence)
-        
-        A measure of how one probability distribution is different from a second, reference probability distribution.
-        Wikipedia page: https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence
-        
-        """
-
-        cost = 0
-        for i in range(higher_dim_dist.shape[0]):
-            for j in range(lower_dim_dist.shape[0]):
-                if higher_dim_dist[i, j] != 0 and lower_dim_dist[i, j] != 0:
-                    cost += higher_dim_dist[i, j] * np.log( higher_dim_dist[i, j] / lower_dim_dist[i, j] )
-        
-        return cost
-
     def _gradient(self, higher_dim_dist, lower_dim_dist, Y, i):
+        """Computes the gradient of KL divergence with respect to the i'th example of Y"""
+
         return 4 * sum([
             (higher_dim_dist[i, j] - lower_dim_dist[i, j]) * (Y[i] - Y[j]) * self._lower_dim_sim(Y[i], Y[j]) \
             for j in range(Y.shape[0])
         ])
 
-    def _optimize(self, higher_dim_dist, lower_dim_dist, Y):
-        prev_Ys = [Y]*2
+    def _optimize(self, Y):
+        """Gradient Descent optimization process"""
+
+        lower_dim_dist = self._get_lower_dim_dist(Y)
+        prev_Ys = [Y, Y]
 
         for iteration in range(1, self.n_iter+1):
             for i in range(Y.shape[0]):
-                grad = self._gradient(higher_dim_dist, lower_dim_dist, Y, i) # Gradient
+                grad = self._gradient(self._higher_dim_dist, lower_dim_dist, Y, i) # Gradient
                 Y[i] -= self.learning_rate * grad + self.momentum * (prev_Ys[1][i] - prev_Ys[0][i])
 
+            lower_dim_dist = self._get_lower_dim_dist(Y)
             prev_Ys = [prev_Ys[1], Y]
 
             if iteration % 100 == 0 and self.verbose:
-                print(f"ITERATION: {iteration}{3*' '}|||{3*' '}KL divergence: {self._kl_divergence(higher_dim_dist, self._get_lower_dim_dist(Y))}")
+                print(f"ITERATION: {iteration}{3*' '}|||{3*' '}KL divergence: {kl_divergence(self._higher_dim_dist, lower_dim_dist)}")
 
         return Y
 
     def fit(self, X):
-        pass
+        self._higher_dim_dist = self._get_higher_dim_dist(X)
 
     def transform(self, X):
-        Y = np.random.randn(X.shape[0], self.n_components)
-
-        return self._optimize(
-            self._get_higher_dim_dist(X),
-            self._get_lower_dim_dist(Y),
-            Y
-        )
+        return self._optimize(np.zeros((X.shape[0], self.n_components)))
