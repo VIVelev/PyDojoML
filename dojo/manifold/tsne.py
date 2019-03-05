@@ -43,95 +43,100 @@ class TSNE(Preprocessor):
         self.n_iter = n_iter
         self.verbose = verbose
 
-        self._higher_dim_dist = None
-
-    def _higher_dim_sim(self, v, w, normalize=False, X=None, idx=None):
-        """Computes a Gaussian Distribution"""
+    def _high_dim_sim(self, v, w, normalize=False, X=None, idx=None):
+        """Similarity measurement based on Gaussian Distribution"""
 
         sim = np.exp((-np.linalg.norm(v - w) ** 2) / (2*self.sigma ** 2))
 
         if normalize:
-            sum_norm = sum(map(lambda x: x[1], self._knn(idx, X, higher_dim=True)))
+            sum_norm = sum(map(lambda x: x[1], self._knn(idx, X, high_dim=True)))
             return sim / sum_norm
         else:
             return sim
 
-    def _lower_dim_sim(self, v, w, normalize=False, Y=None, idx=None):
-        """Computes a (Student) t-Distribution"""
+    def _low_dim_sim(self, v, w, normalize=False, Y=None, idx=None):
+        """Similarity measurement based on (Student) t-Distribution"""
 
         sim = (1 + np.linalg.norm(v - w) ** 2) ** -1
 
         if normalize:
-            sum_norm = sum(map(lambda x: x[1], self._knn(idx, Y, higher_dim=False)))
+            sum_norm = sum(map(lambda x: x[1], self._knn(idx, Y, high_dim=False)))
             return sim / sum_norm
         else:
             return sim
 
-    def _knn(self, i, X, higher_dim=True):
+    def _knn(self, i, X, high_dim=True):
         knns = []
         for j in range(X.shape[0]):
             if j != i:
-                if higher_dim:
-                    distance = self._higher_dim_sim(X[i], X[j], normalize=False)
+                if high_dim:
+                    distance = self._high_dim_sim(X[i], X[j])
                 else:
-                    distance = self._lower_dim_sim(X[i], X[j], normalize=False)
+                    distance = self._low_dim_sim(X[i], X[j])
                 knns.append([j, distance])
 
         return sorted(knns, key=lambda x: x[1])[:self.perplexity]
 
-    def _get_higher_dim_dist(self, X):
+    def _get_high_dim_dist(self, X):
         table = np.zeros((X.shape[0], X.shape[0]))
 
         for i in range(X.shape[0]):
             for j in range(X.shape[0]):
                 if i != j:
-                    Pij = self._higher_dim_sim(X[i], X[j], normalize=True, X=X, idx=i)
-                    Pji = self._higher_dim_sim(X[i], X[j], normalize=True, X=X, idx=j)
+                    Pij = self._high_dim_sim(X[i], X[j], normalize=True, X=X, idx=i)
+                    Pji = self._high_dim_sim(X[i], X[j], normalize=True, X=X, idx=j)
                     table[i, j] = (Pij + Pji) / (2*X.shape[0])
 
         return table
 
-    def _get_lower_dim_dist(self, Y):
+    def _get_low_dim_dist(self, Y):
         table = np.zeros((Y.shape[0], Y.shape[0]))
 
         for i in range(Y.shape[0]):
             for j in range(Y.shape[0]):
                 if i != j:
-                    Pij = self._lower_dim_sim(Y[i], Y[j], normalize=True, Y=Y, idx=i)
-                    Pji = self._lower_dim_sim(Y[i], Y[j], normalize=True, Y=Y, idx=j)
+                    Pij = self._low_dim_sim(Y[i], Y[j], normalize=True, Y=Y, idx=i)
+                    Pji = self._low_dim_sim(Y[i], Y[j], normalize=True, Y=Y, idx=j)
                     table[i, j] = (Pij + Pji) / (2*Y.shape[0])
 
         return table
 
-    def _gradient(self, higher_dim_dist, lower_dim_dist, Y, i):
+    def _gradient(self, high_dim_dist, low_dim_dist, Y, i):
         """Computes the gradient of KL divergence with respect to the i'th example of Y"""
 
         return 4 * sum([
-            (higher_dim_dist[i, j] - lower_dim_dist[i, j]) * (Y[i] - Y[j]) * self._lower_dim_sim(Y[i], Y[j]) \
+            (high_dim_dist[i, j] - low_dim_dist[i, j]) * (Y[i] - Y[j]) * self._low_dim_sim(Y[i], Y[j]) \
             for j in range(Y.shape[0])
         ])
 
-    def _optimize(self, Y):
+    def fit(self, X):
         """Gradient Descent optimization process"""
 
-        lower_dim_dist = self._get_lower_dim_dist(Y)
+        # compute high-dimensional affinities (Gaussian Distribution)
+        high_dim_dist = self._get_high_dim_dist(X)
+        # Sample initial solutions
+        Y = np.random.randn(X.shape[0], self.n_components)
+
         prev_Ys = [Y, Y]
 
         for iteration in range(1, self.n_iter+1):
+            # compute low-dimensional affinities (Student t-Distribution)
+            low_dim_dist = self._get_low_dim_dist(Y)
+    
             for i in range(Y.shape[0]):
-                grad = self._gradient(self._higher_dim_dist, lower_dim_dist, Y, i) # Gradient
-                Y[i] -= self.learning_rate * grad + self.momentum * (prev_Ys[1][i] - prev_Ys[0][i])
+                # compute gradient
+                grad = self._gradient(high_dim_dist, low_dim_dist, Y, i)
+                # set new Y[i]
+                Y[i] = prev_Ys[1][i] + self.learning_rate * grad + self.momentum * (prev_Ys[1][i] - prev_Ys[0][i])
 
-            lower_dim_dist = self._get_lower_dim_dist(Y)
+            low_dim_dist = self._get_low_dim_dist(Y)
             prev_Ys = [prev_Ys[1], Y]
 
             if iteration % 100 == 0 and self.verbose:
-                print(f"ITERATION: {iteration}{3*' '}|||{3*' '}KL divergence: {kl_divergence(self._higher_dim_dist, lower_dim_dist)}")
+                print(f"ITERATION: {iteration}{3*' '}|||{3*' '}KL divergence: {kl_divergence(high_dim_dist, low_dim_dist)}")
 
-        return Y
-
-    def fit(self, X):
-        self._higher_dim_dist = self._get_higher_dim_dist(X)
+        self.embeddings = Y
+        return self
 
     def transform(self, X):
-        return self._optimize(np.zeros((X.shape[0], self.n_components)))
+        return self.embeddings
