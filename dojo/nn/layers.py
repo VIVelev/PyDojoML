@@ -10,7 +10,7 @@ from ..regularizers import L2
 __all__ = [
     "Layer",
     "Dense",
-    "ActivationLayer",
+    "Activation",
     "Dropout",
 ]
 
@@ -54,19 +54,19 @@ class Dense(Layer):
         super().__init__(n_neurons, n_inputs)
 
         if activation.lower() == "linear":
-            self.activation_func = Linear()
+            self.activation_fn = Linear()
         elif activation.lower() == "sigmoid":
-            self.activation_func = Sigmoid()
+            self.activation_fn = Sigmoid()
         elif activation.lower() == "softmax":
-            self.activation_func = Softmax(axis=0)
+            self.activation_fn = Softmax(axis=0)
         elif activation.lower() == "tanh":
-            self.activation_func = TanH()
+            self.activation_fn = TanH()
         elif activation.lower() == "relu":
-            self.activation_func = ReLU()
+            self.activation_fn = ReLU()
         elif activation.lower() == "leaky_relu":
-            self.activation_func = LeakyReLU()
+            self.activation_fn = LeakyReLU()
         elif isinstance(activation, Activation):
-            self.activation_func = activation
+            self.activation_fn = activation
         else:
             raise ParameterError(f"Unknown activation function: `{activation}`")
 
@@ -102,7 +102,7 @@ class Dense(Layer):
     def linear_activation_forward(self, A_prev):
         self.A_prev = A_prev
         self.linear_forward()
-        self.A = self.activation_func(self.Z)
+        self.A = self.activation_fn(self.Z)
 
     def forward(self, A_prev, training=True):
         self.linear_activation_forward(A_prev)
@@ -115,7 +115,7 @@ class Dense(Layer):
         self.grads["dA_prev"] = self.W.T @ self.grads["dZ"]
 
     def linear_activation_backward(self, dA):
-        self.grads["dZ"] = dA * self.activation_func.gradient(self.Z)
+        self.grads["dZ"] = dA * self.activation_fn.gradient(self.Z)
         self.linear_backward()
 
     def backward(self, dA):
@@ -132,26 +132,26 @@ class Dense(Layer):
 
 # ==================================================================================================== #
 
-class ActivationLayer(Layer):
+class Activation(Layer):
     # TODO: add __doc__
 
     def __init__(self, activation):
         super().__init__()
 
         if activation.lower() == "linear":
-            self.activation_func = Linear()
+            self.activation_fn = Linear()
         elif activation.lower() == "sigmoid":
-            self.activation_func = Sigmoid()
+            self.activation_fn = Sigmoid()
         elif activation.lower() == "softmax":
-            self.activation_func = Softmax(axis=0)
+            self.activation_fn = Softmax(axis=0)
         elif activation.lower() == "tanh":
-            self.activation_func = TanH()
+            self.activation_fn = TanH()
         elif activation.lower() == "relu":
-            self.activation_func = ReLU()
+            self.activation_fn = ReLU()
         elif activation.lower() == "leaky_relu":
-            self.activation_func = LeakyReLU()
+            self.activation_fn = LeakyReLU()
         elif isinstance(activation, Activation):
-            self.activation_func = activation
+            self.activation_fn = activation
         else:
             raise ParameterError(f"Unknown activation function: `{activation}`")
 
@@ -171,12 +171,12 @@ class ActivationLayer(Layer):
 
     def forward(self, Z, training=True):
         self.Z = Z
-        self.A = self.activation_func(self.Z)
+        self.A = self.activation_fn(self.Z)
         return self.A
 
     def backward(self, dA):
         self.dA = dA
-        self.dZ = self.dA * self.activation_func.gradient(self.Z)
+        self.dZ = self.dA * self.activation_fn.gradient(self.Z)
         return self.dZ
 
     def update(self, optimizer):

@@ -9,7 +9,7 @@ from ..misc import bar_widgets
 from ..optimizers import Adam
 from ..preprocessing import OneHotEncoder
 from ..split import batch_iterator
-from .layers import ActivationLayer, Dense, Dropout
+from .layers import Activation, Dense, Dropout
 
 __all__ = [
     "NeuralNetwork",
@@ -35,7 +35,7 @@ class NeuralNetwork(Classifier, Regressor):
             layer.n_inputs = self._layers[-1].n_neurons
 
             # For activation layers n_neurons equals the n_inputs
-            if isinstance(layer, ActivationLayer) or isinstance(layer, Dropout):
+            if isinstance(layer, Activation) or isinstance(layer, Dropout):
                 layer.n_neurons = layer.n_inputs
 
         layer.init_weights()
