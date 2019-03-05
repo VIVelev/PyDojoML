@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 
 __all__ = [
-    "Activation",
+    "ActivationFn",
     "Linear",
     "Sigmoid",
     "Softmax",
@@ -12,7 +12,7 @@ __all__ = [
 ]
 
 
-class Activation(ABC):
+class ActivationFn(ABC):
     @abstractmethod
     def __call__(self, x):
         pass
@@ -24,7 +24,7 @@ class Activation(ABC):
 # ==================================================================================================== #
 # ==================================================================================================== #
 
-class Linear(Activation):
+class Linear(ActivationFn):
     """Computing the Linear (Identity) function and its derivative.
 
         g(x) = x
@@ -41,7 +41,7 @@ class Linear(Activation):
 
 # ==================================================================================================== #
 
-class Sigmoid(Activation):
+class Sigmoid(ActivationFn):
     """Computing the Sigmoid function and its derivative.
 
         g(x) = 1 / (1 + e^-x)
@@ -59,7 +59,7 @@ class Sigmoid(Activation):
 
 # ==================================================================================================== #
 
-class Softmax(Activation):
+class Softmax(ActivationFn):
     """Computing the numerical stable Softmax function and its derivative.
 
         g(vec) = e^vec[j] / sum(e^vec[k])
@@ -78,7 +78,7 @@ class Softmax(Activation):
 
 # ==================================================================================================== #
 
-class TanH(Activation):
+class TanH(ActivationFn):
     """Computing the TanH function and its derivative.
 
         g(x) = (e^x - e^-x) / (e^x + e^-x)
@@ -95,7 +95,7 @@ class TanH(Activation):
 
 # ==================================================================================================== #
 
-class ReLU(Activation):
+class ReLU(ActivationFn):
     """Computing the ReLU function and its derivative.
 
         g(x) = max(x, 0)
@@ -112,7 +112,7 @@ class ReLU(Activation):
 
 # ==================================================================================================== #
 
-class LeakyReLU(Activation):
+class LeakyReLU(ActivationFn):
     """Computing the ReLU function and its derivative.
 
         g(x) = max(x, eps*x)
