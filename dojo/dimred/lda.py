@@ -1,9 +1,10 @@
-from .utils import (
-    np, linalg,
-    Preprocessor,
+import numpy as np
+from scipy import linalg
 
-    get_within_class_scatter_matrix,
-    get_between_class_scatter_matrix,
+from ..base import Preprocessor
+from ..statistics import (
+    calculate_within_class_scatter_matrix,
+    calculate_between_class_scatter_matrix,
 )
 
 __all__ = [
@@ -37,8 +38,8 @@ class LinearDiscriminantAnalysis(Preprocessor):
         X, y = super().fit(X, y)
 
         # Computing the Scatter Matrices (within-class and between-class)
-        Sw = get_within_class_scatter_matrix(X, y)
-        Sb = get_between_class_scatter_matrix(X, y)
+        Sw = calculate_within_class_scatter_matrix(X, y)
+        Sb = calculate_between_class_scatter_matrix(X, y)
         
         # Compute the eigenvalues and eigenvectors
         A = linalg.inv(Sw) @ Sb

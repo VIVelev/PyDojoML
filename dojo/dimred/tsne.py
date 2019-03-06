@@ -1,4 +1,6 @@
-from .utils import np, Preprocessor
+import numpy as np
+
+from ..base import Preprocessor
 from ..losses import KL_Divergence
 
 __all__ = [

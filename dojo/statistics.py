@@ -1,17 +1,14 @@
 import numpy as np
-from scipy import linalg
-
-from ..base import Preprocessor
 
 __all__ = [
-    "get_mean_vectors",
-    "get_within_class_scatter_matrix",
-    "get_between_class_scatter_matrix",
-    "get_covariance_matrix",
+    "calculate_mean_vectors",
+    "calculate_within_class_scatter_matrix",
+    "calculate_between_class_scatter_matrix",
+    "calculate_covariance_matrix",
 ]
 
 
-def get_mean_vectors(X, y):
+def calculate_mean_vectors(X, y):
     """Calculates the mean samples per class
     
     Parameters:
@@ -28,7 +25,7 @@ def get_mean_vectors(X, y):
 
     return [np.mean(X[y == cl, :], axis=0) for cl in np.unique(y)]
 
-def get_within_class_scatter_matrix(X, y):
+def calculate_within_class_scatter_matrix(X, y):
     """Calculates the Within-Class Scatter matrix
     
     Parameters:
@@ -42,7 +39,7 @@ def get_within_class_scatter_matrix(X, y):
     
     """
 
-    mean_vectors = get_mean_vectors(X, y)
+    mean_vectors = calculate_mean_vectors(X, y)
     n_features = X.shape[1]
     Sw = np.zeros((n_features, n_features))
 
@@ -57,7 +54,7 @@ def get_within_class_scatter_matrix(X, y):
 
     return Sw
 
-def get_between_class_scatter_matrix(X, y):
+def calculate_between_class_scatter_matrix(X, y):
     """Calculates the Between-Class Scatter matrix
     
     Parameters:
@@ -71,7 +68,7 @@ def get_between_class_scatter_matrix(X, y):
     
     """
 
-    mean_vectors = get_mean_vectors(X, y)
+    mean_vectors = calculate_mean_vectors(X, y)
     n_features = X.shape[1]
     Sb = np.zeros((n_features, n_features))
     m = np.mean(X, axis=0).reshape(n_features, 1)
@@ -82,7 +79,7 @@ def get_between_class_scatter_matrix(X, y):
 
     return Sb
 
-def get_covariance_matrix(X):
+def calculate_covariance_matrix(X):
     """Calculates the Variance-Covariance matrix
     
     Parameters:

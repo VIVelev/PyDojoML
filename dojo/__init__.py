@@ -21,6 +21,7 @@ from . import (
     misc,
     optimizers,
     regularizers,
+    statistics,
 )
 
 __all__ = [
@@ -46,6 +47,7 @@ __all__ = [
     "misc",
     "optimizers",
     "regularizers",
+    "statistics",
 ]
 
 __version__ = "0.4.8"

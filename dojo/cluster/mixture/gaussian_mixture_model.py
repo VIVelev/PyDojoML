@@ -1,6 +1,6 @@
 import numpy as np
 from ...base import Clustering
-from ...dimred.utils import get_covariance_matrix
+from ...statistics import calculate_covariance_matrix
 
 __all__ = [
     "GaussianMixtureModel",
@@ -41,7 +41,7 @@ class GaussianMixtureModel(Clustering):
         for _ in range(self.k):
             params = {}
             params["mean"] = X[np.random.choice(range(n_samples))]
-            params["cov"] = get_covariance_matrix(X)
+            params["cov"] = calculate_covariance_matrix(X)
             self.parameters.append(params)
 
     def multivariate_gaussian(self, X, params):
