@@ -38,32 +38,32 @@ class TSNE(Preprocessor):
         self.n_iter = n_iter
         self.verbose = verbose
 
-    def _compute_sigma(self, mean, X):
-        """Computes the standard deviation of a Gaussian Distribution with the given mean vector"""
+        self._sigma = []
 
+    def _compute_std_dev(self, X):
+        """Computes the standard deviation of a Gaussian Distribution with mean vector X[i]"""
+
+        self._sigma = []
         if X.shape[0] <= 1:
-            return 0.0
+            self._sigma = [0.0]
         else:
-            return np.sqrt(
-                sum([np.linalg.norm(x - mean) ** 2 for x in X]) / float(X.shape[0]-1)
-            )
+            for x_mean in range(X.shape[0]):
+                std_dev = np.sqrt(sum([np.linalg.norm(x - x_mean) ** 2 for x in X]) / float(X.shape[0]-1))
+                self._sigma.append(std_dev)
 
-    def _high_dim_sim(self, v, w, normalize=False, X=None, idx=None):
+        return self._sigma
+
+    def _high_dim_sim(self, v, w, normalize=False, X=None, idx=0):
         """Similarity measurement based on Gaussian Distribution"""
 
-        # TODO: optimize sigma computations
-        sigma = 1
-        if X is not None:
-            sigma = self._compute_sigma(v, X)
-
-        sim = np.exp((-np.linalg.norm(v - w) ** 2) / (2*sigma ** 2))
+        sim = np.exp((-np.linalg.norm(v - w) ** 2) / (2*self._sigma[idx] ** 2))
 
         if normalize:
             return sim / sum(map(lambda x: x[1], self._knn(idx, X, high_dim=True)))
         else:
             return sim
 
-    def _low_dim_sim(self, v, w, normalize=False, Y=None, idx=None):
+    def _low_dim_sim(self, v, w, normalize=False, Y=None, idx=0):
         """Similarity measurement based on (Student) t-Distribution"""
 
         sim = (1 + np.linalg.norm(v - w) ** 2) ** -1
@@ -80,7 +80,7 @@ class TSNE(Preprocessor):
         for j in range(X.shape[0]):
             if j != i:
                 if high_dim:
-                    distance = self._high_dim_sim(X[i], X[j])
+                    distance = self._high_dim_sim(X[i], X[j], idx=i)
                 else:
                     distance = self._low_dim_sim(X[i], X[j])
                 knns.append([j, distance])
@@ -120,12 +120,15 @@ class TSNE(Preprocessor):
 
         """
 
+        # compute the std. deviation with mean vector x in X
+        self._compute_std_dev(X)
+
         # Kullback–Leibler divergence
         kl_cost = KL_Divergence()
 
         # compute high-dimensional affinities (Gaussian Distribution)
         high_dim_dist = self._get_high_dim_dist(X)
-        # Sample initial solutions
+        # sample initial solutions
         Y = np.random.randn(X.shape[0], self.n_components)
 
         prev_Ys = [Y, Y]
@@ -140,10 +143,10 @@ class TSNE(Preprocessor):
                 # set new Y[i]
                 Y[i] = prev_Ys[1][i] + self.learning_rate * grad + self.momentum * (prev_Ys[1][i] - prev_Ys[0][i])
 
-            low_dim_dist = self._get_low_dim_dist(Y)
             prev_Ys = [prev_Ys[1], Y]
 
             if iteration % 100 == 0 and self.verbose:
+                low_dim_dist = self._get_low_dim_dist(Y)
                 print(f"ITERATION: {iteration}{3*' '}|||{3*' '}KL divergence: {kl_cost(high_dim_dist, low_dim_dist)}")
 
         self.embeddings = Y
