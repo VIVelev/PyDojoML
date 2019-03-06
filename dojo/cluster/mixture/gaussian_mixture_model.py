@@ -66,9 +66,8 @@ class GaussianMixtureModel(Clustering):
         n_samples = np.shape(X)[0]
         likelihoods = np.zeros((n_samples, self.k))
         for i in range(self.k):
-            likelihoods[
-                :, i] = self.multivariate_gaussian(
-                X, self.parameters[i])
+            likelihoods[:, i] = self.multivariate_gaussian(X, self.parameters[i])
+
         return likelihoods
 
     def _expectation(self, X):
@@ -76,8 +75,7 @@ class GaussianMixtureModel(Clustering):
 
         # Calculate probabilities of X belonging to the different clusters
         weighted_likelihoods = self._get_likelihoods(X) * self.priors
-        sum_likelihoods = np.expand_dims(
-            np.sum(weighted_likelihoods, axis=1), axis=1)
+        sum_likelihoods = np.expand_dims(np.sum(weighted_likelihoods, axis=1), axis=1)
         # Determine responsibility as P(X|y)*P(y)/P(X)
         self.responsibility = weighted_likelihoods / sum_likelihoods
         # Assign samples to cluster that has largest probability
@@ -93,8 +91,7 @@ class GaussianMixtureModel(Clustering):
             resp = np.expand_dims(self.responsibility[:, i], axis=1)
             mean = (resp * X).sum(axis=0) / resp.sum()
             covariance = (X - mean).T.dot((X - mean) * resp) / resp.sum()
-            self.parameters[i]["mean"], self.parameters[
-                i]["cov"] = mean, covariance
+            self.parameters[i]["mean"], self.parameters[i]["cov"] = mean, covariance
 
         # Update weights
         n_samples = np.shape(X)[0]
@@ -105,9 +102,8 @@ class GaussianMixtureModel(Clustering):
 
         if len(self.responsibilities) < 2:
             return False
-        diff = np.linalg.norm(
-            self.responsibilities[-1] - self.responsibilities[-2])
-        # print ("Likelihood update: %s (tol: %s)" % (diff, self.tolerance))
+
+        diff = np.linalg.norm(self.responsibilities[-1] - self.responsibilities[-2])
         return diff <= self.tolerance
 
     def cluster(self, X):
